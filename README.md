@@ -1,4 +1,4 @@
-# Sketching Enhanced
+# Sketching Enhanced Bundle
 
 This bundle adds an extended sketching functionality the map.
 

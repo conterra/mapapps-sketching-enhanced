@@ -1,5 +1,5 @@
 ///
-/// Copyright (C) 2020 con terra GmbH (info@conterra.de)
+/// Copyright (C) 2022 con terra GmbH (info@conterra.de)
 ///
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -14,18 +14,46 @@
 /// limitations under the License.
 ///
 
-import { Mutable, properties } from "apprt-core/Mutable";
-import type { Mutable as MutableType } from "@conterra/ct-mapapps-typings/apprt-core/Mutable";
+import {Mutable, properties} from "apprt-core/Mutable";
+import type {Mutable as MutableType} from "@conterra/ct-mapapps-typings/apprt-core/Mutable";
+import EsriSymbol from "esri/symbols/Symbol";
 
-function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: P): Impl & MutableType<P> {
+function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
+    activeTool: undefined;
+    activeUi: undefined;
+    canUndo: boolean;
+    canRedo: boolean,
+    snappingEnabled: boolean;
+    pointSymbol: {},
+    polylineSymbol: {},
+    polygonSymbol: {}
+}): Impl & MutableType<P> {
     properties(mutableDefinition, mutableProperties);
     return mutableDefinition;
 }
 
-class SketchingEnhancedModel extends Mutable { }
+class SketchingEnhancedModel extends Mutable {
+}
 
-type SketchingEnhancedModelProps = {
-    graphicsLayerVisible: boolean;
-};
+interface SketchingEnhancedModelProps {
+    activeTool: string,
+    activeUi: string,
+    canUndo: boolean,
+    canRedo: boolean,
+    snappingEnabled: boolean,
+    pointSymbol: EsriSymbol,
+    polylineSymbol: EsriSymbol,
+    polygonSymbol: EsriSymbol
+}
 
-export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel, { graphicsLayerVisible: true });
+export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
+    {
+        activeTool: undefined,
+        activeUi: undefined,
+        canUndo: false,
+        canRedo: false,
+        snappingEnabled: false,
+        pointSymbol: {},
+        polylineSymbol: {},
+        polygonSymbol: {}
+    });

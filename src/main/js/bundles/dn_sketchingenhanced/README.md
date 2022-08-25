@@ -1,13 +1,8 @@
 # dn_sketchingenhanced
 
-Dieses Bundle erstellt Layout-Widgets, mit denen die Sketching-, Konstruktion- uns Snappingfunktionen leicht verwendet werden können. Hierzu werden die Funktionen durch Laden der folgenden Bundles implementiert:
+This bundle adds an extended sketching functionality the map.
 
-* [dn_sketchingenhanced-tools](#bundle=dn_sketchingenhanced-tools@)
-* [dn_sketchingenhanced-command](#bundle=dn_sketchingenhanced-command@)
-* [dn_sketchingenhanced-styles](#bundle=dn_sketchingenhanced-styles@)
-* [dn_sketchingenhanced-construction](#bundle=dn_sketchingenhanced-construction@)
-* [dn_sketchingenhanced-snappingmanager](#bundle=dn_sketchingenhanced-snappingmanager@)
-* [dn_sketchingenhanced-measurement](#bundle=dn_sketchingenhanced-measurement@)
+**Requirement: map.apps 4.12.0**
 
 ## Usage
 
@@ -15,13 +10,11 @@ Dieses Bundle erstellt Layout-Widgets, mit denen die Sketching-, Konstruktion- u
 2. Add the dn_sketchingenhanced bundle to your app.
 
 
-## Verwendung
+To make the functions of this bundle available to the user, the following tool can be added to a toolset:
 
-Um die Funktionen dieses Bundles zu benutzen, können Sie das Werkzeug "SketchingEnhancedWidgetToggleTool" im Werkzeugsatz hinzufügen. Die Werkzeug-ID ist:
-
-| Tool ID                           | Component                         | Description                      |
-|-----------------------------------|-----------------------------------|----------------------------------|
-| sketchingEnhancedWidgetToggleTool | SketchingEnhancedWidgetToggleTool | Zeichnen- und Editier-Werkzeuge. |
+| Tool ID                           | Component                         | Description              |
+|-----------------------------------|-----------------------------------|--------------------------|
+| sketchingEnhancedWidgetToggleTool | SketchingEnhancedWidgetToggleTool | Show or hide the widget. |
 
 ## Configuration Reference
 
@@ -30,35 +23,37 @@ Um das Bundle in der app.json zu konfigurieren, verwenden Sie die konfigurierbar
 ```json
 "dn_sketchingenhanced": {
     "Config": {
-        "firstToolGroupIds": [
-          "drawpointtool",
-          "sketchinglinegroup",
-          "sketchingpolygongroup",
-          "drawtexttool"
-        ],
-        "lastToolGroupIds": [
-          "sketchingtoolbox"
-        ],
-        "activeToolOnStartup": "drawpointtool",
-        "headerToolIds": [
-           "drawundotool",
-           "drawredotool",
-           "drawcanceltool"
-        ],
+        "initialActiveTool": "point",
+        "initialGeometryEditMode": "reshape",
+        "toggleGeometryEditModeOnClick": true,
+        "snappingEnabled": true,
+        "pointSymbol": {
+            "type": "simple-marker",
+            "style": "circle",
+            "size": 6,
+            "color": [255, 255, 255, 1],
+            "outline": {
+                "style": "solid",
+                "width": 1,
+                "color": [50, 0, 0, 1]
+            }
+        },
+        "polylineSymbol": {
+            "type": "simple-line",
+            "style": "solid",
+            "width": 2,
+            "color": [50, 50, 50, 1]
+        },
+        "polygonSymbol": {
+            "type": "simple-fill",
+            "style": "solid",
+            "color": [150, 150, 150, 0.2],
+            "outline": {
+                "style": "solid",
+                "color": [50, 50, 50, 1],
+                "width": 2
+            }
+        }
     }
 }
 ```
-
-| Property              | Type    | Possible Values               | Default                  | Description                                                |
-|-----------------------|---------|-------------------------------|--------------------------|------------------------------------------------------------|
-| firstToolGroupIds     | Array  |                               | wie im Beispiel          | Werkzeug-Ids, die im Widget in der linken Hälfte angezeigt werden         |
-| lastToolGroupIds      | Array   |                               | wie im Beispiel          | Werkzeug-Ids, die im Widget im Header rechts angezeigt werden        |
-| activeToolOnStartup   | String   |                               | wie im Beispiel          | Werkzeug-Id des Tools, welches beim Öffnen des Widgets aktiviert wird        |
-| headerToolIds         | Array   |                               | wie im Beispiel          | Werkzeug-Ids, die im Header des Widget angezeigt werden    |
-
-## Changelog
-### 2.1.12
-`Added`
-
-`Removed`
-- Konfiguration der "measurementUnits" wurde nach dn_sketchingenhanced-measurement verschoben

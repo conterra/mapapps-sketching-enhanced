@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 con terra GmbH (info@conterra.de)
+ * Copyright (C) 2022 con terra GmbH (info@conterra.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,16 @@ const mapapps = require('ct-mapapps-gulp-js');
 mapapps.registerTasks({
     /* A detailed description of available setting is available at https://www.npmjs.com/package/ct-mapapps-gulp-js */
     /* a list of themes inside this project */
-    themes: ["everlasting", "winter", "summer", "spring", "autumn"],
+    themes: [/*"sample-theme"*/],
     /* state that the custom theme will be dependant from map.apps everlasting theme that provides the base styles */
-    hasBaseThemes: false,
-    /* state that we want to support vuetify components and therefore need the the vuetify core styles*/
-    hasVuetify: true,
-    themesSrcLocation: "./src/main/js/bundles/dn_sketchingenhanced-themes-extension",
-    themesDestLocation: "./target/webapp/js/bundles/dn_sketchingenhanced-themes-extension",
-    themeChangeTargets: {
-        "everlasting": ["winter", "summer", "spring", "autumn"]
-    }
+    hasBaseThemes: true,
+    /* state that we want to support vuetify components and therefore need the vuetify core styles*/
+    hasVuetify: true
+    /*themeChangeTargets: {
+        "vuetify": [
+            "sample_theme"
+        ]
+    }*/
 });
 
 gulp.task("default",
@@ -50,4 +50,3 @@ gulp.task("compress",
         "themes-compress"
     )
 );
-

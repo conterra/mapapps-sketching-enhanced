@@ -9,7 +9,6 @@
         },
         "allowJs": true,
         "noEmit": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true
+        "skipLibCheck": true
     }
 }

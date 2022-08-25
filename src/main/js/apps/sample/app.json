@@ -1,7 +1,4 @@
 {
-    "properties": {
-        "title": "${apptitle}"
-    },
     "load": {
         "bundleLocations": [
             "localbundles",
@@ -14,197 +11,57 @@
             "splashscreen",
             "templatelayout",
             "template-seasons",
-            "theme-everlasting",
-            "theme-spring",
-            "theme-summer",
             "theme-autumn",
-            "theme-winter",
             "map-init",
             "map-preload-2D",
             "toolset",
             "toolrules",
             "banner",
             "mapnavigation",
-            "toc",
+            "popups-default",
             "scalebar",
+            "locateme",
+            "parameter-url",
+            "search-ui",
+            "locator-store",
+            "toc",
             "dn_sketchingenhanced"
-        ],
-        "require": [
-            "${app}.app"
-        ],
-        "i18n": [
-            "bundle"
         ]
     },
     "bundles": {
-        "themes": {
-            "ThemeModel": {
-                "_selectedTheme": "everlasting"
-            },
-            "ThemeSelector": {
-                "componentEnabled": true
-            }
-        },
         "dn_sketchingenhanced": {
             "Config": {
-                "activeToolOnStartup": "drawpointtool",
-                "firstToolGroupIds": [
-                    "drawpointtool",
-                    "sketchinglinegroup",
-                    "sketchingpolygongroup",
-                    "drawtexttool"
-                ],
-                "lastToolGroupIds": [
-                    "sketchingtoolbox"
-                ],
-                "headerToolIds": [
-                    "drawundotool",
-                    "drawredotool",
-                    "drawcanceltool"
-                ]
-            }
-        },
-        "dn_sketchingenhanced-snappingmanager": {
-            "Config": {
-                "snappingEnabled": false
-            },
-            "SnappingLayerSourceModel": {
-                "allowBasemapSnapping": true,
-                "defaultAllowSnapping": false
-            }
-        },
-        "dn_sketchingenhanced-measurement": {
-            "Config": {
-                "disabledMeasurementTools": [
-                    "drawarrowtool",
-                    "drawfreehandpolygontool",
-                    "drawfreehandpolylinetool",
-                    "drawcircletool",
-                    "drawellipsetool",
-                    "drawtexttool"
-                ],
-                "decimalPlacesMeter": 1,
-                "decimalPlacesKiloMeter": 2,
-                "showLineMeasurementsAtPolylines": true,
-                "showLineMeasurementsAtPolygons": false,
-                "showAngleMeasurementsAtPolylines": false,
-                "showTotalLineMeasurementsAtPolylines": true,
-                "showCircumferenceMeasurementAtPolygons": true,
-                "enableAngleMeasurement": false,
-                "pointSRS": "4326",
-                "pointCoordPlaces": "3",
-                "pointCoordUnitSymbolX": "°E",
-                "pointCoordUnitSymbolY": "°N"
-            }
-        },
-        "dn_sketchingenhanced-tools": {
-            "Config": {
-                "graphicLayerId": "sketchingGraphicLayer",
-                "graphicLayerTitle": "${layerTitle}",
-                "sketch": {
-                    "updateOnGraphicClick": false,
-                    "defaultUpdateOptions": {
-                        "tool": "reshape",
-                        "enableMoveAllGraphics": false,
-                        "enableRotation": false,
-                        "enableScaling": false,
-                        "preserveAspectRatio": false,
-                        "toggleToolOnClick": false,
-                        "multipleSelectionEnabled": false
-                    },
-                    "textSymbol": {
-                        "type": "esriTS",
-                        "color": {
-                            "r": 64,
-                            "g": 64,
-                            "b": 65,
-                            "a": 1
-                        },
-                        "backgroundColor": [
-                            0,
-                            0,
-                            0,
-                            0
-                        ],
-                        "lineWidth": 512,
-                        "horizontalAlignment": "left",
-                        "font": {
-                            "family": "Arial",
-                            "size": 18,
-                            "style": "normal",
-                            "weight": "normal",
-                            "decoration": "none"
-                        },
-                        "haloColor": {
-                            "r": 0,
-                            "g": 0,
-                            "b": 1,
-                            "a": 0.8
-                        }
-                    },
-                    "pointSymbol": {
-                        "color": {
-                            "r": 102,
-                            "g": 205,
-                            "b": 0,
-                            "a": 0.4
-                        },
-                        "radius": 12,
-                        "type": "esriSMS",
-                        "shape": "circle",
-                        "outline": {
-                            "color": {
-                                "r": 64,
-                                "g": 64,
-                                "b": 65,
-                                "a": 1
-                            },
-                            "width": 1,
-                            "type": "esriSLS",
-                            "style": "solid"
-                        }
-                    },
-                    "polygonSymbol": {
-                        "type": "esriSFS",
-                        "color": {
-                            "r": 102,
-                            "g": 205,
-                            "b": 0,
-                            "a": 0.4
-                        },
-                        "outline": {
-                            "color": {
-                                "r": 64,
-                                "g": 64,
-                                "b": 65,
-                                "a": 1
-                            },
-                            "style": "solid",
-                            "type": "esriSLS",
-                            "width": 1.3
-                        },
-                        "size": 16,
+                "initialActiveTool": "point",
+                "initialGeometryEditMode": "reshape",
+                "toggleGeometryEditModeOnClick": true,
+                "snappingEnabled": true,
+                "pointSymbol": {
+                    "type": "simple-marker",
+                    "style": "circle",
+                    "size": 6,
+                    "color": [255, 255, 255, 1],
+                    "outline": {
                         "style": "solid",
-                        "xoffset": 0,
-                        "yoffset": 0
-                    },
-                    "polylineSymbol": {
-                        "color": {
-                            "r": 64,
-                            "g": 64,
-                            "b": 65,
-                            "a": 1
-                        },
+                        "width": 1,
+                        "color": [50, 0, 0, 1]
+                    }
+                },
+                "polylineSymbol": {
+                    "type": "simple-line",
+                    "style": "solid",
+                    "width": 2,
+                    "color": [50, 50, 50, 1]
+                },
+                "polygonSymbol": {
+                    "type": "simple-fill",
+                    "style": "solid",
+                    "color": [150, 150, 150, 0.2],
+                    "outline": {
                         "style": "solid",
-                        "type": "esriSLS",
+                        "color": [50, 50, 50, 1],
                         "width": 2
                     }
                 }
-            },
-            "DrawTextController": {
-                "lineWidth": 512,
-                "minWidth": 400,
-                "maxWidth": 800
             }
         },
         "banner": {
@@ -223,36 +80,24 @@
                         "id": "esri_street",
                         "title": "Straßenkarte (grau)",
                         "thumbnailUrl": "resource('${app}:/images/streets.png')",
-                        "basemap": "gray-vector",
-                        "selected": true
+                        "selected": true,
+                        "basemap": "gray"
+                    },
+                    {
+                        "id": "esri_hybrid",
+                        "title": "Luftbild (hybrid)",
+                        "thumbnailUrl": "resource('${app}:/images/hybrid.png')",
+                        "basemap": "hybrid"
                     }
                 ],
                 "map": {
                     "layers": [
                         {
-                            "id": "koeln",
-                            "url": "https://services.conterra.de/arcgis/rest/services/common/koeln/MapServer",
-                            "type": "AGS_DYNAMIC",
-                            "sublayers": [
-                                {
-                                    "id": 2,
-                                    "sketchingEnhanced": {
-                                        "allowSnapping": true
-                                    }
-                                },
-                                {
-                                    "id": 9,
-                                    "sketchingEnhanced": {
-                                        "allowSnapping": false
-                                    }
-                                },
-                                {
-                                    "id": 10
-                                },
-                                {
-                                    "id": 11
-                                }
-                            ]
+                            "id": "libraries",
+                            "title": "Bibliotheken",
+                            "url": "https://services.arcgis.com/ObdAEOfl1Z5LP2D0/arcgis/rest/services/Köln/FeatureServer/1",
+                            "type": "AGS_FEATURE",
+                            "visible": true
                         }
                     ]
                 },
@@ -267,19 +112,60 @@
                 }
             }
         },
-        "templates": {
-            "TemplateModel": {
-                "_templates": [
+        "toc": {
+            "Config": {
+                "showBasemaps": true,
+                "showLayerLegend": true
+            }
+        },
+        "toolset": {
+            "ToolsetManager": {
+                "toolsets": [
                     {
-                        "name": "seasons",
-                        "widgets": [
-                            {
-                                "widgetRole": "drawer_button",
-                                "attachTo": "map_topleft",
-                                "props": {
-                                    "layoutIndex": 0
-                                }
-                            }
+                        "id": "mapview_tools",
+                        "tools": [
+                            "locateMeTool",
+                            "zoomInTool",
+                            "zoomOutTool",
+                            "compassTool",
+                            "restoreInitialViewTool",
+                            "viewmodeSwitcherTool"
+                        ],
+                        "registerWidget": {
+                            "widgetRole": "mapview_tools"
+                        },
+                        "container": "ignore",
+                        "windowType": "container",
+                        "cssClass": "muted",
+                        "tooltipPositions": [
+                            "before",
+                            "above",
+                            "below",
+                            "after"
+                        ]
+                    },
+                    {
+                        "id": "drawer_left",
+                        "title": "Werkzeuge",
+                        "cssClass": "ct-main-app-menu",
+                        "tools": [
+                            "tocToggleTool",
+                            "printingToggleTool",
+                            "sharelinkTool",
+                            "sketchingEnhancedWidgetToggleTool",
+                            "IMPRINT_Imprint_CustomInfoTool",
+                            "IMPRINT_Imprint_CustomInfoTool_mobile"
+                        ],
+                        "registerWidget": {
+                            "widgetRole": "drawer_button"
+                        },
+                        "container": "ignore",
+                        "windowType": "drawer_left",
+                        "tooltipPositions": [
+                            "after",
+                            "above",
+                            "below",
+                            "before"
                         ]
                     }
                 ]
@@ -289,40 +175,6 @@
             "ToolActiveStateManager": {
                 "activateOnStartToolIds": [
                     "sketchingEnhancedWidgetToggleTool"
-                ]
-            }
-        },
-        "toolset": {
-            "ToolsetManager": {
-                "toolsets": [
-                    {
-                        "id": "mapview_tools",
-                        "tools": [
-                            "zoomInTool",
-                            "zoomOutTool",
-                            "compassTool",
-                            "restoreInitialViewTool"
-                        ],
-                        "registerWidget": {
-                            "widgetRole": "mapview_tools"
-                        },
-                        "container": "ignore",
-                        "windowType": "container",
-                        "cssClass": "muted"
-                    },
-                    {
-                        "id": "drawer_left",
-                        "title": "Werkzeuge",
-                        "cssClass": "ct-main-app-menu",
-                        "tools": [
-                            "sketchingEnhancedWidgetToggleTool"
-                        ],
-                        "registerWidget": {
-                            "widgetRole": "drawer_button"
-                        },
-                        "container": "ignore",
-                        "windowType": "drawer_left"
-                    }
                 ]
             }
         }

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2022 con terra GmbH (info@conterra.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,9 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-if (require.packs["@vue/test-utils"]) {
-    require.packs["@vue/test-utils"].main = "dist/vue-test-utils.umd";
+.ctAppRoot .sketching-enhanced-widget .overflowAuto {
+    overflow: auto;
 }
-if (require.packs["chai"]) {
-    require.packs["chai"].main = "chai";
+
+.ctAppRoot .sketching-enhanced-widget .left {
+    width: 250px;
+}
+
+.ctAppRoot .sketching-enhanced-widget .ct-flex-container {
+    height: calc(100% - 48px);
+}
+
+.ctAppRoot .sketching-enhanced-widget .symbol-settings .label {
+    padding-top: 11px;
 }

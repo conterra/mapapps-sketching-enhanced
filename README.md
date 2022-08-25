@@ -1,3 +1,5 @@
+This branch contains the Sketching Enhanced version 3.x which is currently under development. You can find the 2.x version in this branch: https://github.com/conterra/mapapps-sketching-enhanced/tree/2.x
+
 ⚠️ Due to changes in the ArcGIS API for JavaScript, which is used extensively by this bundle, the bundle is currently not compatible with map.apps 4.13 and later.
 
 # Sketching Enhanced
@@ -11,7 +13,7 @@ This bundle adds an extended sketching functionality the map.
 ![example workflow](https://github.com/conterra/mapapps-sketching-enhanced/actions/workflows/devnet-bundle-snapshot.yml/badge.svg)
 
 ## Sample App
-https://demos.conterra.de/mapapps/resources/apps/downloads_sketching_enhanced/index.html
+https://demos.conterra.de/mapapps/resources/apps/downloads_sketching_enhanced3/index.html
 
 ## Installation Guide
 
@@ -22,7 +24,7 @@ https://demos.conterra.de/mapapps/resources/apps/downloads_sketching_enhanced/in
 Before you can run the project you have to define the mapapps.remote.base property in the pom.xml-file:
 `<mapapps.remote.base>http://%YOURSERVER%/ct-mapapps-webapp-%VERSION%</mapapps.remote.base>`
 
-### Other methods to to define the mapapps.remote.base property.
+### Other methods to define the mapapps.remote.base property.
 1. Goal parameters
 `mvn install -Dmapapps.remote.base=http://%YOURSERVER%/ct-mapapps-webapp-%VERSION%`
 

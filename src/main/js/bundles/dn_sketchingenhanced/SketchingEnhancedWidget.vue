@@ -86,6 +86,7 @@
                         :point-symbol.sync="pointSymbol"
                         :polyline-symbol.sync="polylineSymbol"
                         :polygon-symbol.sync="polygonSymbol"
+                        :text-symbol.sync="textSymbol"
                     />
                 </div>
             </div>
@@ -139,6 +140,12 @@
                 }
             },
             polygonSymbol: {
+                type: Object,
+                default: function () {
+                    return {};
+                }
+            },
+            textSymbol: {
                 type: Object,
                 default: function () {
                     return {};

@@ -33,11 +33,13 @@ export default class SketchingEnhancedController {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         switch (tool) {
             case "point":
+                sketchViewModel.pointSymbol = sketchingEnhancedModel.pointSymbol;
                 if (sketchViewModel.activeTool !== tool)
                     sketchViewModel.create("point");
                 sketchingEnhancedModel.activeUi = "point";
                 break;
             case "multipoint":
+                sketchViewModel.pointSymbol = sketchingEnhancedModel.pointSymbol;
                 if (sketchViewModel.activeTool !== tool)
                     sketchViewModel.create("multipoint");
                 sketchingEnhancedModel.activeUi = "point";
@@ -72,6 +74,12 @@ export default class SketchingEnhancedController {
                     sketchViewModel.create("rectangle");
                 sketchingEnhancedModel.activeUi = "polygon";
                 break;
+            case "text":
+                sketchViewModel.pointSymbol = sketchingEnhancedModel.textSymbol;
+                if (sketchViewModel.activeTool !== tool)
+                    sketchViewModel.create("point");
+                sketchingEnhancedModel.activeUi = "text";
+                break;
         }
     }
 
@@ -92,7 +100,7 @@ export default class SketchingEnhancedController {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
 
         sketchingEnhancedModel.watch("activeUi", (event) => {
-            // enable updateOnGraphicClick in activeUi equals edit
+            // enable updateOnGraphicClick if activeUi equals edit
             sketchViewModel.updateOnGraphicClick = event.value === "edit";
         });
 
@@ -107,6 +115,10 @@ export default class SketchingEnhancedController {
         sketchingEnhancedModel.watch("polygonSymbol", (event) => {
             sketchViewModel.polygonSymbol = event.value;
         });
+
+        sketchingEnhancedModel.watch("textSymbol", (event) => {
+            sketchViewModel.pointSymbol = event.value;
+        });
     }
 
     watchForSketchViewModelEvents(): void {
@@ -114,14 +126,22 @@ export default class SketchingEnhancedController {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
 
         sketchViewModel.watch("activeTool", (tool) => {
-            sketchingEnhancedModel.activeTool = tool;
+            if (tool === "point" && sketchViewModel.pointSymbol.type === "text") {
+                sketchingEnhancedModel.activeTool = "text";
+            } else {
+                sketchingEnhancedModel.activeTool = tool;
+            }
         });
 
         sketchViewModel.on("create", (event) => {
             this.refreshUndoRedo();
             // enable sketching tool again after complete
             if (event.state === "complete") {
-                this.activateTool(event.tool);
+                if (event.tool === "point" && event.graphic.symbol.type === "text") {
+                    this.activateTool("text");
+                } else {
+                    this.activateTool(event.tool);
+                }
             }
         });
 

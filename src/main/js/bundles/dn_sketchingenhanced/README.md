@@ -53,6 +53,16 @@ Um das Bundle in der app.json zu konfigurieren, verwenden Sie die konfigurierbar
                 "color": [50, 50, 50, 1],
                 "width": 2
             }
+        },
+        "textSymbol": {
+            "type": "text",
+            "color": [50, 50, 50, 1],
+            "font": {
+                "size": 9,
+                "family": "sans-serif"
+            },
+            "horizontalAlignment": "left",
+            "verticalAlignment": "baseline"
         }
     }
 }

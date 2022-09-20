@@ -26,7 +26,8 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     snappingEnabled: boolean;
     pointSymbol: {},
     polylineSymbol: {},
-    polygonSymbol: {}
+    polygonSymbol: {},
+    textSymbol: {}
 }): Impl & MutableType<P> {
     properties(mutableDefinition, mutableProperties);
     return mutableDefinition;
@@ -43,7 +44,8 @@ interface SketchingEnhancedModelProps {
     snappingEnabled: boolean,
     pointSymbol: EsriSymbol,
     polylineSymbol: EsriSymbol,
-    polygonSymbol: EsriSymbol
+    polygonSymbol: EsriSymbol,
+    textSymbol: EsriSymbol
 }
 
 export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
@@ -55,5 +57,6 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         snappingEnabled: false,
         pointSymbol: {},
         polylineSymbol: {},
-        polygonSymbol: {}
+        polygonSymbol: {},
+        textSymbol: {}
     });

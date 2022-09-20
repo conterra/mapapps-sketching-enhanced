@@ -122,6 +122,28 @@
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list-group>
+            <v-list-group
+                :value="activeTool === 'text'"
+                no-action
+            >
+                <template v-slot:activator>
+                    <v-list-tile
+                        :value="activeTool === 'text'"
+                    >
+                        <v-list-tile-content>
+                            <v-list-tile-title>{{ i18n.textTools }}</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </template>
+                <v-list-tile
+                    :value="activeTool === 'text'"
+                    @click="activateTool('text')"
+                >
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{ i18n.textTool }}</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list-group>
         </v-list>
     </v-card>
 </template>

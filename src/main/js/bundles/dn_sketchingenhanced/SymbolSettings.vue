@@ -221,6 +221,41 @@
                 </v-flex>
             </v-layout>
         </div>
+        <div
+            v-if="activeUi === 'text'"
+        >
+            <v-layout
+                row
+                wrap>
+                <v-flex
+                    xs4
+                    class="label">
+                    {{ i18n.textSymbolText }}
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field
+                        v-model="textSymbolText"
+                        :label="i18n.textSymbolText"
+                        :placeholder="i18n.textSymbolPlaceholderText"
+                        single-line
+                        hide-details
+                        class="pa-0"
+                    />
+                </v-flex>
+                <v-flex
+                    xs4
+                    class="label">
+                    {{ i18n.textSymbolColor }}
+                </v-flex>
+                <v-flex
+                    xs8
+                    pt-2>
+                    <color-picker
+                        v-model="textSymbolColor"
+                    />
+                </v-flex>
+            </v-layout>
+        </div>
     </v-container>
 </template>
 
@@ -255,6 +290,12 @@
                 }
             },
             polygonSymbol: {
+                type: Object,
+                default: function () {
+                    return {};
+                }
+            },
+            textSymbol: {
                 type: Object,
                 default: function () {
                     return {};
@@ -539,8 +580,34 @@
                     polygonSymbol.outline.color = [rgba.r, rgba.g, rgba.b];
                     this.$emit("update:polygon-symbol", polygonSymbol);
                 }
+            },
+            textSymbolText: {
+                get: function () {
+                    return this.textSymbol.text;
+                },
+                set: function (text) {
+                    const textSymbol = Object.assign({}, this.textSymbol);
+                    textSymbol.text = text;
+                    this.$emit("update:text-symbol", textSymbol);
+                }
+            },
+            textSymbolColor: {
+                get: function () {
+                    const color = this.textSymbol.color;
+                    return {
+                        r: color[0],
+                        g: color[1],
+                        b: color[2],
+                        a: color[3]
+                    };
+                },
+                set: function (color) {
+                    const rgba = color.rgba;
+                    const textSymbol = Object.assign({}, this.textSymbol);
+                    textSymbol.color = [rgba.r, rgba.g, rgba.b, rgba.a];
+                    this.$emit("update:text-symbol", textSymbol);
+                }
             }
-        },
-        methods: {}
+        }
     };
 </script>

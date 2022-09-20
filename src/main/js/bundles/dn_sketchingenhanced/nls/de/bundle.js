@@ -33,6 +33,8 @@ module.exports = {
         freehandPolygonTool: "Freihandpolygon",
         circleTool: "Kreis",
         rectangleTool: "Rechteck",
+        textTools: "Text",
+        textTool: "Text",
         editHint: "Klicken Sie auf eine Grafik in der Karte, um diese zu editieren.",
         symbolSettings: {
             pointSymbolStyle: "Style",
@@ -79,7 +81,10 @@ module.exports = {
             polygonSymbolColor: "Color",
             polygonSymbolOutlineStyle: "Outline-Style",
             polygonSymbolOutlineWidth: "Outline-Width",
-            polygonSymbolOutlineColor: "Outline-Color"
+            polygonSymbolOutlineColor: "Outline-Color",
+            textSymbolColor: "Color",
+            textSymbolText: "Text",
+            textSymbolPlaceholderText: "Enter text"
         }
     }
 };

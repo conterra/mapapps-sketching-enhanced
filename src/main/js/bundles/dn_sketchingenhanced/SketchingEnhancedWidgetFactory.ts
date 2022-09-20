@@ -85,12 +85,13 @@ export default class QueryBuilderWidgetFactory {
 
         this.sketchViewModelBinding = Binding.for(vm, sketchingEnhancedModel)
             .syncAll("activeTool", "activeUi", "canUndo", "canRedo")
-            .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol")
+            .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol")
             .syncToLeftNow();
 
         vm.pointSymbol = sketchingEnhancedModel.pointSymbol;
         vm.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
         vm.polygonSymbol = sketchingEnhancedModel.polygonSymbol;
+        vm.textSymbol = sketchingEnhancedModel.textSymbol;
 
         const controller = this.controller = new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel);
         vm.$on("activate-tool", (tool) => {

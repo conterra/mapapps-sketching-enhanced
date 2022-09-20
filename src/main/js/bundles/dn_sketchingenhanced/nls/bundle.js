@@ -34,6 +34,8 @@ module.exports = {
             freehandPolygonTool: "Freehand Polygon",
             circleTool: "Circle",
             rectangleTool: "Rectangle",
+            textTools: "Text",
+            textTool: "Text",
             editHint: "Click on a graphic in the map to edit it.",
             symbolSettings: {
                 pointSymbolStyle: "Style",
@@ -80,7 +82,10 @@ module.exports = {
                 polygonSymbolColor: "Color",
                 polygonSymbolOutlineStyle: "Outline-Style",
                 polygonSymbolOutlineWidth: "Outline-Width",
-                polygonSymbolOutlineColor: "Outline-Color"
+                polygonSymbolOutlineColor: "Outline-Color",
+                textSymbolColor: "Color",
+                textSymbolText: "Text",
+                textSymbolPlaceholderText: "Enter text"
             }
         }
     },

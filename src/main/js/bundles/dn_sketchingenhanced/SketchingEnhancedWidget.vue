@@ -56,7 +56,7 @@
                 icon
                 @click="$emit('settings')"
             >
-                <v-icon>settings</v-icon>
+                <v-icon>icon-drawing-settings</v-icon>
             </v-btn>
         </v-toolbar>
         <div class="ct-flex-container ct-flex-container--row">

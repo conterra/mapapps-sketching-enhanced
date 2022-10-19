@@ -23,6 +23,7 @@ import GraphicsLayer from "esri/layers/GraphicsLayer";
 import SketchingEnhancedWidget from "./SketchingEnhancedWidget.vue";
 import SketchingEnhancedController from "dn_sketchingenhanced/SketchingEnhancedController";
 import SnappingControls from "esri/widgets/support/SnappingControls";
+import SnappingControlsViewModel from "esri/widgets/support/SnappingControls/SnappingControlsViewModel";
 
 const LAYER_ID = "sketching-enhanced-graphics";
 
@@ -41,10 +42,11 @@ export default class QueryBuilderWidgetFactory {
         const mapWidgetModel = this._mapWidgetModel;
         const graphicsLayer = findOrBuildGraphicsLayer(sketchingEnhancedModel, mapWidgetModel);
         const sketchViewModel = this.sketchViewModel = createSketchViewModel(sketchingEnhancedModel, graphicsLayer);
+        const controller = this.controller = new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel);
         this.getView().then((view) => {
             sketchViewModel.view = view;
         });
-        this.initComponent(sketchingEnhancedModel, sketchViewModel);
+        this.initComponent(sketchingEnhancedModel, sketchViewModel, controller);
     }
 
     deactivate(): void {
@@ -77,7 +79,7 @@ export default class QueryBuilderWidgetFactory {
         return widget;
     }
 
-    private initComponent(sketchingEnhancedModel, sketchViewModel) {
+    private initComponent(sketchingEnhancedModel, sketchViewModel, controller) {
         const i18n: any = this._i18n.get().ui;
         const vm = this.vm = new Vue(SketchingEnhancedWidget);
         vm.i18n = i18n;
@@ -85,6 +87,8 @@ export default class QueryBuilderWidgetFactory {
 
         this.sketchViewModelBinding = Binding.for(vm, sketchingEnhancedModel)
             .syncAll("activeTool", "activeUi", "canUndo", "canRedo")
+            .syncAll("snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
+            .syncAllToLeft("snappingFeatureSources")
             .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol")
             .syncToLeftNow();
 
@@ -93,7 +97,6 @@ export default class QueryBuilderWidgetFactory {
         vm.polygonSymbol = sketchingEnhancedModel.polygonSymbol;
         vm.textSymbol = sketchingEnhancedModel.textSymbol;
 
-        const controller = this.controller = new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel);
         vm.$on("activate-tool", (tool) => {
             controller.activateTool(tool);
         });
@@ -124,8 +127,13 @@ export default class QueryBuilderWidgetFactory {
             });
         });
 
+        vm.$on("feature-source-changed", (featureSource) => {
+            this.controller.changeFeatureSource(featureSource.id);
+        });
+
         controller.watchForSketchingEnhancedModelEvents();
         controller.watchForSketchViewModelEvents();
+        controller.createSnappingBinding();
     }
 
     private getView() {
@@ -159,7 +167,9 @@ function createSketchViewModel(sketchingEnhancedModel, graphicsLayer) {
             enableZ: false
         },
         snappingOptions: {
-            enabled: sketchingEnhancedModel.snappingEnabled
+            enabled: sketchingEnhancedModel.snappingEnabled,
+            featureEnabled: sketchingEnhancedModel.snappingFeatureEnabled,
+            selfEnabled: sketchingEnhancedModel.snappingSelfEnabled
         }
     });
 }

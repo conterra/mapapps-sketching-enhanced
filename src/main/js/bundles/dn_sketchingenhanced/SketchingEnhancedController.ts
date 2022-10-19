@@ -16,16 +16,17 @@
 
 import SketchViewModel from "esri/widgets/Sketch/SketchViewModel";
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
+import Binding from "apprt-binding/Binding";
 
 export default class SketchingEnhancedController {
 
     private readonly sketchViewModel: SketchViewModel;
     private readonly sketchingEnhancedModel: typeof SketchingEnhancedModel;
+    private snappingBinding: any;
 
     constructor(sketchViewModel: SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel) {
         this.sketchViewModel = sketchViewModel;
         this.sketchingEnhancedModel = sketchingEnhancedModel;
-
     }
 
     activateTool(tool: string): void {
@@ -159,6 +160,44 @@ export default class SketchingEnhancedController {
 
         sketchViewModel.on("redo", () => {
             this.refreshUndoRedo();
+        });
+    }
+
+    createSnappingBinding(): void {
+        const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        const sketchViewModel = this.sketchViewModel;
+        const snappingOptions = sketchViewModel.snappingOptions;
+        const getSnappingFeatureSources = (featureSources) => {
+            return featureSources.toArray().map((featureSource) => {
+                return {
+                    id: featureSource.layer.uid,
+                    title: featureSource.layer.title,
+                    enabled: featureSource.enabled
+                };
+            });
+        };
+
+        snappingOptions.featureSources.on("change", () => {
+            snappingOptions.featureSources.forEach((featureSource) => {
+                featureSource.watch("enabled", (enabled) => {
+                    sketchingEnhancedModel.snappingFeatureSources = getSnappingFeatureSources(snappingOptions.featureSources);
+                });
+            });
+            sketchingEnhancedModel.snappingFeatureSources = getSnappingFeatureSources(snappingOptions.featureSources);
+        });
+        this.snappingBinding = Binding.for(sketchViewModel.snappingOptions, sketchingEnhancedModel)
+            .sync("enabled", "snappingEnabled")
+            .sync("featureEnabled", "snappingFeatureEnabled")
+            .sync("selfEnabled", "snappingSelfEnabled")
+            .enable();
+    }
+
+    changeFeatureSource(id): void {
+        const sketchViewModel = this.sketchViewModel;
+        sketchViewModel.snappingOptions.featureSources.forEach((snappingFeatureSource) => {
+            if (snappingFeatureSource.layer.uid === id) {
+                snappingFeatureSource.enabled = !snappingFeatureSource.enabled;
+            }
         });
     }
 

@@ -24,6 +24,9 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     canUndo: boolean;
     canRedo: boolean,
     snappingEnabled: boolean;
+    snappingFeatureEnabled: boolean;
+    snappingSelfEnabled: boolean;
+    snappingFeatureSources: object[];
     pointSymbol: {},
     polylineSymbol: {},
     polygonSymbol: {},
@@ -41,7 +44,10 @@ interface SketchingEnhancedModelProps {
     activeUi: string,
     canUndo: boolean,
     canRedo: boolean,
-    snappingEnabled: boolean,
+    snappingEnabled: boolean;
+    snappingFeatureEnabled: boolean;
+    snappingSelfEnabled: boolean;
+    snappingFeatureSources: object[];
     pointSymbol: EsriSymbol,
     polylineSymbol: EsriSymbol,
     polygonSymbol: EsriSymbol,
@@ -55,6 +61,9 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         canUndo: false,
         canRedo: false,
         snappingEnabled: false,
+        snappingFeatureEnabled: false,
+        snappingSelfEnabled: false,
+        snappingFeatureSources: [],
         pointSymbol: {},
         polylineSymbol: {},
         polygonSymbol: {},

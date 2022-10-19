@@ -70,6 +70,35 @@
             <div class="center ct-flex-item overflowAuto pa-2">
                 <div v-show="activeUi === 'settings'">
                     <div ref="snappingControlsWidgetNode" />
+                    <v-switch
+                        v-model="snappingEnabled"
+                        label="Snapping Enabled"
+                    ></v-switch>
+                    <v-switch
+                        v-model="snappingFeatureEnabled"
+                        label="Snapping Feature Enabled"
+                    ></v-switch>
+                    <v-switch
+                        v-model="snappingSelfEnabled"
+                        label="Snapping Self Enabled"
+                    ></v-switch>
+                    <v-list                    >
+                        <v-subheader>Feature Sources</v-subheader>
+                        <v-list-tile
+                            v-for="snappingFeatureSource in snappingFeatureSources"
+                            :key="snappingFeatureSource.id"
+                        >
+                            <v-list-tile-action>
+                                <v-checkbox
+                                    v-model="snappingFeatureSource.enabled"
+                                    @change="changeFeatureSource(snappingFeatureSource)"
+                                />
+                            </v-list-tile-action>
+                            <v-list-tile-content>
+                                <v-list-tile-title>{{ snappingFeatureSource.title }}</v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </v-list>
                 </div>
                 <div v-if="activeUi === 'edit'">
                     <v-alert
@@ -127,6 +156,22 @@
                 type: Boolean,
                 default: false
             },
+            snappingEnabled: {
+                type: Boolean,
+                default: false
+            },
+            snappingFeatureEnabled: {
+                type: Boolean,
+                default: false
+            },
+            snappingSelfEnabled: {
+                type: Boolean,
+                default: false
+            },
+            snappingFeatureSources: {
+                type: Array,
+                default: () => []
+            },
             pointSymbol: {
                 type: Object,
                 default: function () {
@@ -150,6 +195,11 @@
                 default: function () {
                     return {};
                 }
+            }
+        },
+        methods: {
+            changeFeatureSource(featureSource) {
+                this.$emit("feature-source-changed", featureSource);
             }
         },
         mounted: function() {

@@ -22,8 +22,11 @@
                 :value="activeTool === 'point' || activeTool === 'multipoint'"
                 no-action
             >
-                <template v-slot:activator>
+                <template #activator>
                     <v-list-tile :value="activeTool === 'point' || activeTool === 'multipoint'">
+                        <v-list-tile-action>
+                            <v-icon>icon-draw-point</v-icon>
+                        </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title>{{ i18n.pointTools }}</v-list-tile-title>
                         </v-list-tile-content>
@@ -33,6 +36,9 @@
                     :value="activeTool === 'point'"
                     @click="activateTool('point')"
                 >
+                    <v-list-tile-action>
+                        <v-icon>icon-draw-point</v-icon>
+                    </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ i18n.pointTool }}</v-list-tile-title>
                     </v-list-tile-content>
@@ -41,6 +47,9 @@
                     :value="activeTool === 'multipoint'"
                     @click="activateTool('multipoint')"
                 >
+                    <v-list-tile-action>
+                        <v-icon>icon-draw-point</v-icon>
+                    </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ i18n.multipointTool }}</v-list-tile-title>
                     </v-list-tile-content>
@@ -50,8 +59,11 @@
                 :value="activeTool === 'polyline' || activeTool === 'polyline_freehand'"
                 no-action
             >
-                <template v-slot:activator>
+                <template #activator>
                     <v-list-tile :value="activeTool === 'polyline' || activeTool === 'polyline_freehand'">
+                        <v-list-tile-action>
+                            <v-icon>icon-polyline</v-icon>
+                        </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title>{{ i18n.polylineTools }}</v-list-tile-title>
                         </v-list-tile-content>
@@ -61,6 +73,9 @@
                     :value="activeTool === 'polyline'"
                     @click="activateTool('polyline')"
                 >
+                    <v-list-tile-action>
+                        <v-icon>icon-polyline</v-icon>
+                    </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ i18n.polylineTool }}</v-list-tile-title>
                     </v-list-tile-content>
@@ -69,6 +84,9 @@
                     :value="activeTool === 'polyline_freehand'"
                     @click="activateTool('polyline_freehand')"
                 >
+                    <v-list-tile-action>
+                        <v-icon>icon-polyline-freeform</v-icon>
+                    </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ i18n.freehandPolylineTool }}</v-list-tile-title>
                     </v-list-tile-content>
@@ -79,11 +97,14 @@
                     || activeTool === 'circle' || activeTool === 'rectangle'"
                 no-action
             >
-                <template v-slot:activator>
+                <template #activator>
                     <v-list-tile
                         :value="activeTool === 'polygon' || activeTool === 'polygon_freehand'
                             || activeTool === 'circle' || activeTool === 'rectangle'"
                     >
+                        <v-list-tile-action>
+                            <v-icon>icon-line</v-icon>
+                        </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title>{{ i18n.polygonTools }}</v-list-tile-title>
                         </v-list-tile-content>
@@ -93,6 +114,9 @@
                     :value="activeTool === 'polygon'"
                     @click="activateTool('polygon')"
                 >
+                    <v-list-tile-action>
+                        <v-icon>icon-polygon</v-icon>
+                    </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ i18n.polygonTool }}</v-list-tile-title>
                     </v-list-tile-content>
@@ -101,6 +125,9 @@
                     :value="activeTool === 'polygon_freehand'"
                     @click="activateTool('polygon_freehand')"
                 >
+                    <v-list-tile-action>
+                        <v-icon>icon-polygon-freeform</v-icon>
+                    </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ i18n.freehandPolygonTool }}</v-list-tile-title>
                     </v-list-tile-content>
@@ -109,6 +136,9 @@
                     :value="activeTool === 'circle'"
                     @click="activateTool('circle')"
                 >
+                    <v-list-tile-action>
+                        <v-icon>icon-radio-unselected</v-icon>
+                    </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ i18n.circleTool }}</v-list-tile-title>
                     </v-list-tile-content>
@@ -117,6 +147,9 @@
                     :value="activeTool === 'rectangle'"
                     @click="activateTool('rectangle')"
                 >
+                    <v-list-tile-action>
+                        <v-icon>icon-checkbox-unchecked</v-icon>
+                    </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ i18n.rectangleTool }}</v-list-tile-title>
                     </v-list-tile-content>
@@ -126,10 +159,13 @@
                 :value="activeTool === 'text'"
                 no-action
             >
-                <template v-slot:activator>
+                <template #activator>
                     <v-list-tile
                         :value="activeTool === 'text'"
                     >
+                        <v-list-tile-action>
+                            <v-icon>icon-text</v-icon>
+                        </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title>{{ i18n.textTools }}</v-list-tile-title>
                         </v-list-tile-content>
@@ -139,6 +175,9 @@
                     :value="activeTool === 'text'"
                     @click="activateTool('text')"
                 >
+                    <v-list-tile-action>
+                        <v-icon>icon-text</v-icon>
+                    </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ i18n.textTool }}</v-list-tile-title>
                     </v-list-tile-content>

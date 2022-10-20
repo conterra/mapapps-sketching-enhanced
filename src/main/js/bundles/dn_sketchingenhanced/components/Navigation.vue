@@ -36,7 +36,7 @@
                 <template #activator>
                     <v-list-tile :value="activeTool === 'polyline' || activeTool === 'polyline_freehand'">
                         <v-list-tile-action>
-                            <v-icon>icon-polyline</v-icon>
+                            <v-icon>icon-line</v-icon>
                         </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title>{{ i18n.polylineTools }}</v-list-tile-title>
@@ -79,7 +79,7 @@
                             || activeTool === 'circle' || activeTool === 'rectangle'"
                     >
                         <v-list-tile-action>
-                            <v-icon>icon-line</v-icon>
+                            <v-icon>icon-polygon</v-icon>
                         </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title>{{ i18n.polygonTools }}</v-list-tile-title>

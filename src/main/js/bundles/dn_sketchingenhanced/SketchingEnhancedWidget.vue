@@ -72,40 +72,13 @@
                     <div class="title mb-2">
                         {{ i18n.settings }}
                     </div>
-                    <div class="subheading my-2">
-                        {{ i18n.snappingSettings }}
-                    </div>
-                    <v-switch
-                        v-model="snappingEnabled"
-                        :label="i18n.snappingEnabled"
-                        color="primary"
-                        class="mt-1"
-                        hide-details
-                    ></v-switch>
-                    <v-switch
-                        v-model="snappingSelfEnabled"
-                        :label="i18n.snappingSelfEnabled"
-                        color="primary"
-                        class="mt-1"
-                        hide-details
-                    ></v-switch>
-                    <v-switch
-                        v-model="snappingFeatureEnabled"
-                        :label="i18n.snappingFeatureEnabled"
-                        color="primary"
-                        class="mt-1"
-                        hide-details
-                    ></v-switch>
-                    <div class="subheading my-2">{{ i18n.snappingFeatureSources }}</div>
-                    <v-checkbox
-                        v-for="snappingFeatureSource in snappingFeatureSources"
-                        :key="snappingFeatureSource.id"
-                        v-model="snappingFeatureSource.enabled"
-                        :label="snappingFeatureSource.title"
-                        color="primary"
-                        hide-details
-                        class="mt-1"
-                        @change="changeFeatureSource(snappingFeatureSource)"
+                    <snapping-settings
+                        :i18n="i18n.snappingSettings"
+                        :snapping-enabled.sync="snappingEnabled"
+                        :snapping-feature-enabled.sync="snappingFeatureEnabled"
+                        :snapping-self-enabled.sync="snappingSelfEnabled"
+                        :snapping-feature-sources.sync="snappingFeatureSources"
+                        @feature-source-changed="$emit('feature-source-changed', $event)"
                     />
                 </div>
                 <div v-if="activeUi === 'edit'">
@@ -134,11 +107,13 @@
     import Bindable from "apprt-vue/mixins/Bindable";
     import Navigation from "./components/Navigation.vue";
     import SymbolSettings from "./components/SymbolSettings.vue";
+    import SnappingSettings from "./components/SnappingSettings.vue";
 
     export default {
         components: {
             "navigation": Navigation,
-            "symbol-settings": SymbolSettings
+            "symbol-settings": SymbolSettings,
+            "snapping-settings": SnappingSettings
         },
         mixins: [Bindable],
         props: {
@@ -203,11 +178,6 @@
                 default: function () {
                     return {};
                 }
-            }
-        },
-        methods: {
-            changeFeatureSource(featureSource) {
-                this.$emit("feature-source-changed", featureSource);
             }
         }
     };

@@ -260,11 +260,11 @@
 </template>
 
 <script>
-    import { Chrome } from "dn_vuecolor";
+    import ColorPicker from "./ColorPicker.vue";
 
     export default {
         components: {
-            "color-picker": Chrome
+            "color-picker": ColorPicker
         },
         props: {
             i18n: {

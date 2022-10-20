@@ -132,8 +132,8 @@
 </template>
 <script>
     import Bindable from "apprt-vue/mixins/Bindable";
-    import Navigation from "./Navigation.vue";
-    import SymbolSettings from "./SymbolSettings.vue";
+    import Navigation from "./components/Navigation.vue";
+    import SymbolSettings from "./components/SymbolSettings.vue";
 
     export default {
         components: {

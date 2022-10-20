@@ -28,3 +28,11 @@
 .ctAppRoot .sketching-enhanced-widget .symbol-settings .label {
     padding-top: 11px;
 }
+
+.ctAppRoot .sketching-enhanced-widget .navigation .v-list__tile__action {
+    min-width: 40px;
+}
+
+.ctAppRoot .sketching-enhanced-widget .navigation .subtool .v-list__tile {
+    padding-left: 56px;
+}

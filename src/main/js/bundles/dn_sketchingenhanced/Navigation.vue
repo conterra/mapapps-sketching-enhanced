@@ -47,6 +47,7 @@
                 </template>
                 <v-list-tile
                     :value="activeTool === 'polyline'"
+                    class="subtool"
                     @click="activateTool('polyline')"
                 >
                     <v-list-tile-action>
@@ -58,6 +59,7 @@
                 </v-list-tile>
                 <v-list-tile
                     :value="activeTool === 'polyline_freehand'"
+                    class="subtool"
                     @click="activateTool('polyline_freehand')"
                 >
                     <v-list-tile-action>
@@ -88,6 +90,7 @@
                 </template>
                 <v-list-tile
                     :value="activeTool === 'polygon'"
+                    class="subtool"
                     @click="activateTool('polygon')"
                 >
                     <v-list-tile-action>
@@ -99,6 +102,7 @@
                 </v-list-tile>
                 <v-list-tile
                     :value="activeTool === 'polygon_freehand'"
+                    class="subtool"
                     @click="activateTool('polygon_freehand')"
                 >
                     <v-list-tile-action>
@@ -110,6 +114,7 @@
                 </v-list-tile>
                 <v-list-tile
                     :value="activeTool === 'circle'"
+                    class="subtool"
                     @click="activateTool('circle')"
                 >
                     <v-list-tile-action>
@@ -121,6 +126,7 @@
                 </v-list-tile>
                 <v-list-tile
                     :value="activeTool === 'rectangle'"
+                    class="subtool"
                     @click="activateTool('rectangle')"
                 >
                     <v-list-tile-action>

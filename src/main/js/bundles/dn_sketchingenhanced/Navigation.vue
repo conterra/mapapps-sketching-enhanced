@@ -18,19 +18,17 @@
 <template>
     <v-card class="navigation fullHeight">
         <v-list class="pa-0">
-            <v-list>
-                <v-list-tile
-                    :value="activeTool === 'point'"
-                    @click="activateTool('point')"
-                >
-                    <v-list-tile-action>
-                        <v-icon>icon-draw-point</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ i18n.pointTool }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
+            <v-list-tile
+                :value="activeTool === 'point'"
+                @click="activateTool('point')"
+            >
+                <v-list-tile-action>
+                    <v-icon>icon-draw-point</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                    <v-list-tile-title>{{ i18n.pointTool }}</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
             <v-list-group
                 :value="activeTool === 'polyline' || activeTool === 'polyline_freehand'"
                 no-action
@@ -137,19 +135,17 @@
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list-group>
-            <v-list>
-                <v-list-tile
-                    :value="activeTool === 'text'"
-                    @click="activateTool('text')"
-                >
-                    <v-list-tile-action>
-                        <v-icon>icon-text</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ i18n.textTool }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
+            <v-list-tile
+                :value="activeTool === 'text'"
+                @click="activateTool('text')"
+            >
+                <v-list-tile-action>
+                    <v-icon>icon-text</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                    <v-list-tile-title>{{ i18n.textTool }}</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
         </v-list>
     </v-card>
 </template>

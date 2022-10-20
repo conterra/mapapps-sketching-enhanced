@@ -33,7 +33,6 @@ module.exports = {
             freehandPolygonTool: "Freehand Polygon",
             circleTool: "Circle",
             rectangleTool: "Rectangle",
-            textTools: "Text",
             textTool: "Text",
             editHint: "Click on a graphic in the map to edit it.",
             settings: "Settings",

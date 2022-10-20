@@ -27,6 +27,8 @@ Um das Bundle in der app.json zu konfigurieren, verwenden Sie die konfigurierbar
         "initialGeometryEditMode": "reshape",
         "toggleGeometryEditModeOnClick": true,
         "snappingEnabled": true,
+        "snappingSelfEnabled": true,
+        "snappingFeatureEnabled": true,
         "pointSymbol": {
             "type": "simple-marker",
             "style": "circle",

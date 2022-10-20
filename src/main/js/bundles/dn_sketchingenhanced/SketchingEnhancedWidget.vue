@@ -70,7 +70,6 @@
             <div class="center ct-flex-item overflowAuto pa-3">
                 <div v-show="activeUi === 'settings'">
                     <div class="title my-2">{{ i18n.settings }}</div>
-                    <div ref="snappingControlsWidgetNode"/>
                     <div class="subheading my-2">{{ i18n.snappingSettings }}</div>
                     <v-switch
                         v-model="snappingEnabled"
@@ -205,11 +204,6 @@
             changeFeatureSource(featureSource) {
                 this.$emit("feature-source-changed", featureSource);
             }
-        },
-        mounted: function() {
-            this.$nextTick(() => {
-                this.$emit("on-mounted");
-            });
         }
     };
 </script>

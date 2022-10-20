@@ -39,12 +39,6 @@ export default class SketchingEnhancedController {
                     sketchViewModel.create("point");
                 sketchingEnhancedModel.activeUi = "point";
                 break;
-            case "multipoint":
-                sketchViewModel.pointSymbol = sketchingEnhancedModel.pointSymbol;
-                if (sketchViewModel.activeTool !== tool)
-                    sketchViewModel.create("multipoint");
-                sketchingEnhancedModel.activeUi = "point";
-                break;
             case "polyline":
                 if (sketchViewModel.activeTool !== tool)
                     sketchViewModel.create("polyline", {mode: "click"});

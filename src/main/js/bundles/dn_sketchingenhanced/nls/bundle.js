@@ -25,7 +25,6 @@ module.exports = {
             windowTitle: "Sketching Enhanced",
             pointTools: "Points",
             pointTool: "Point",
-            multipointTool: "Multipoint",
             polylineTools: "Polylines",
             polylineTool: "Polyline",
             freehandPolylineTool: "Freehand Polyline",

@@ -38,42 +38,50 @@ export default class SketchingEnhancedController {
                 if (sketchViewModel.activeTool !== tool)
                     sketchViewModel.create("point");
                 sketchingEnhancedModel.activeUi = "point";
+                sketchingEnhancedModel.activeTool = "point";
                 break;
             case "polyline":
                 if (sketchViewModel.activeTool !== tool)
                     sketchViewModel.create("polyline", {mode: "click"});
                 sketchingEnhancedModel.activeUi = "polyline";
+                sketchingEnhancedModel.activeTool = "polyline";
                 break;
             case "polyline_freehand":
                 if (sketchViewModel.activeTool !== tool)
                     sketchViewModel.create("polyline", {mode: "freehand"});
                 sketchingEnhancedModel.activeUi = "polyline";
+                sketchingEnhancedModel.activeTool = "polyline_freehand";
                 break;
             case "polygon":
                 if (sketchViewModel.activeTool !== tool)
                     sketchViewModel.create("polygon", {mode: "click"});
                 sketchingEnhancedModel.activeUi = "polygon";
+                sketchingEnhancedModel.activeTool = "polygon";
                 break;
             case "polygon_freehand":
                 if (sketchViewModel.activeTool !== tool)
                     sketchViewModel.create("polygon", {mode: "freehand"});
                 sketchingEnhancedModel.activeUi = "polygon";
+                sketchingEnhancedModel.activeTool = "polygon_freehand";
                 break;
             case "circle":
                 if (sketchViewModel.activeTool !== tool)
                     sketchViewModel.create("circle");
                 sketchingEnhancedModel.activeUi = "polygon";
+                sketchingEnhancedModel.activeTool = "circle";
                 break;
             case "rectangle":
                 if (sketchViewModel.activeTool !== tool)
                     sketchViewModel.create("rectangle");
                 sketchingEnhancedModel.activeUi = "polygon";
+                sketchingEnhancedModel.activeTool = "rectangle";
                 break;
             case "text":
                 sketchViewModel.pointSymbol = sketchingEnhancedModel.textSymbol;
                 if (sketchViewModel.activeTool !== tool)
                     sketchViewModel.create("point");
                 sketchingEnhancedModel.activeUi = "text";
+                sketchingEnhancedModel.activeTool = "text";
                 break;
         }
     }
@@ -120,23 +128,12 @@ export default class SketchingEnhancedController {
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
 
-        sketchViewModel.watch("activeTool", (tool) => {
-            if (tool === "point" && sketchViewModel.pointSymbol.type === "text") {
-                sketchingEnhancedModel.activeTool = "text";
-            } else {
-                sketchingEnhancedModel.activeTool = tool;
-            }
-        });
-
         sketchViewModel.on("create", (event) => {
             this.refreshUndoRedo();
             // enable sketching tool again after complete
             if (event.state === "complete") {
-                if (event.tool === "point" && event.graphic.symbol.type === "text") {
-                    this.activateTool("text");
-                } else {
-                    this.activateTool(event.tool);
-                }
+                const activeTool = sketchingEnhancedModel.activeTool;
+                this.activateTool(activeTool);
             }
         });
 

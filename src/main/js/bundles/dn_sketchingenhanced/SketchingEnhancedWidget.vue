@@ -67,10 +67,14 @@
                     @activate-tool="$emit('activate-tool', $event)"
                 />
             </div>
-            <div class="center ct-flex-item overflowAuto pa-3">
+            <div class="center ct-flex-item overflowAuto px-3">
                 <div v-show="activeUi === 'settings'">
-                    <div class="title my-2">{{ i18n.settings }}</div>
-                    <div class="subheading my-2">{{ i18n.snappingSettings }}</div>
+                    <div class="title mb-2">
+                        {{ i18n.settings }}
+                    </div>
+                    <div class="subheading my-2">
+                        {{ i18n.snappingSettings }}
+                    </div>
                     <v-switch
                         v-model="snappingEnabled"
                         :label="i18n.snappingEnabled"
@@ -98,6 +102,7 @@
                         :key="snappingFeatureSource.id"
                         v-model="snappingFeatureSource.enabled"
                         :label="snappingFeatureSource.title"
+                        color="primary"
                         hide-details
                         class="mt-1"
                         @change="changeFeatureSource(snappingFeatureSource)"

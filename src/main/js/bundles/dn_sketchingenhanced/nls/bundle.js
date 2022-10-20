@@ -23,7 +23,6 @@ module.exports = {
         },
         ui: {
             windowTitle: "Sketching Enhanced",
-            pointTools: "Points",
             pointTool: "Point",
             polylineTools: "Polylines",
             polylineTool: "Polyline",

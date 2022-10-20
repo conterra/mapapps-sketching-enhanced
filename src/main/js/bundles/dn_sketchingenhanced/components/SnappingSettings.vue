@@ -13,6 +13,7 @@
         <v-switch
             v-model="selfEnabled"
             :label="i18n.snappingSelfEnabled"
+            :disabled="!enabled"
             color="primary"
             class="mt-1"
             hide-details
@@ -20,6 +21,7 @@
         <v-switch
             v-model="featureEnabled"
             :label="i18n.snappingFeatureEnabled"
+            :disabled="!enabled"
             color="primary"
             class="mt-1"
             hide-details
@@ -30,6 +32,7 @@
             :key="featureSource.id"
             v-model="featureSource.enabled"
             :label="featureSource.title"
+            :disabled="!enabled"
             color="primary"
             hide-details
             class="mt-1"

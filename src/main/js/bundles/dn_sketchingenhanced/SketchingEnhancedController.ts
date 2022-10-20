@@ -35,51 +35,43 @@ export default class SketchingEnhancedController {
         switch (tool) {
             case "point":
                 sketchViewModel.pointSymbol = sketchingEnhancedModel.pointSymbol;
-                if (sketchViewModel.activeTool !== tool)
-                    sketchViewModel.create("point");
+                sketchViewModel.create("point");
                 sketchingEnhancedModel.activeUi = "point";
                 sketchingEnhancedModel.activeTool = "point";
                 break;
             case "polyline":
-                if (sketchViewModel.activeTool !== tool)
-                    sketchViewModel.create("polyline", {mode: "click"});
+                sketchViewModel.create("polyline", {mode: "click"});
                 sketchingEnhancedModel.activeUi = "polyline";
                 sketchingEnhancedModel.activeTool = "polyline";
                 break;
             case "polyline_freehand":
-                if (sketchViewModel.activeTool !== tool)
-                    sketchViewModel.create("polyline", {mode: "freehand"});
+                sketchViewModel.create("polyline", {mode: "freehand"});
                 sketchingEnhancedModel.activeUi = "polyline";
                 sketchingEnhancedModel.activeTool = "polyline_freehand";
                 break;
             case "polygon":
-                if (sketchViewModel.activeTool !== tool)
-                    sketchViewModel.create("polygon", {mode: "click"});
+                sketchViewModel.create("polygon", {mode: "click"});
                 sketchingEnhancedModel.activeUi = "polygon";
                 sketchingEnhancedModel.activeTool = "polygon";
                 break;
             case "polygon_freehand":
-                if (sketchViewModel.activeTool !== tool)
-                    sketchViewModel.create("polygon", {mode: "freehand"});
+                sketchViewModel.create("polygon", {mode: "freehand"});
                 sketchingEnhancedModel.activeUi = "polygon";
                 sketchingEnhancedModel.activeTool = "polygon_freehand";
                 break;
             case "circle":
-                if (sketchViewModel.activeTool !== tool)
-                    sketchViewModel.create("circle");
+                sketchViewModel.create("circle");
                 sketchingEnhancedModel.activeUi = "polygon";
                 sketchingEnhancedModel.activeTool = "circle";
                 break;
             case "rectangle":
-                if (sketchViewModel.activeTool !== tool)
-                    sketchViewModel.create("rectangle");
+                sketchViewModel.create("rectangle");
                 sketchingEnhancedModel.activeUi = "polygon";
                 sketchingEnhancedModel.activeTool = "rectangle";
                 break;
             case "text":
                 sketchViewModel.pointSymbol = sketchingEnhancedModel.textSymbol;
-                if (sketchViewModel.activeTool !== tool)
-                    sketchViewModel.create("point");
+                sketchViewModel.create("point");
                 sketchingEnhancedModel.activeUi = "text";
                 sketchingEnhancedModel.activeTool = "text";
                 break;

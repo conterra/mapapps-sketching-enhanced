@@ -35,6 +35,8 @@
                 "initialGeometryEditMode": "reshape",
                 "toggleGeometryEditModeOnClick": true,
                 "snappingEnabled": true,
+                "snappingSelfEnabled": true,
+                "snappingFeatureEnabled": true,
                 "pointSymbol": {
                     "type": "simple-marker",
                     "style": "circle",

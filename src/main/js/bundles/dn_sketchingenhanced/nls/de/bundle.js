@@ -36,6 +36,12 @@ module.exports = {
         textTools: "Text",
         textTool: "Text",
         editHint: "Klicken Sie auf eine Grafik in der Karte, um diese zu editieren.",
+        settings: "Einstellungen",
+        snappingSettings: "Fangen-Einstellungen",
+        snappingEnabled: "Fangen aktivieren",
+        snappingSelfEnabled: "Geometrieführungslinien",
+        snappingFeatureEnabled: "Feature an Feature",
+        snappingFeatureSources: "Fang-Inhalte",
         symbolSettings: {
             pointSymbolStyle: "Style",
             pointSymbolStyles: {

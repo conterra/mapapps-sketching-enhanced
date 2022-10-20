@@ -37,6 +37,12 @@ module.exports = {
             textTools: "Text",
             textTool: "Text",
             editHint: "Click on a graphic in the map to edit it.",
+            settings: "Settings",
+            snappingSettings: "Snapping controls",
+            snappingEnabled: "Enable snapping",
+            snappingSelfEnabled: "Geometry guides",
+            snappingFeatureEnabled: "Feature to feature",
+            snappingFeatureSources: "Snapping layers",
             symbolSettings: {
                 pointSymbolStyle: "Style",
                 pointSymbolStyles: {

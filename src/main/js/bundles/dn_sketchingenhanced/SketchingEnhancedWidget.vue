@@ -67,38 +67,42 @@
                     @activate-tool="$emit('activate-tool', $event)"
                 />
             </div>
-            <div class="center ct-flex-item overflowAuto pa-2">
+            <div class="center ct-flex-item overflowAuto pa-3">
                 <div v-show="activeUi === 'settings'">
-                    <div ref="snappingControlsWidgetNode" />
+                    <div class="title my-2">{{ i18n.settings }}</div>
+                    <div ref="snappingControlsWidgetNode"/>
+                    <div class="subheading my-2">{{ i18n.snappingSettings }}</div>
                     <v-switch
                         v-model="snappingEnabled"
-                        label="Snapping Enabled"
-                    ></v-switch>
-                    <v-switch
-                        v-model="snappingFeatureEnabled"
-                        label="Snapping Feature Enabled"
+                        :label="i18n.snappingEnabled"
+                        color="primary"
+                        class="mt-1"
+                        hide-details
                     ></v-switch>
                     <v-switch
                         v-model="snappingSelfEnabled"
-                        label="Snapping Self Enabled"
+                        :label="i18n.snappingSelfEnabled"
+                        color="primary"
+                        class="mt-1"
+                        hide-details
                     ></v-switch>
-                    <v-list                    >
-                        <v-subheader>Feature Sources</v-subheader>
-                        <v-list-tile
-                            v-for="snappingFeatureSource in snappingFeatureSources"
-                            :key="snappingFeatureSource.id"
-                        >
-                            <v-list-tile-action>
-                                <v-checkbox
-                                    v-model="snappingFeatureSource.enabled"
-                                    @change="changeFeatureSource(snappingFeatureSource)"
-                                />
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{ snappingFeatureSource.title }}</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                    </v-list>
+                    <v-switch
+                        v-model="snappingFeatureEnabled"
+                        :label="i18n.snappingFeatureEnabled"
+                        color="primary"
+                        class="mt-1"
+                        hide-details
+                    ></v-switch>
+                    <div class="subheading my-2">{{ i18n.snappingFeatureSources }}</div>
+                    <v-checkbox
+                        v-for="snappingFeatureSource in snappingFeatureSources"
+                        :key="snappingFeatureSource.id"
+                        v-model="snappingFeatureSource.enabled"
+                        :label="snappingFeatureSource.title"
+                        hide-details
+                        class="mt-1"
+                        @change="changeFeatureSource(snappingFeatureSource)"
+                    />
                 </div>
                 <div v-if="activeUi === 'edit'">
                     <v-alert

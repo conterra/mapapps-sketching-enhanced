@@ -33,6 +33,14 @@
     min-width: 40px;
 }
 
+.ctAppRoot .sketching-enhanced-widget .navigation .v-list__tile {
+    padding-right: 0;
+}
+
 .ctAppRoot .sketching-enhanced-widget .navigation .subtool .v-list__tile {
     padding-left: 56px;
+}
+
+.ctAppRoot .sketching-enhanced-widget .navigation .v-list__group__header__append-icon {
+    padding: 0 8px;
 }

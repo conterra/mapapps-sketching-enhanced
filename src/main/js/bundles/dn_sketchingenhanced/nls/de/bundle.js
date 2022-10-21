@@ -22,6 +22,7 @@ module.exports = {
     },
     ui: {
         windowTitle: "Erweitertes Zeichnen",
+        graphicsLayerTitle: "Zeichnungen",
         pointTool: "Punkt",
         polylineTools: "Linienwerkzeuge",
         polylineTool: "Polylinie",

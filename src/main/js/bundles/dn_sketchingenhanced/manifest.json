@@ -58,7 +58,7 @@
             "propertiesConstructor": true,
             "properties": {
                 "graphicsLayerId": "sketching-enhanced-graphics",
-                "graphicsLayerTitle": "Sketching",
+                "graphicsLayerTitle": "${ui.graphicsLayerTitle}",
                 "graphicsLayerListMode": "hide",
                 "initialActiveTool": "point",
                 "initialGeometryEditMode": "reshape",

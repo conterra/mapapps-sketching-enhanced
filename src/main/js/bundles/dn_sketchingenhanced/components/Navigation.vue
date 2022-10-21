@@ -20,6 +20,9 @@
         <v-list class="pa-0">
             <v-list-tile
                 :value="activeTool === 'point'"
+                ripple
+                tag="div"
+                role="button"
                 @click="activateTool('point')"
             >
                 <v-list-tile-action>
@@ -34,7 +37,12 @@
                 no-action
             >
                 <template #activator>
-                    <v-list-tile :value="activeTool === 'polyline' || activeTool === 'polyline_freehand'">
+                    <v-list-tile
+                        :value="activeTool === 'polyline' || activeTool === 'polyline_freehand'"
+                        ripple
+                        tag="div"
+                        role="button"
+                    >
                         <v-list-tile-action>
                             <v-icon>icon-line</v-icon>
                         </v-list-tile-action>
@@ -46,6 +54,9 @@
                 <v-list-tile
                     :value="activeTool === 'polyline'"
                     class="subtool"
+                    ripple
+                    tag="div"
+                    role="button"
                     @click="activateTool('polyline')"
                 >
                     <v-list-tile-action>
@@ -58,6 +69,9 @@
                 <v-list-tile
                     :value="activeTool === 'polyline_freehand'"
                     class="subtool"
+                    ripple
+                    tag="div"
+                    role="button"
                     @click="activateTool('polyline_freehand')"
                 >
                     <v-list-tile-action>
@@ -77,6 +91,9 @@
                     <v-list-tile
                         :value="activeTool === 'polygon' || activeTool === 'polygon_freehand'
                             || activeTool === 'circle' || activeTool === 'rectangle'"
+                        ripple
+                        tag="div"
+                        role="button"
                     >
                         <v-list-tile-action>
                             <v-icon>icon-polygon</v-icon>
@@ -89,6 +106,9 @@
                 <v-list-tile
                     :value="activeTool === 'polygon'"
                     class="subtool"
+                    ripple
+                    tag="div"
+                    role="button"
                     @click="activateTool('polygon')"
                 >
                     <v-list-tile-action>
@@ -101,6 +121,9 @@
                 <v-list-tile
                     :value="activeTool === 'polygon_freehand'"
                     class="subtool"
+                    ripple
+                    tag="div"
+                    role="button"
                     @click="activateTool('polygon_freehand')"
                 >
                     <v-list-tile-action>
@@ -113,6 +136,9 @@
                 <v-list-tile
                     :value="activeTool === 'circle'"
                     class="subtool"
+                    ripple
+                    tag="div"
+                    role="button"
                     @click="activateTool('circle')"
                 >
                     <v-list-tile-action>
@@ -125,6 +151,9 @@
                 <v-list-tile
                     :value="activeTool === 'rectangle'"
                     class="subtool"
+                    ripple
+                    tag="div"
+                    role="button"
                     @click="activateTool('rectangle')"
                 >
                     <v-list-tile-action>
@@ -137,6 +166,9 @@
             </v-list-group>
             <v-list-tile
                 :value="activeTool === 'text'"
+                ripple
+                tag="div"
+                role="button"
                 @click="activateTool('text')"
             >
                 <v-list-tile-action>

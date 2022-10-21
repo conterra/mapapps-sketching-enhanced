@@ -63,6 +63,7 @@
             <div class="left ct-flex-item ct-flex-item--no-grow ct-flex-item--no-shrink overflowAuto">
                 <navigation
                     :i18n="i18n"
+                    :active-ui="activeUi"
                     :active-tool.sync="activeTool"
                     @activate-tool="$emit('activate-tool', $event)"
                 />

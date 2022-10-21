@@ -18,166 +18,75 @@
 <template>
     <v-card class="navigation fullHeight">
         <v-list class="pa-0">
-            <v-list-tile
-                :value="activeTool === 'point'"
-                ripple
-                tag="div"
-                role="button"
-                @click="activateTool('point')"
+            <div
+                v-for="element in elements"
+                :key="element.name"
             >
-                <v-list-tile-action>
-                    <v-icon>icon-draw-point</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                    <v-list-tile-title>{{ i18n.pointTool }}</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
-            <v-list-group
-                :value="activeTool === 'polyline' || activeTool === 'polyline_freehand'"
-                no-action
-            >
-                <template #activator>
+                <v-list-group
+                    v-if="element.subTools"
+                    :value="activeUi === element.name"
+                    no-action
+                    @click="activateTool(element.subTools[0].name)"
+                    @keyup.enter="activateTool(element.subTools[0].name)"
+                >
+                    <template #activator>
+                        <v-list-tile
+                            :value="activeUi === element.name"
+                            ripple
+                            tag="div"
+                            role="button"
+                            tabindex="0"
+                            :aria-label="element.title"
+                            :aria-expanded="activeUi === element.name"
+                        >
+                            <v-list-tile-action>
+                                <v-icon>{{ element.icon }}</v-icon>
+                            </v-list-tile-action>
+                            <v-list-tile-content>
+                                <v-list-tile-title>{{ element.title }}</v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </template>
                     <v-list-tile
-                        :value="activeTool === 'polyline' || activeTool === 'polyline_freehand'"
+                        v-for="subTool in element.subTools"
+                        :key="subTool.name"
+                        :value="activeTool === subTool.name"
+                        class="subtool"
                         ripple
                         tag="div"
                         role="button"
+                        tabindex="0"
+                        @click="activateTool(subTool.name)"
+                        @keyup.enter="activateTool(subTool.name)"
                     >
                         <v-list-tile-action>
-                            <v-icon>icon-line</v-icon>
+                            <v-icon>{{ subTool.icon }}</v-icon>
                         </v-list-tile-action>
                         <v-list-tile-content>
-                            <v-list-tile-title>{{ i18n.polylineTools }}</v-list-tile-title>
+                            <v-list-tile-title>{{ subTool.title }}</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
-                </template>
+                </v-list-group>
                 <v-list-tile
-                    :value="activeTool === 'polyline'"
-                    class="subtool"
+                    v-else
+                    :value="activeTool === element.name"
                     ripple
                     tag="div"
                     role="button"
-                    @click="activateTool('polyline')"
+                    tabindex="0"
+                    :aria-label="element.title"
+                    :aria-selected="activeTool === element.name"
+                    @click.stop="activateTool(element.name)"
+                    @keyup.enter="activateTool(element.name)"
                 >
                     <v-list-tile-action>
-                        <v-icon>icon-polyline</v-icon>
+                        <v-icon>{{ element.icon }}</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ i18n.polylineTool }}</v-list-tile-title>
+                        <v-list-tile-title>{{ element.title }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-                <v-list-tile
-                    :value="activeTool === 'polyline_freehand'"
-                    class="subtool"
-                    ripple
-                    tag="div"
-                    role="button"
-                    @click="activateTool('polyline_freehand')"
-                >
-                    <v-list-tile-action>
-                        <v-icon>icon-polyline-freeform</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ i18n.freehandPolylineTool }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list-group>
-            <v-list-group
-                :value="activeTool === 'polygon' || activeTool === 'polygon_freehand'
-                    || activeTool === 'circle' || activeTool === 'rectangle'"
-                no-action
-            >
-                <template #activator>
-                    <v-list-tile
-                        :value="activeTool === 'polygon' || activeTool === 'polygon_freehand'
-                            || activeTool === 'circle' || activeTool === 'rectangle'"
-                        ripple
-                        tag="div"
-                        role="button"
-                    >
-                        <v-list-tile-action>
-                            <v-icon>icon-polygon</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>{{ i18n.polygonTools }}</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </template>
-                <v-list-tile
-                    :value="activeTool === 'polygon'"
-                    class="subtool"
-                    ripple
-                    tag="div"
-                    role="button"
-                    @click="activateTool('polygon')"
-                >
-                    <v-list-tile-action>
-                        <v-icon>icon-polygon</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ i18n.polygonTool }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile
-                    :value="activeTool === 'polygon_freehand'"
-                    class="subtool"
-                    ripple
-                    tag="div"
-                    role="button"
-                    @click="activateTool('polygon_freehand')"
-                >
-                    <v-list-tile-action>
-                        <v-icon>icon-polygon-freeform</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ i18n.freehandPolygonTool }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile
-                    :value="activeTool === 'circle'"
-                    class="subtool"
-                    ripple
-                    tag="div"
-                    role="button"
-                    @click="activateTool('circle')"
-                >
-                    <v-list-tile-action>
-                        <v-icon>icon-radio-unselected</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ i18n.circleTool }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile
-                    :value="activeTool === 'rectangle'"
-                    class="subtool"
-                    ripple
-                    tag="div"
-                    role="button"
-                    @click="activateTool('rectangle')"
-                >
-                    <v-list-tile-action>
-                        <v-icon>icon-checkbox-unchecked</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ i18n.rectangleTool }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list-group>
-            <v-list-tile
-                :value="activeTool === 'text'"
-                ripple
-                tag="div"
-                role="button"
-                @click="activateTool('text')"
-            >
-                <v-list-tile-action>
-                    <v-icon>icon-text</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                    <v-list-tile-title>{{ i18n.textTool }}</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
+            </div>
         </v-list>
     </v-card>
 </template>
@@ -191,13 +100,74 @@
                     return {};
                 }
             },
+            activeUi: {
+                type: String,
+                default: undefined
+            },
             activeTool: {
                 type: String,
                 default: undefined
             }
         },
         data() {
-            return {};
+            return {
+                elements: [
+                    {
+                        name: "point",
+                        title: this.i18n.pointTool,
+                        icon: "icon-draw-point"
+                    },
+                    {
+                        name: "polyline",
+                        title: this.i18n.polylineTools,
+                        icon: "icon-line",
+                        subTools: [
+                            {
+                                name: "polyline",
+                                title: this.i18n.polylineTool,
+                                icon: "icon-polyline"
+                            },
+                            {
+                                name: "polyline_freehand",
+                                title: this.i18n.freehandPolylineTool,
+                                icon: "icon-polyline-freeform"
+                            }
+                        ]
+                    },
+                    {
+                        name: "polygon",
+                        title: this.i18n.polygonTools,
+                        icon: "icon-polygon",
+                        subTools: [
+                            {
+                                name: "polygon",
+                                title: this.i18n.polygonTool,
+                                icon: "icon-polygon"
+                            },
+                            {
+                                name: "polygon_freehand",
+                                title: this.i18n.freehandPolygonTool,
+                                icon: "icon-polygon-freeform"
+                            },
+                            {
+                                name: "circle",
+                                title: this.i18n.circleTool,
+                                icon: "icon-radio-unselected"
+                            },
+                            {
+                                name: "rectangle",
+                                title: this.i18n.rectangleTool,
+                                icon: "icon-checkbox-unchecked"
+                            }
+                        ]
+                    },
+                    {
+                        name: "text",
+                        title: this.i18n.textTool,
+                        icon: "icon-text"
+                    }
+                ]
+            };
         },
         computed: {
             activeToolValue: {

@@ -22,7 +22,6 @@ import SketchViewModel from "esri/widgets/Sketch/SketchViewModel";
 import GraphicsLayer from "esri/layers/GraphicsLayer";
 import SketchingEnhancedWidget from "./SketchingEnhancedWidget.vue";
 import SketchingEnhancedController from "dn_sketchingenhanced/SketchingEnhancedController";
-import SnappingControls from "esri/widgets/support/SnappingControls";
 
 const LAYER_ID = "sketching-enhanced-graphics";
 
@@ -42,15 +41,9 @@ export default class QueryBuilderWidgetFactory {
         const graphicsLayer = findOrBuildGraphicsLayer(sketchingEnhancedModel, mapWidgetModel);
         const sketchViewModel = this.sketchViewModel = createSketchViewModel(sketchingEnhancedModel, graphicsLayer);
         sketchViewModel.snappingOptions.featureSources.push({layer: graphicsLayer, enabled: true});
-        const controller = this.controller = new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel);
+        const controller = this.controller = new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel, mapWidgetModel);
         this.getView().then((view) => {
             sketchViewModel.view = view;
-
-            // create new SnappingControls widget to get snapping layers in snappingOptions
-            new SnappingControls({
-                view: view,
-                snappingOptions: sketchViewModel.snappingOptions
-            });
         });
         this.initComponent(sketchingEnhancedModel, sketchViewModel, controller);
     }
@@ -123,7 +116,7 @@ export default class QueryBuilderWidgetFactory {
         });
 
         vm.$on("feature-source-changed", (featureSource) => {
-            this.controller.changeFeatureSource(featureSource.id);
+            this.controller.changeSnappingFeatureSource(featureSource.id);
         });
 
         controller.watchForSketchingEnhancedModelEvents();

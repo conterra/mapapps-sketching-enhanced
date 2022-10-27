@@ -17,16 +17,22 @@
 import SketchViewModel from "esri/widgets/Sketch/SketchViewModel";
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
 import Binding from "apprt-binding/Binding";
+import type {InjectedReference} from "apprt-core/InjectedReference";
+import Collection from "esri/core/Collection";
+import Layer from "esri/layers/Layer";
 
 export default class SketchingEnhancedController {
 
     private readonly sketchViewModel: SketchViewModel;
     private readonly sketchingEnhancedModel: typeof SketchingEnhancedModel;
+    private readonly mapWidgetModel: InjectedReference<any>;
     private snappingBinding: any;
 
-    constructor(sketchViewModel: SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel) {
+    constructor(sketchViewModel: typeof SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
+                mapWidgetModel: any) {
         this.sketchViewModel = sketchViewModel;
         this.sketchingEnhancedModel = sketchingEnhancedModel;
+        this.mapWidgetModel = mapWidgetModel;
     }
 
     activateTool(tool: string): void {
@@ -168,6 +174,15 @@ export default class SketchingEnhancedController {
             });
             sketchingEnhancedModel.snappingFeatureSources = getSnappingFeatureSources(snappingOptions.featureSources);
         });
+
+        const mapWidgetModel = this.mapWidgetModel;
+        const map = mapWidgetModel.map;
+        const layers = map.layers;
+        this.changeSnappingFeatureSources(layers, []);
+        map.layers.on("change", ({added, removed}) => {
+            this.changeSnappingFeatureSources(added, removed);
+        });
+
         this.snappingBinding = Binding.for(sketchViewModel.snappingOptions, sketchingEnhancedModel)
             .sync("enabled", "snappingEnabled")
             .sync("featureEnabled", "snappingFeatureEnabled")
@@ -175,7 +190,7 @@ export default class SketchingEnhancedController {
             .enable();
     }
 
-    changeFeatureSource(id): void {
+    changeSnappingFeatureSource(id: string): void {
         const sketchViewModel = this.sketchViewModel;
         sketchViewModel.snappingOptions.featureSources.forEach((snappingFeatureSource) => {
             if (snappingFeatureSource.layer.uid === id) {
@@ -184,7 +199,34 @@ export default class SketchingEnhancedController {
         });
     }
 
-    refreshUndoRedo(): void {
+    private changeSnappingFeatureSources(added: Collection, removed: Collection) {
+        const sketchViewModel = this.sketchViewModel;
+        const snappingOptions = sketchViewModel.snappingOptions;
+
+        const contained = (featureSources, layer) =>
+            featureSources.find((featureSource) => featureSource.layer === layer);
+
+        added.forEach((layer) => {
+            if (this.isSnappableLayer(layer) && !contained(snappingOptions.featureSources, layer)) {
+                snappingOptions.featureSources.push({
+                    layer: layer, enabled: true
+                });
+            }
+        });
+        removed.forEach((layer) => {
+            const snappingFeatureSource = contained(snappingOptions.featureSources, layer);
+            if (this.isSnappableLayer(layer) && contained(snappingOptions.featureSources, layer)) {
+                snappingOptions.featureSources.remove(snappingFeatureSource);
+            }
+        });
+    }
+
+    private isSnappableLayer(layer: Layer): boolean {
+        return (layer.type === "feature" || layer.type === "graphics"
+            || layer.type === "geojson" || layer.type === "wfs" || layer.type === "csv") && !layer.internal;
+    }
+
+    private refreshUndoRedo(): void {
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         sketchingEnhancedModel.canUndo = sketchViewModel.canUndo();

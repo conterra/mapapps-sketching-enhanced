@@ -1,10 +1,10 @@
-This branch contains the Sketching Enhanced version 3.x which is currently under development. You can find the 2.x version in this branch: https://github.com/conterra/mapapps-sketching-enhanced/tree/2.x
-
-⚠️ Due to changes in the ArcGIS API for JavaScript, which is used extensively by this bundle, the bundle is currently not compatible with map.apps 4.13 and later.
+This branch contains the new Sketching Enhanced version 3.x. You can find the 2.x version in this branch: https://github.com/conterra/mapapps-sketching-enhanced/tree/2.x
 
 # Sketching Enhanced
 
 This bundle adds an extended sketching functionality the map.
+
+**Requirement: map.apps 4.12.0**
 
 ![Screenshot App](https://github.com/conterra/mapapps-sketching-enhanced/blob/master/screenshot.JPG)
 
@@ -13,7 +13,7 @@ This bundle adds an extended sketching functionality the map.
 ![example workflow](https://github.com/conterra/mapapps-sketching-enhanced/actions/workflows/devnet-bundle-snapshot.yml/badge.svg)
 
 ## Sample App
-https://demos.conterra.de/mapapps/resources/apps/downloads_sketching_enhanced3/index.html
+https://demos.conterra.de/mapapps/resources/apps/downloads_sketching_enhanced/index.html
 
 ## Installation Guide
 

@@ -89,7 +89,7 @@ module.exports = {
             polygonSymbolOutlineWidth: "Umriss-Breite",
             polygonSymbolOutlineColor: "Umrisslinie-Farbe",
             textSymbolText: "Text",
-            textSymbolFarbe: "Schriftfarbe",
+            textSymbolColor: "Schriftfarbe",
             textSymbolFontSize: "Schriftgröße",
             textSymbolPlaceholderText: "Text eingeben"
         }

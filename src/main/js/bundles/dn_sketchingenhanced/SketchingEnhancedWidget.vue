@@ -50,6 +50,13 @@
             >
                 <v-icon>edit</v-icon>
             </v-btn>
+            <v-btn
+                :disabled="!canDelete"
+                icon
+                @click="$emit('delete')"
+            >
+                <v-icon>delete</v-icon>
+            </v-btn>
             <v-spacer />
             <v-btn
                 :input-value="activeUi === 'settings'"
@@ -137,6 +144,10 @@
                 default: false
             },
             canRedo: {
+                type: Boolean,
+                default: false
+            },
+            canDelete: {
                 type: Boolean,
                 default: false
             },

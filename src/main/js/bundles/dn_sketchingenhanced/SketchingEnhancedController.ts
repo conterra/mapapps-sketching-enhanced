@@ -91,6 +91,11 @@ export default class SketchingEnhancedController {
         sketchingEnhancedModel.activeUi = "edit";
     }
 
+    deleteGraphic(): void {
+        const sketchViewModel = this.sketchViewModel;
+        sketchViewModel.delete();
+    }
+
     showSettings(): void {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         sketchingEnhancedModel.activeUi = "settings";
@@ -139,7 +144,12 @@ export default class SketchingEnhancedController {
             this.refreshUndoRedo();
         });
 
-        sketchViewModel.on("update", () => {
+        sketchViewModel.on("update", (evt) => {
+            if (evt.state === "start") {
+                sketchingEnhancedModel.canDelete = true;
+            } else if (evt.state === "complete") {
+                sketchingEnhancedModel.canDelete = false;
+            }
             this.refreshUndoRedo();
         });
 

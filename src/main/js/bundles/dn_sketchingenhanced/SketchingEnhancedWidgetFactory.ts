@@ -85,7 +85,7 @@ export default class QueryBuilderWidgetFactory {
         vm.snappingControlsNode = document.createElement("div");
 
         this.sketchViewModelBinding = Binding.for(vm, sketchingEnhancedModel)
-            .syncAll("activeTool", "activeUi", "canUndo", "canRedo")
+            .syncAll("activeTool", "activeUi", "canUndo", "canRedo", "canDelete")
             .syncAll("snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
             .syncAllToLeft("snappingFeatureSources")
             .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol")
@@ -107,6 +107,9 @@ export default class QueryBuilderWidgetFactory {
         });
         vm.$on("edit", () => {
             controller.activateEdit();
+        });
+        vm.$on("delete", () => {
+            controller.deleteGraphic();
         });
         vm.$on("cancel", () => {
             sketchViewModel.cancel();

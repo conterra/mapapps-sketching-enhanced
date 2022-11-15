@@ -23,6 +23,7 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     activeUi: undefined;
     canUndo: boolean;
     canRedo: boolean,
+    canDelete: boolean,
     snappingEnabled: boolean;
     snappingFeatureEnabled: boolean;
     snappingSelfEnabled: boolean;
@@ -44,6 +45,7 @@ interface SketchingEnhancedModelProps {
     activeUi: string,
     canUndo: boolean,
     canRedo: boolean,
+    canDelete: boolean,
     snappingEnabled: boolean;
     snappingFeatureEnabled: boolean;
     snappingSelfEnabled: boolean;
@@ -60,6 +62,7 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         activeUi: undefined,
         canUndo: false,
         canRedo: false,
+        canDelete: false,
         snappingEnabled: false,
         snappingFeatureEnabled: false,
         snappingSelfEnabled: false,

@@ -41,7 +41,8 @@ export default class QueryBuilderWidgetFactory {
         const graphicsLayer = findOrBuildGraphicsLayer(sketchingEnhancedModel, mapWidgetModel);
         const sketchViewModel = this.sketchViewModel = createSketchViewModel(sketchingEnhancedModel, graphicsLayer);
         sketchViewModel.snappingOptions.featureSources.push({layer: graphicsLayer, enabled: true});
-        const controller = this.controller = new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel, mapWidgetModel);
+        const controller = this.controller =
+            new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel, mapWidgetModel);
         this.getView().then((view) => {
             sketchViewModel.view = view;
         });

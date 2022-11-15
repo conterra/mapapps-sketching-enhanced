@@ -32,16 +32,16 @@
             >
             </v-btn>
         </template>
-        <color-picker v-model="pickerColor"></color-picker>
+        <sketch-picker v-model="pickerColor"></sketch-picker>
     </v-menu>
 </template>
 
 <script>
-    import { Chrome } from "dn_vuecolor";
+    import { Sketch } from "dn_vuecolor";
 
     export default {
         components: {
-            'color-picker': Chrome
+            'sketch-picker': Sketch
         },
         props: {
             value: {

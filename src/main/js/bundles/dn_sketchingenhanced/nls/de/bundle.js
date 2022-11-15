@@ -91,6 +91,11 @@ module.exports = {
             textSymbolText: "Text",
             textSymbolColor: "Schriftfarbe",
             textSymbolFontSize: "Schriftgröße",
+            textSymbolFontWeight: "Schriftgewicht",
+            textSymbolFontWeights: {
+                normal: "Normal",
+                bold: "Fett"
+            },
             textSymbolPlaceholderText: "Text eingeben"
         }
     }

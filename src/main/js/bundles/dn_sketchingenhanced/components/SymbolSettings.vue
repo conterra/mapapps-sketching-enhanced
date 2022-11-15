@@ -260,6 +260,21 @@
                 <v-flex
                     xs4
                     class="label">
+                    {{ i18n.textSymbolFontWeight }}
+                </v-flex>
+                <v-flex xs8>
+                    <v-select
+                        v-model="textSymbolFontWeight"
+                        :items="textSymbolFontWeights"
+                        :label="i18n.textSymbolFontWeight"
+                        single-line
+                        hide-details
+                        class="pa-0"
+                    />
+                </v-flex>
+                <v-flex
+                    xs4
+                    class="label">
                     {{ i18n.textSymbolColor }}
                 </v-flex>
                 <v-flex
@@ -427,6 +442,16 @@
                     {
                         value: "vertical",
                         text: this.i18n.polygonSymbolStyles.vertical
+                    }
+                ],
+                textSymbolFontWeights: [
+                    {
+                        value: "normal",
+                        text: this.i18n.textSymbolFontWeights.normal
+                    },
+                    {
+                        value: "bold",
+                        text: this.i18n.textSymbolFontWeights.bold
                     }
                 ]
             };
@@ -613,6 +638,16 @@
                 set: function (size) {
                     const textSymbol = Object.assign({}, this.textSymbol);
                     textSymbol.font.size = size;
+                    this.$emit("update:text-symbol", textSymbol);
+                }
+            },
+            textSymbolFontWeight: {
+                get: function () {
+                    return this.textSymbol?.font?.weight || "normal";
+                },
+                set: function (weight) {
+                    const textSymbol = Object.assign({}, this.textSymbol);
+                    textSymbol.font.weight = weight;
                     this.$emit("update:text-symbol", textSymbol);
                 }
             },

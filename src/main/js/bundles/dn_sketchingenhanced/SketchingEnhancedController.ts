@@ -177,9 +177,9 @@ export default class SketchingEnhancedController {
 
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
-        const layers = map.layers;
+        const layers = map.allLayers;
         this.changeSnappingFeatureSources(layers, []);
-        map.layers.on("change", ({added, removed}) => {
+        layers.on("change", ({added, removed}) => {
             this.changeSnappingFeatureSources(added, removed);
         });
 

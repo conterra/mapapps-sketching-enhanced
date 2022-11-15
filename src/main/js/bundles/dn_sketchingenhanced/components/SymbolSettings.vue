@@ -245,6 +245,21 @@
                 <v-flex
                     xs4
                     class="label">
+                    {{ i18n.textSymbolFontSize }}
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field
+                        v-model="textSymbolFontSize"
+                        :label="i18n.textSymbolFontSize"
+                        type="number"
+                        single-line
+                        hide-details
+                        class="pa-0"
+                    />
+                </v-flex>
+                <v-flex
+                    xs4
+                    class="label">
                     {{ i18n.textSymbolColor }}
                 </v-flex>
                 <v-flex
@@ -588,6 +603,16 @@
                 set: function (text) {
                     const textSymbol = Object.assign({}, this.textSymbol);
                     textSymbol.text = text;
+                    this.$emit("update:text-symbol", textSymbol);
+                }
+            },
+            textSymbolFontSize: {
+                get: function () {
+                    return this.textSymbol.font.size;
+                },
+                set: function (size) {
+                    const textSymbol = Object.assign({}, this.textSymbol);
+                    textSymbol.font.size = size;
                     this.$emit("update:text-symbol", textSymbol);
                 }
             },

@@ -40,7 +40,7 @@ module.exports = {
                 title: "Snapping controls",
                 snappingEnabled: "Enable snapping",
                 snappingSelfEnabled: "Geometry guides",
-                snappingFeatureEnabled: "Feature to feature",
+                snappingFeatureEnabled: "Enable map content snapping",
                 snappingFeatureSources: "Snapping layers"
             },
             symbolSettings: {

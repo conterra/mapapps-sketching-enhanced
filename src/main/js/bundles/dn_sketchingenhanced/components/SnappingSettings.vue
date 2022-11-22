@@ -49,7 +49,7 @@
             :key="featureSource.id"
             v-model="featureSource.enabled"
             :label="featureSource.title"
-            :disabled="!enabled"
+            :disabled="!enabled || !featureEnabled"
             color="primary"
             hide-details
             class="mt-1"
@@ -69,15 +69,15 @@
             },
             snappingEnabled: {
                 type: Boolean,
-                default: false
+                default: true
             },
             snappingFeatureEnabled: {
                 type: Boolean,
-                default: false
+                default: true
             },
             snappingSelfEnabled: {
                 type: Boolean,
-                default: false
+                default: true
             },
             snappingFeatureSources: {
                 type: Array,

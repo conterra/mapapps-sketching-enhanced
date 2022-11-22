@@ -39,7 +39,7 @@ module.exports = {
             title: "Fangen-Einstellungen",
             snappingEnabled: "Fangen aktivieren",
             snappingSelfEnabled: "Geometrieführungslinien",
-            snappingFeatureEnabled: "Feature an Feature",
+            snappingFeatureEnabled: "Karteninhalte fangen",
             snappingFeatureSources: "Fang-Inhalte"
         },
         symbolSettings: {

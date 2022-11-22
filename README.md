@@ -2,7 +2,7 @@ This branch contains the new Sketching Enhanced version 3.x. You can find the 2.
 
 # Sketching Enhanced
 
-This bundle adds an extended sketching functionality the map.
+This bundle adds an extended sketching functionality to the map.
 
 **Requirement: map.apps 4.12.0**
 

@@ -112,7 +112,7 @@ export default class QueryBuilderWidgetFactory {
             controller.deleteGraphic();
         });
         vm.$on("cancel", () => {
-            sketchViewModel.cancel();
+            controller.cancelSketching();
         });
         vm.$on("settings", () => {
             controller.showSettings();

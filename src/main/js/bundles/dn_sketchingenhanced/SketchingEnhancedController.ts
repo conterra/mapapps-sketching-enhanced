@@ -96,6 +96,13 @@ export default class SketchingEnhancedController {
         sketchViewModel.delete();
     }
 
+    cancelSketching(): void {
+        const sketchViewModel = this.sketchViewModel;
+        sketchViewModel.cancel();
+        const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        this.activateTool(sketchingEnhancedModel.activeTool);
+    }
+
     showSettings(): void {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         sketchingEnhancedModel.activeUi = "settings";

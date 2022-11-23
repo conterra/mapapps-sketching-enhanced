@@ -611,13 +611,14 @@
                     return {
                         r: color[0],
                         g: color[1],
-                        b: color[2]
+                        b: color[2],
+                        a: color[3]
                     };
                 },
                 set: function (color) {
                     const rgba = color.rgba;
                     const polygonSymbol = Object.assign({}, this.polygonSymbol);
-                    polygonSymbol.outline.color = [rgba.r, rgba.g, rgba.b];
+                    polygonSymbol.outline.color = [rgba.r, rgba.g, rgba.b, rgba.a];
                     this.$emit("update:polygon-symbol", polygonSymbol);
                 }
             },

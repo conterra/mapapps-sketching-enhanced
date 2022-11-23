@@ -58,25 +58,22 @@
                 <v-icon>delete</v-icon>
             </v-btn>
             <v-spacer />
-            <v-btn
-                :input-value="activeUi === 'settings'"
-                icon
-                @click="$emit('settings')"
+            <v-menu
+                offset-x
+                :close-on-content-click="false"
             >
-                <v-icon>icon-drawing-settings</v-icon>
-            </v-btn>
-        </v-toolbar>
-        <div class="ct-flex-container ct-flex-container--row">
-            <div class="left ct-flex-item ct-flex-item--no-grow ct-flex-item--no-shrink overflowAuto">
-                <navigation
-                    :i18n="i18n"
-                    :active-ui="activeUi"
-                    :active-tool.sync="activeTool"
-                    @activate-tool="$emit('activate-tool', $event)"
-                />
-            </div>
-            <div class="center ct-flex-item overflowAuto px-3">
-                <div v-show="activeUi === 'settings'">
+                <template v-slot:activator="{ on }">
+                    <v-btn
+                        flat
+                        color="secondary"
+                        class="ct-flex-item"
+                        v-on="on"
+                    >
+                        {{ i18n.settings }}
+                        <v-icon right>icon-drawing-settings</v-icon>
+                    </v-btn>
+                </template>
+                <v-card class="pa-2 dn_sketchingenhanced--settings-menu">
                     <div class="title mb-2">
                         {{ i18n.settings }}
                     </div>
@@ -88,7 +85,19 @@
                         :snapping-feature-sources.sync="snappingFeatureSources"
                         @feature-source-changed="$emit('feature-source-changed', $event)"
                     />
-                </div>
+                </v-card>
+            </v-menu>
+        </v-toolbar>
+        <div class="ct-flex-container ct-flex-container--row">
+            <div class="left ct-flex-item ct-flex-item--no-grow ct-flex-item--no-shrink overflowAuto">
+                <navigation
+                    :i18n="i18n"
+                    :active-ui="activeUi"
+                    :active-tool.sync="activeTool"
+                    @activate-tool="$emit('activate-tool', $event)"
+                />
+            </div>
+            <div class="center ct-flex-item overflowAuto px-3">
                 <div v-if="activeUi === 'edit'">
                     <v-alert
                         :value="true"

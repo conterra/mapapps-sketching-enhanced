@@ -114,9 +114,6 @@ export default class QueryBuilderWidgetFactory {
         vm.$on("cancel", () => {
             controller.cancelSketching();
         });
-        vm.$on("settings", () => {
-            controller.showSettings();
-        });
 
         vm.$on("feature-source-changed", (featureSource) => {
             this.controller.changeSnappingFeatureSource(featureSource.id);

@@ -103,11 +103,6 @@ export default class SketchingEnhancedController {
         this.activateTool(sketchingEnhancedModel.activeTool);
     }
 
-    showSettings(): void {
-        const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        sketchingEnhancedModel.activeUi = "settings";
-    }
-
     watchForSketchingEnhancedModelEvents(): void {
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;

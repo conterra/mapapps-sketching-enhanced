@@ -22,10 +22,12 @@
         >
             <v-layout
                 row
-                wrap>
+                wrap
+            >
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.pointSymbolStyle }}
                 </v-flex>
                 <v-flex xs8>
@@ -40,7 +42,8 @@
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.pointSymbolSize }}
                 </v-flex>
                 <v-flex xs8>
@@ -55,19 +58,22 @@
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.pointSymbolColor }}
                 </v-flex>
                 <v-flex
                     xs8
-                    pt-2>
+                    pt-2
+                >
                     <color-picker
                         v-model="pointSymbolColor"
                     />
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.pointSymbolOutlineWidth }}
                 </v-flex>
                 <v-flex xs8>
@@ -82,12 +88,14 @@
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.pointSymbolOutlineColor }}
                 </v-flex>
                 <v-flex
                     xs8
-                    pt-2>
+                    pt-2
+                >
                     <color-picker
                         v-model="pointSymbolOutlineColor"
                     />
@@ -99,10 +107,12 @@
         >
             <v-layout
                 row
-                wrap>
+                wrap
+            >
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.polylineSymbolStyle }}
                 </v-flex>
                 <v-flex xs8>
@@ -117,7 +127,8 @@
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.polylineSymbolWidth }}
                 </v-flex>
                 <v-flex xs8>
@@ -132,12 +143,14 @@
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.polylineSymbolColor }}
                 </v-flex>
                 <v-flex
                     xs8
-                    pt-2>
+                    pt-2
+                >
                     <color-picker
                         v-model="polylineSymbolColor"
                     />
@@ -149,10 +162,12 @@
         >
             <v-layout
                 row
-                wrap>
+                wrap
+            >
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.polygonSymbolStyle }}
                 </v-flex>
                 <v-flex xs8>
@@ -167,19 +182,22 @@
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.polygonSymbolColor }}
                 </v-flex>
                 <v-flex
                     xs8
-                    pt-2>
+                    pt-2
+                >
                     <color-picker
                         v-model="polygonSymbolColor"
                     />
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.polygonSymbolOutlineStyle }}
                 </v-flex>
                 <v-flex xs8>
@@ -194,7 +212,8 @@
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.pointSymbolOutlineWidth }}
                 </v-flex>
                 <v-flex xs8>
@@ -209,12 +228,14 @@
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.polygonSymbolOutlineColor }}
                 </v-flex>
                 <v-flex
                     xs8
-                    pt-2>
+                    pt-2
+                >
                     <color-picker
                         v-model="polygonSymbolOutlineColor"
                     />
@@ -226,10 +247,12 @@
         >
             <v-layout
                 row
-                wrap>
+                wrap
+            >
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.textSymbolText }}
                 </v-flex>
                 <v-flex xs8>
@@ -244,7 +267,8 @@
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.textSymbolFontSize }}
                 </v-flex>
                 <v-flex xs8>
@@ -259,7 +283,8 @@
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.textSymbolFontWeight }}
                 </v-flex>
                 <v-flex xs8>
@@ -274,12 +299,14 @@
                 </v-flex>
                 <v-flex
                     xs4
-                    class="label">
+                    class="label"
+                >
                     {{ i18n.textSymbolColor }}
                 </v-flex>
                 <v-flex
                     xs8
-                    pt-2>
+                    pt-2
+                >
                     <color-picker
                         v-model="textSymbolColor"
                     />

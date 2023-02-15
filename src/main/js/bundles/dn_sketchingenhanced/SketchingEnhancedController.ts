@@ -16,8 +16,9 @@
 
 import SketchViewModel from "esri/widgets/Sketch/SketchViewModel";
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
-import Binding from "apprt-binding/Binding";
-import type {InjectedReference} from "apprt-core/InjectedReference";
+import Binding, { WatchHandle } from "apprt-binding/Binding";
+import type { InjectedReference } from "apprt-core/InjectedReference";
+import { createObservers } from "apprt-core/Observers";
 import Collection from "esri/core/Collection";
 import Layer from "esri/layers/Layer";
 
@@ -26,10 +27,11 @@ export default class SketchingEnhancedController {
     private readonly sketchViewModel: SketchViewModel;
     private readonly sketchingEnhancedModel: typeof SketchingEnhancedModel;
     private readonly mapWidgetModel: InjectedReference<any>;
-    private snappingBinding: any;
+    private layersWatcher: WatchHandle;
+    private observers = createObservers();
 
     constructor(sketchViewModel: typeof SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
-                mapWidgetModel: any) {
+        mapWidgetModel: any) {
         this.sketchViewModel = sketchViewModel;
         this.sketchingEnhancedModel = sketchingEnhancedModel;
         this.mapWidgetModel = mapWidgetModel;
@@ -103,103 +105,127 @@ export default class SketchingEnhancedController {
         this.activateTool(sketchingEnhancedModel.activeTool);
     }
 
+    createWatchers(): void {
+        this.layersWatcher = this.watchForChangedLayers();
+        this.watchForSketchingEnhancedModelEvents();
+        this.watchForSketchViewModelEvents();
+    }
+
+    removeWatchers(): void {
+        this.layersWatcher.remove();
+        this.layersWatcher = undefined;
+    }
+
     watchForSketchingEnhancedModelEvents(): void {
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
 
-        sketchingEnhancedModel.watch("activeUi", (event) => {
+        this.observers.add(sketchingEnhancedModel.watch("activeUi", (event) => {
             // enable updateOnGraphicClick if activeUi equals edit
             sketchViewModel.updateOnGraphicClick = event.value === "edit";
-        });
+        }));
 
-        sketchingEnhancedModel.watch("pointSymbol", (event) => {
+        this.observers.add(sketchingEnhancedModel.watch("pointSymbol", (event) => {
             sketchViewModel.pointSymbol = event.value;
-        });
+        }));
 
-        sketchingEnhancedModel.watch("polylineSymbol", (event) => {
+        this.observers.add(sketchingEnhancedModel.watch("polylineSymbol", (event) => {
             sketchViewModel.polylineSymbol = event.value;
-        });
+        }));
 
-        sketchingEnhancedModel.watch("polygonSymbol", (event) => {
+        this.observers.add(sketchingEnhancedModel.watch("polygonSymbol", (event) => {
             sketchViewModel.polygonSymbol = event.value;
-        });
+        }));
 
-        sketchingEnhancedModel.watch("textSymbol", (event) => {
+        this.observers.add(sketchingEnhancedModel.watch("textSymbol", (event) => {
             sketchViewModel.pointSymbol = event.value;
-        });
+        }));
     }
 
     watchForSketchViewModelEvents(): void {
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
 
-        sketchViewModel.on("create", (event) => {
+        this.observers.add(sketchViewModel.on("create", (event) => {
             this.refreshUndoRedo();
             // enable sketching tool again after complete
             if (event.state === "complete") {
                 const activeTool = sketchingEnhancedModel.activeTool;
                 this.activateTool(activeTool);
             }
-        });
+        }));
 
-        sketchViewModel.on("delete", () => {
+        this.observers.add(sketchViewModel.on("delete", () => {
             this.refreshUndoRedo();
-        });
+        }));
 
-        sketchViewModel.on("update", (evt) => {
+        this.observers.add(sketchViewModel.on("update", (evt) => {
             if (evt.state === "start") {
                 sketchingEnhancedModel.canDelete = true;
             } else if (evt.state === "complete") {
                 sketchingEnhancedModel.canDelete = false;
             }
             this.refreshUndoRedo();
-        });
+        }));
 
-        sketchViewModel.on("undo", () => {
+        this.observers.add(sketchViewModel.on("undo", () => {
             this.refreshUndoRedo();
-        });
+        }));
 
-        sketchViewModel.on("redo", () => {
+        this.observers.add(sketchViewModel.on("redo", () => {
             this.refreshUndoRedo();
+        }));
+    }
+
+    watchForChangedLayers(): WatchHandle {
+        const mapWidgetModel = this.mapWidgetModel;
+        const map = mapWidgetModel.map;
+        const layers = map.allLayers;
+        return layers.on("change", ({added, removed}) => {
+            this.changeSnappingFeatureSources(added, removed);
         });
     }
 
-    createSnappingBinding(): void {
+    addSnappingFeatureSources(): void {
+        const mapWidgetModel = this.mapWidgetModel;
+        const map = mapWidgetModel.map;
+        const layers = map.allLayers;
+        this.changeSnappingFeatureSources(layers, []);
+    }
+
+    removeSnappingFeatureSources(): void {
+        const mapWidgetModel = this.mapWidgetModel;
+        const map = mapWidgetModel.map;
+        const layers = map.allLayers;
+        this.changeSnappingFeatureSources([], layers);
+    }
+
+    createSnappingBinding(): Binding {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         const sketchViewModel = this.sketchViewModel;
         const snappingOptions = sketchViewModel.snappingOptions;
-        const getSnappingFeatureSources = (featureSources) => {
-            return featureSources.toArray().map((featureSource) => {
-                return {
-                    id: featureSource.layer.uid,
-                    title: featureSource.layer.title,
-                    enabled: featureSource.enabled
-                };
-            });
-        };
+        const getSnappingFeatureSources = (featureSources) => featureSources.toArray().map((featureSource) => {
+            return {
+                id: featureSource.layer.uid,
+                title: featureSource.layer.title,
+                enabled: featureSource.enabled
+            };
+        });
 
         snappingOptions.featureSources.on("change", () => {
             snappingOptions.featureSources.forEach((featureSource) => {
-                featureSource.watch("enabled", (enabled) => {
-                    sketchingEnhancedModel.snappingFeatureSources = getSnappingFeatureSources(snappingOptions.featureSources);
+                featureSource.watch("enabled", () => {
+                    sketchingEnhancedModel.snappingFeatureSources
+                        = getSnappingFeatureSources(snappingOptions.featureSources);
                 });
             });
             sketchingEnhancedModel.snappingFeatureSources = getSnappingFeatureSources(snappingOptions.featureSources);
         });
 
-        const mapWidgetModel = this.mapWidgetModel;
-        const map = mapWidgetModel.map;
-        const layers = map.allLayers;
-        this.changeSnappingFeatureSources(layers, []);
-        layers.on("change", ({added, removed}) => {
-            this.changeSnappingFeatureSources(added, removed);
-        });
-
-        this.snappingBinding = Binding.for(sketchViewModel.snappingOptions, sketchingEnhancedModel)
+        return Binding.for(sketchViewModel.snappingOptions, sketchingEnhancedModel)
             .sync("enabled", "snappingEnabled")
             .sync("featureEnabled", "snappingFeatureEnabled")
-            .sync("selfEnabled", "snappingSelfEnabled")
-            .enable();
+            .sync("selfEnabled", "snappingSelfEnabled");
     }
 
     changeSnappingFeatureSource(id: string): void {

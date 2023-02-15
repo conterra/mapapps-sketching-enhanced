@@ -17,7 +17,7 @@
 import type {InjectedReference} from "apprt-core/InjectedReference";
 import {Vue} from "apprt-vue/module";
 import VueDijit from "apprt-vue/VueDijit";
-import Binding, {Bindable} from "apprt-binding/Binding";
+import Binding, {Bindable, WatchHandle} from "apprt-binding/Binding";
 import SketchViewModel from "esri/widgets/Sketch/SketchViewModel";
 import GraphicsLayer from "esri/layers/GraphicsLayer";
 import SketchingEnhancedWidget from "./SketchingEnhancedWidget.vue";
@@ -34,6 +34,7 @@ export default class QueryBuilderWidgetFactory {
     private _mapWidgetModel!: InjectedReference<any>;
     private sketchViewModel: SketchViewModel;
     private sketchViewModelBinding: Bindable;
+    private snappingBinding: Bindable;
 
     activate(): void {
         const sketchingEnhancedModel = this._sketchingEnhancedModel;
@@ -58,11 +59,20 @@ export default class QueryBuilderWidgetFactory {
         const sketchViewModel = this.sketchViewModel;
 
         let sketchViewModelBinding = this.sketchViewModelBinding;
+        let snappingBinding = this.snappingBinding;
         widget.activateTool = function () {
+            controller.addSnappingFeatureSources();
+            controller.createWatchers();
+
+            snappingBinding.enable().syncToLeftNow();
             sketchViewModelBinding.enable().syncToLeftNow();
             controller.activateTool(sketchingEnhancedModel.initialActiveTool);
         };
         widget.deactivateTool = function () {
+            controller.removeSnappingFeatureSources();
+            controller.removeWatchers();
+
+            snappingBinding.disable();
             sketchViewModelBinding.disable();
             sketchViewModel.cancel();
             sketchViewModel.updateOnGraphicClick = false;
@@ -70,6 +80,8 @@ export default class QueryBuilderWidgetFactory {
 
         widget.own({
             remove() {
+                snappingBinding.unbind();
+                snappingBinding = undefined;
                 sketchViewModelBinding.unbind();
                 sketchViewModelBinding = undefined;
                 this.vm.$off();
@@ -83,6 +95,8 @@ export default class QueryBuilderWidgetFactory {
         const vm = this.vm = new Vue(SketchingEnhancedWidget);
         vm.i18n = i18n;
         vm.snappingControlsNode = document.createElement("div");
+
+        this.snappingBinding = controller.createSnappingBinding();
 
         this.sketchViewModelBinding = Binding.for(vm, sketchingEnhancedModel)
             .syncAll("activeTool", "activeUi", "canUndo", "canRedo", "canDelete")
@@ -118,10 +132,6 @@ export default class QueryBuilderWidgetFactory {
         vm.$on("feature-source-changed", (featureSource) => {
             this.controller.changeSnappingFeatureSource(featureSource.id);
         });
-
-        controller.watchForSketchingEnhancedModelEvents();
-        controller.watchForSketchViewModelEvents();
-        controller.createSnappingBinding();
     }
 
     private getView() {

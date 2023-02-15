@@ -70,32 +70,62 @@
                     "type": "simple-marker",
                     "style": "circle",
                     "size": 6,
-                    "color": [255, 255, 255, 1],
+                    "color": {
+                        "r": 255,
+                        "g": 255,
+                        "b": 255,
+                        "a": 1
+                    },
                     "outline": {
                         "style": "solid",
                         "width": 1,
-                        "color": [50, 0, 0, 1]
+                        "color": {
+                            "r": 50,
+                            "g": 0,
+                            "b": 0,
+                            "a": 1
+                        }
                     }
                 },
                 "polylineSymbol": {
                     "type": "simple-line",
                     "style": "solid",
                     "width": 2,
-                    "color": [50, 50, 50, 1]
+                    "color": {
+                        "r": 50,
+                        "g": 50,
+                        "b": 50,
+                        "a": 1
+                    }
                 },
                 "polygonSymbol": {
                     "type": "simple-fill",
                     "style": "solid",
-                    "color": [150, 150, 150, 0.2],
+                    "color": {
+                        "r": 150,
+                        "g": 150,
+                        "b": 150,
+                        "a": 0.2
+                    },
                     "outline": {
                         "style": "solid",
-                        "color": [50, 50, 50, 1],
+                        "color": {
+                            "r": 50,
+                            "g": 50,
+                            "b": 50,
+                            "a": 1
+                        },
                         "width": 2
                     }
                 },
                 "textSymbol": {
                     "type": "text",
-                    "color": [50, 50, 50, 1],
+                    "color": {
+                        "r": 50,
+                        "g": 50,
+                        "b": 50,
+                        "a": 1
+                    },
                     "font": {
                         "size": 9,
                         "family": "sans-serif",

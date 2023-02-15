@@ -21,6 +21,7 @@ import type { InjectedReference } from "apprt-core/InjectedReference";
 import { createObservers } from "apprt-core/Observers";
 import Collection from "esri/core/Collection";
 import Layer from "esri/layers/Layer";
+import EsriSymbol from "esri/symbols/Symbol";
 
 export default class SketchingEnhancedController {
 
@@ -29,6 +30,7 @@ export default class SketchingEnhancedController {
     private readonly mapWidgetModel: InjectedReference<any>;
     private layersWatcher: WatchHandle;
     private observers = createObservers();
+    private editObservers = createObservers();
 
     constructor(sketchViewModel: typeof SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
         mapWidgetModel: any) {
@@ -40,6 +42,7 @@ export default class SketchingEnhancedController {
     activateTool(tool: string): void {
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        this.deactivateEdit();
         switch (tool) {
             case "point":
                 sketchViewModel.pointSymbol = sketchingEnhancedModel.pointSymbol;
@@ -89,8 +92,53 @@ export default class SketchingEnhancedController {
     activateEdit(): void {
         const sketchViewModel = this.sketchViewModel;
         sketchViewModel.cancel();
+        sketchViewModel.updateOnGraphicClick = true;
+        sketchViewModel.view.popup.autoOpenEnabled = false;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        sketchingEnhancedModel.activeUi = "edit";
+        sketchingEnhancedModel.activeTool = null;
+        sketchingEnhancedModel.editEnabled = true;
+
+        this.editObservers.add(sketchingEnhancedModel.watch("editSymbol", ({ value: editSymbol }) => {
+            sketchViewModel.updateGraphics.forEach((graphic) => {
+                if(graphic.symbol.type === editSymbol.type) {
+                    graphic.symbol = editSymbol;
+                }
+            });
+        }));
+
+        this.editObservers.add(sketchViewModel.on("update", (event) => {
+            const graphic = event.graphics.length ? event.graphics[0] : null;
+            if(graphic) {
+                sketchingEnhancedModel.editSymbol = graphic.symbol;
+                switch(graphic.geometry.type) {
+                    case "point":
+                        if(graphic.symbol.text) {
+                            sketchingEnhancedModel.activeUi = "text";
+                        } else {
+                            sketchingEnhancedModel.activeUi = "point";
+                        }
+                        break;
+                    case "polyline":
+                        sketchingEnhancedModel.activeUi = "polyline";
+                        break;
+                    case "polygon":
+                        sketchingEnhancedModel.activeUi = "polygon";
+                        break;
+                    default:
+                        sketchingEnhancedModel.activeUi = "point";
+                }
+            }
+        }));
+    }
+
+    deactivateEdit(): void {
+        const sketchViewModel = this.sketchViewModel;
+        sketchViewModel.updateOnGraphicClick = false;
+        sketchViewModel.view.popup.autoOpenEnabled = true;
+        const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        sketchingEnhancedModel.editEnabled = false;
+        sketchingEnhancedModel.editSymbol = undefined;
+        this.editObservers.destroy();
     }
 
     deleteGraphic(): void {
@@ -101,6 +149,7 @@ export default class SketchingEnhancedController {
     cancelSketching(): void {
         const sketchViewModel = this.sketchViewModel;
         sketchViewModel.cancel();
+        this.deactivateEdit();
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         this.activateTool(sketchingEnhancedModel.activeTool);
     }
@@ -119,11 +168,6 @@ export default class SketchingEnhancedController {
     watchForSketchingEnhancedModelEvents(): void {
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
-
-        this.observers.add(sketchingEnhancedModel.watch("activeUi", (event) => {
-            // enable updateOnGraphicClick if activeUi equals edit
-            sketchViewModel.updateOnGraphicClick = event.value === "edit";
-        }));
 
         this.observers.add(sketchingEnhancedModel.watch("pointSymbol", (event) => {
             sketchViewModel.pointSymbol = event.value;

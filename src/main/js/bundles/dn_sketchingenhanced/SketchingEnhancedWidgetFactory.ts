@@ -100,9 +100,10 @@ export default class QueryBuilderWidgetFactory {
 
         this.sketchViewModelBinding = Binding.for(vm, sketchingEnhancedModel)
             .syncAll("activeTool", "activeUi", "canUndo", "canRedo", "canDelete")
-            .syncAll("snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
+            .syncAll("editEnabled", "snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
             .syncAllToLeft("snappingFeatureSources")
             .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol")
+            .syncAll("editSymbol")
             .syncToLeftNow();
 
         vm.pointSymbol = sketchingEnhancedModel.pointSymbol;

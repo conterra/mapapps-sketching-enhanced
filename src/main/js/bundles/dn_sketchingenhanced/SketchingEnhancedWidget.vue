@@ -38,13 +38,12 @@
             </v-btn>
             <v-btn
                 icon
-                :disabled="!activeTool"
                 @click="$emit('cancel')"
             >
                 <v-icon>cancel</v-icon>
             </v-btn>
             <v-btn
-                :input-value="activeUi === 'edit'"
+                :input-value="editEnabled"
                 icon
                 @click="$emit('edit')"
             >
@@ -62,7 +61,7 @@
                 offset-x
                 :close-on-content-click="false"
             >
-                <template v-slot:activator="{ on }">
+                <template #activator="{ on }">
                     <v-btn
                         flat
                         color="secondary"
@@ -70,7 +69,9 @@
                         v-on="on"
                     >
                         {{ i18n.settings }}
-                        <v-icon right>icon-drawing-settings</v-icon>
+                        <v-icon right>
+                            icon-drawing-settings
+                        </v-icon>
                     </v-btn>
                 </template>
                 <v-card class="pa-2 dn_sketchingenhanced--settings-menu">
@@ -98,13 +99,22 @@
                 />
             </div>
             <div class="center ct-flex-item overflowAuto px-3">
-                <div v-if="activeUi === 'edit'">
+                <div v-if="editEnabled">
                     <v-alert
-                        :value="true"
+                        :value="editEnabled"
                         type="info"
                     >
                         {{ i18n.editHint }}
                     </v-alert>
+                    <symbol-settings
+                        v-if="editSymbol"
+                        :i18n="i18n.symbolSettings"
+                        :active-ui="activeUi"
+                        :point-symbol.sync="editSymbol"
+                        :polyline-symbol.sync="editSymbol"
+                        :polygon-symbol.sync="editSymbol"
+                        :text-symbol.sync="editSymbol"
+                    />
                 </div>
                 <div v-else>
                     <symbol-settings
@@ -160,6 +170,10 @@
                 type: Boolean,
                 default: false
             },
+            editEnabled: {
+                type: Boolean,
+                default: false
+            },
             snappingEnabled: {
                 type: Boolean,
                 default: false
@@ -198,6 +212,12 @@
                 type: Object,
                 default: function () {
                     return {};
+                }
+            },
+            editSymbol: {
+                type: Object,
+                default: function () {
+                    return undefined;
                 }
             }
         }

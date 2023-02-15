@@ -489,7 +489,7 @@
                     return this.pointSymbol.style;
                 },
                 set: function (style) {
-                    const pointSymbol = Object.assign({}, this.pointSymbol);
+                    const pointSymbol = this.cloneSymbol(this.pointSymbol);
                     pointSymbol.style = style;
                     this.$emit("update:point-symbol", pointSymbol);
                 }
@@ -499,25 +499,19 @@
                     return this.pointSymbol.size;
                 },
                 set: function (size) {
-                    const pointSymbol = Object.assign({}, this.pointSymbol);
+                    const pointSymbol = this.cloneSymbol(this.pointSymbol);
                     pointSymbol.size = size;
                     this.$emit("update:point-symbol", pointSymbol);
                 }
             },
             pointSymbolColor: {
                 get: function () {
-                    const color = this.pointSymbol.color;
-                    return {
-                        r: color[0],
-                        g: color[1],
-                        b: color[2],
-                        a: color[3]
-                    };
+                    return this.pointSymbol.color;
                 },
                 set: function (color) {
                     const rgba = color.rgba;
-                    const pointSymbol = Object.assign({}, this.pointSymbol);
-                    pointSymbol.color = [rgba.r, rgba.g, rgba.b, rgba.a];
+                    const pointSymbol = this.cloneSymbol(this.pointSymbol);
+                    pointSymbol.color = rgba;
                     this.$emit("update:point-symbol", pointSymbol);
                 }
             },
@@ -526,25 +520,19 @@
                     return this.pointSymbol.outline.width;
                 },
                 set: function (width) {
-                    const pointSymbol = Object.assign({}, this.pointSymbol);
+                    const pointSymbol = this.cloneSymbol(this.pointSymbol);
                     pointSymbol.outline.width = width;
                     this.$emit("update:point-symbol", pointSymbol);
                 }
             },
             pointSymbolOutlineColor: {
                 get: function () {
-                    const color = this.pointSymbol.outline.color;
-                    return {
-                        r: color[0],
-                        g: color[1],
-                        b: color[2],
-                        a: color[3]
-                    };
+                    return this.pointSymbol.outline.color;
                 },
                 set: function (color) {
                     const rgba = color.rgba;
-                    const pointSymbol = Object.assign({}, this.pointSymbol);
-                    pointSymbol.outline.color = [rgba.r, rgba.g, rgba.b, rgba.a];
+                    const pointSymbol = this.cloneSymbol(this.pointSymbol);
+                    pointSymbol.outline.color = rgba;
                     this.$emit("update:point-symbol", pointSymbol);
                 }
             },
@@ -553,7 +541,7 @@
                     return this.polylineSymbol.style;
                 },
                 set: function (style) {
-                    const polylineSymbol = Object.assign({}, this.polylineSymbol);
+                    const polylineSymbol = this.cloneSymbol(this.polylineSymbol);
                     polylineSymbol.style = style;
                     this.$emit("update:polyline-symbol", polylineSymbol);
                 }
@@ -563,25 +551,19 @@
                     return this.polylineSymbol.width;
                 },
                 set: function (width) {
-                    const polylineSymbol = Object.assign({}, this.polylineSymbol);
+                    const polylineSymbol = this.cloneSymbol(this.polylineSymbol);
                     polylineSymbol.width = width;
                     this.$emit("update:polyline-symbol", polylineSymbol);
                 }
             },
             polylineSymbolColor: {
                 get: function () {
-                    const color = this.polylineSymbol.color;
-                    return {
-                        r: color[0],
-                        g: color[1],
-                        b: color[2],
-                        a: color[3]
-                    };
+                    return this.polylineSymbol.color;
                 },
                 set: function (color) {
                     const rgba = color.rgba;
-                    const polylineSymbol = Object.assign({}, this.polylineSymbol);
-                    polylineSymbol.color = [rgba.r, rgba.g, rgba.b, rgba.a];
+                    const polylineSymbol = this.cloneSymbol(this.polylineSymbol);
+                    polylineSymbol.color = rgba;
                     this.$emit("update:polyline-symbol", polylineSymbol);
                 }
             },
@@ -590,25 +572,19 @@
                     return this.polygonSymbol.style;
                 },
                 set: function (style) {
-                    const polygonSymbol = Object.assign({}, this.polygonSymbol);
+                    const polygonSymbol = this.cloneSymbol(this.polygonSymbol);
                     polygonSymbol.style = style;
                     this.$emit("update:polygon-symbol", polygonSymbol);
                 }
             },
             polygonSymbolColor: {
                 get: function () {
-                    const color = this.polygonSymbol.color;
-                    return {
-                        r: color[0],
-                        g: color[1],
-                        b: color[2],
-                        a: color[3]
-                    };
+                    return this.polygonSymbol.color;
                 },
                 set: function (color) {
                     const rgba = color.rgba;
-                    const polygonSymbol = Object.assign({}, this.polygonSymbol);
-                    polygonSymbol.color = [rgba.r, rgba.g, rgba.b, rgba.a];
+                    const polygonSymbol = this.cloneSymbol(this.polygonSymbol);
+                    polygonSymbol.color = rgba;
                     this.$emit("update:polygon-symbol", polygonSymbol);
                 }
             },
@@ -617,7 +593,7 @@
                     return this.polygonSymbol.outline.style;
                 },
                 set: function (style) {
-                    const polygonSymbol = Object.assign({}, this.polygonSymbol);
+                    const polygonSymbol = this.cloneSymbol(this.polygonSymbol);
                     polygonSymbol.outline.style = style;
                     this.$emit("update:polygon-symbol", polygonSymbol);
                 }
@@ -627,25 +603,19 @@
                     return this.polygonSymbol.outline.width;
                 },
                 set: function (width) {
-                    const polygonSymbol = Object.assign({}, this.polygonSymbol);
+                    const polygonSymbol = this.cloneSymbol(this.polygonSymbol);
                     polygonSymbol.outline.width = width;
                     this.$emit("update:polygon-symbol", polygonSymbol);
                 }
             },
             polygonSymbolOutlineColor: {
                 get: function () {
-                    const color = this.polygonSymbol.outline.color;
-                    return {
-                        r: color[0],
-                        g: color[1],
-                        b: color[2],
-                        a: color[3]
-                    };
+                    return this.polygonSymbol.outline.color;
                 },
                 set: function (color) {
                     const rgba = color.rgba;
-                    const polygonSymbol = Object.assign({}, this.polygonSymbol);
-                    polygonSymbol.outline.color = [rgba.r, rgba.g, rgba.b, rgba.a];
+                    const polygonSymbol = this.cloneSymbol(this.polygonSymbol);
+                    polygonSymbol.outline.color = rgba;
                     this.$emit("update:polygon-symbol", polygonSymbol);
                 }
             },
@@ -654,7 +624,7 @@
                     return this.textSymbol.text;
                 },
                 set: function (text) {
-                    const textSymbol = Object.assign({}, this.textSymbol);
+                    const textSymbol = this.cloneSymbol(this.textSymbol);
                     textSymbol.text = text;
                     this.$emit("update:text-symbol", textSymbol);
                 }
@@ -664,7 +634,7 @@
                     return this.textSymbol.font.size;
                 },
                 set: function (size) {
-                    const textSymbol = Object.assign({}, this.textSymbol);
+                    const textSymbol = this.cloneSymbol(this.textSymbol);
                     textSymbol.font.size = size;
                     this.$emit("update:text-symbol", textSymbol);
                 }
@@ -674,26 +644,29 @@
                     return this.textSymbol?.font?.weight || "normal";
                 },
                 set: function (weight) {
-                    const textSymbol = Object.assign({}, this.textSymbol);
+                    const textSymbol = this.cloneSymbol(this.textSymbol);
                     textSymbol.font.weight = weight;
                     this.$emit("update:text-symbol", textSymbol);
                 }
             },
             textSymbolColor: {
                 get: function () {
-                    const color = this.textSymbol.color;
-                    return {
-                        r: color[0],
-                        g: color[1],
-                        b: color[2],
-                        a: color[3]
-                    };
+                    return this.textSymbol.color;
                 },
                 set: function (color) {
                     const rgba = color.rgba;
-                    const textSymbol = Object.assign({}, this.textSymbol);
-                    textSymbol.color = [rgba.r, rgba.g, rgba.b, rgba.a];
+                    const textSymbol = this.cloneSymbol(this.textSymbol);
+                    textSymbol.color = rgba;
                     this.$emit("update:text-symbol", textSymbol);
+                }
+            }
+        },
+        methods: {
+            cloneSymbol(symbol) {
+                if(symbol.clone) {
+                    return symbol.clone();
+                } else {
+                    return Object.assign({}, symbol);
                 }
             }
         }

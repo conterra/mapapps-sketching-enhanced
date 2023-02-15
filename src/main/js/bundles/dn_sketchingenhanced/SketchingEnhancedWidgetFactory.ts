@@ -23,7 +23,7 @@ import GraphicsLayer from "esri/layers/GraphicsLayer";
 import SketchingEnhancedWidget from "./SketchingEnhancedWidget.vue";
 import SketchingEnhancedController from "dn_sketchingenhanced/SketchingEnhancedController";
 
-const LAYER_ID = "sketching-enhanced-graphics";
+const LAYER_ID = "sketch-graphics";
 
 export default class QueryBuilderWidgetFactory {
 

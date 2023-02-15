@@ -57,7 +57,7 @@
             "provides": "dn_sketchingenhanced.SketchingEnhancedModel",
             "propertiesConstructor": true,
             "properties": {
-                "graphicsLayerId": "sketching-enhanced-graphics",
+                "graphicsLayerId": "sketch-graphics",
                 "graphicsLayerTitle": "${ui.graphicsLayerTitle}",
                 "graphicsLayerListMode": "hide",
                 "initialActiveTool": "point",

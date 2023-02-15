@@ -7,8 +7,8 @@
     "keywords": [
         "sample"
     ],
+    "main": "",
     "icon": {},
-    "license": {},
     "productName": "devnet-mapapps-sketching-enhanced",
     "dependencies": {
         "dn_vuecolor": "^2.0.0",

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module.exports = {
+export default {
     bundleName: "Erweitertes Zeichnen",
     bundleDescription: "Dieses Bundle fügt der App erweiterte Zeichenfunktionalität hinzu.",
     tool: {

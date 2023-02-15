@@ -33,7 +33,8 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     polylineSymbol: {},
     polygonSymbol: {},
     textSymbol: {},
-    editSymbol: {}
+    editSymbol: {},
+    distanceUnit: "meters"
 }): Impl & MutableType<P> {
     properties(mutableDefinition, mutableProperties);
     return mutableDefinition;
@@ -57,7 +58,8 @@ interface SketchingEnhancedModelProps {
     polylineSymbol: EsriSymbol,
     polygonSymbol: EsriSymbol,
     textSymbol: EsriSymbol,
-    editSymbol: EsriSymbol
+    editSymbol: EsriSymbol,
+    distanceUnit: string
 }
 
 export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
@@ -76,5 +78,6 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         polylineSymbol: {},
         polygonSymbol: {},
         textSymbol: {},
-        editSymbol: undefined
+        editSymbol: undefined,
+        distanceUnit: "meters"
     });

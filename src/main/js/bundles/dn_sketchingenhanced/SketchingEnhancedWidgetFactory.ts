@@ -32,7 +32,7 @@ export default class QueryBuilderWidgetFactory {
     private _i18n!: InjectedReference<any>;
     private _sketchingEnhancedModel!: InjectedReference<any>;
     private _mapWidgetModel!: InjectedReference<any>;
-    private sketchViewModel: SketchViewModel;
+    private sketchViewModel: __esri.SketchViewModel;
     private sketchViewModelBinding: Bindable;
     private snappingBinding: Bindable;
 
@@ -42,7 +42,7 @@ export default class QueryBuilderWidgetFactory {
         const graphicsLayer = findOrBuildGraphicsLayer(sketchingEnhancedModel, mapWidgetModel);
         const sketchViewModel = this.sketchViewModel = createSketchViewModel(sketchingEnhancedModel, graphicsLayer);
         const controller = this.controller =
-            new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel, mapWidgetModel);
+            new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel, mapWidgetModel, graphicsLayer);
         this.getView().then((view) => {
             sketchViewModel.view = view;
         });

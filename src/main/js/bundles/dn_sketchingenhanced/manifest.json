@@ -133,7 +133,38 @@
                     },
                     "horizontalAlignment": "left",
                     "verticalAlignment": "baseline"
-                }
+                },
+                "distanceUnits": [
+                    {
+                        "name": "meters",
+                        "abbreviation": "m",
+                        "title": "${ui.units.meters}"
+                    },
+                    {
+                        "name": "kilometers",
+                        "abbreviation": "km",
+                        "title": "${ui.units.kilometers}"
+                    }
+                ],
+                "distanceUnit": "meters",
+                "areaUnits": [
+                    {
+                        "name": "square-meters",
+                        "abbreviation": "m²",
+                        "title": "${ui.units.square-meters}"
+                    },
+                    {
+                        "name": "square-kilometers",
+                        "abbreviation": "km²",
+                        "title": "${ui.units.square-kilometers}"
+                    },
+                    {
+                        "name": "hectares",
+                        "abbreviation": "ha",
+                        "title": "${ui.units.hectares}"
+                    }
+                ],
+                "areaUnit": "square-meters"
             }
         },
         {

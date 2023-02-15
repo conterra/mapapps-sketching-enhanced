@@ -14,32 +14,33 @@
 /// limitations under the License.
 ///
 
-import SketchViewModel from "esri/widgets/Sketch/SketchViewModel";
-import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
+import SketchingEnhancedModel from "./SketchingEnhancedModel";
+import MeasurementController from "./measurement/MeasurementController";
 import Binding, { WatchHandle } from "apprt-binding/Binding";
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import { createObservers } from "apprt-core/Observers";
-import Collection from "esri/core/Collection";
-import Layer from "esri/layers/Layer";
-import EsriSymbol from "esri/symbols/Symbol";
 
 export default class SketchingEnhancedController {
 
-    private readonly sketchViewModel: SketchViewModel;
+    private readonly sketchViewModel: __esri.SketchViewModel;
     private readonly sketchingEnhancedModel: typeof SketchingEnhancedModel;
     private readonly mapWidgetModel: InjectedReference<any>;
+    private measurementController: MeasurementController;
     private layersWatcher: WatchHandle;
     private observers = createObservers();
     private editObservers = createObservers();
 
-    constructor(sketchViewModel: typeof SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
-        mapWidgetModel: any) {
+    constructor(sketchViewModel: __esri.SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
+        mapWidgetModel: any, graphicsLayer: __esri.GraphicsLayer) {
         this.sketchViewModel = sketchViewModel;
         this.sketchingEnhancedModel = sketchingEnhancedModel;
         this.mapWidgetModel = mapWidgetModel;
+        this.measurementController = new MeasurementController(sketchViewModel, sketchingEnhancedModel, graphicsLayer);
     }
 
     activateTool(tool: string): void {
+        // TODO: Add enable ui for measurem
+        this.measurementController.activateMeasuring();
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         this.deactivateEdit();
@@ -284,21 +285,21 @@ export default class SketchingEnhancedController {
         });
     }
 
-    private changeSnappingFeatureSources(added: Collection, removed: Collection) {
+    private changeSnappingFeatureSources(added: __esri.Collection, removed: __esri.Collection) {
         const sketchViewModel = this.sketchViewModel;
         const snappingOptions = sketchViewModel.snappingOptions;
 
         const contained = (featureSources, layer) =>
             featureSources.find((featureSource) => featureSource.layer === layer);
 
-        added.forEach((layer) => {
+        added.forEach((layer: __esri.Layer) => {
             if (this.isSnappableLayer(layer) && !contained(snappingOptions.featureSources, layer)) {
                 snappingOptions.featureSources.push({
                     layer: layer, enabled: true
                 });
             }
         });
-        removed.forEach((layer) => {
+        removed.forEach((layer: __esri.Layer) => {
             const snappingFeatureSource = contained(snappingOptions.featureSources, layer);
             if (this.isSnappableLayer(layer) && contained(snappingOptions.featureSources, layer)) {
                 snappingOptions.featureSources.remove(snappingFeatureSource);
@@ -306,7 +307,7 @@ export default class SketchingEnhancedController {
         });
     }
 
-    private isSnappableLayer(layer: Layer): boolean {
+    private isSnappableLayer(layer: __esri.Layer): boolean {
         return (layer.type === "feature" || layer.type === "graphics"
             || layer.type === "geojson" || layer.type === "wfs" || layer.type === "csv") && !layer.internal;
     }

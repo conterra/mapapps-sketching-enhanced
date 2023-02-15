@@ -35,6 +35,7 @@ export default {
             rectangleTool: "Rectangle",
             textTool: "Text",
             editHint: "Click on a graphic in the map to edit it.",
+            toolHint: "Select a sketching tool to draw on map.",
             settings: "Settings",
             snappingSettings: {
                 title: "Snapping controls",

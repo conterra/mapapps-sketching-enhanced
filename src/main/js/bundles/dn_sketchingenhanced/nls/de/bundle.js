@@ -34,6 +34,7 @@ export default {
         rectangleTool: "Rechteck",
         textTool: "Text",
         editHint: "Klicken Sie auf eine Grafik in der Karte, um diese zu editieren.",
+        toolHint: "Wählen Sie ein Zeichentool aus, um mit dem Zeichnen zu beginnen.",
         settings: "Einstellungen",
         snappingSettings: {
             title: "Fangen-Einstellungen",

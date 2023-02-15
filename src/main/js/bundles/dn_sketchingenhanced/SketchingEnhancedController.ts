@@ -86,6 +86,9 @@ export default class SketchingEnhancedController {
                 sketchingEnhancedModel.activeUi = "text";
                 sketchingEnhancedModel.activeTool = "text";
                 break;
+            default:
+                sketchingEnhancedModel.activeUi = undefined;
+                sketchingEnhancedModel.activeTool = undefined;
         }
     }
 

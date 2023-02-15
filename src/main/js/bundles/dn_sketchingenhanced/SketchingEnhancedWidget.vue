@@ -116,6 +116,14 @@
                         :text-symbol.sync="editSymbol"
                     />
                 </div>
+                <div v-else-if="!activeTool">
+                    <v-alert
+                        :value="true"
+                        type="info"
+                    >
+                        {{ i18n.toolHint }}
+                    </v-alert>
+                </div>
                 <div v-else>
                     <symbol-settings
                         :i18n="i18n.symbolSettings"

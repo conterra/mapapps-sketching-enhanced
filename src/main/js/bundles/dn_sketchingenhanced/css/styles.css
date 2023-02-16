@@ -48,3 +48,7 @@
 .ctAppRoot .sketching-enhanced-widget .navigation .v-list__group__header__append-icon {
     padding: 0 8px;
 }
+
+.ctAppRoot .vuetify-menues .vc-sketch {
+    color: #45474d;
+}

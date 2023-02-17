@@ -15,6 +15,7 @@
 ///
 
 import type {InjectedReference} from "apprt-core/InjectedReference";
+import async from "apprt-core/async";
 import {Vue} from "apprt-vue/module";
 import VueDijit from "apprt-vue/VueDijit";
 import Binding, {Bindable, WatchHandle} from "apprt-binding/Binding";
@@ -71,11 +72,12 @@ export default class QueryBuilderWidgetFactory {
         widget.deactivateTool = function () {
             controller.removeSnappingFeatureSources();
             controller.removeWatchers();
-
-            snappingBinding.disable();
-            sketchViewModelBinding.disable();
             sketchViewModel.cancel();
             sketchViewModel.updateOnGraphicClick = false;
+            async(() => {
+                snappingBinding.disable();
+                sketchViewModelBinding.disable();
+            }, 500);
         };
 
         widget.own({
@@ -103,8 +105,7 @@ export default class QueryBuilderWidgetFactory {
             .syncAll("editEnabled", "snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
             .syncAllToLeft("snappingFeatureSources")
             .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol")
-            .syncAll("editSymbol")
-            .syncToLeftNow();
+            .syncAll("editSymbol");
 
         vm.pointSymbol = sketchingEnhancedModel.pointSymbol;
         vm.polylineSymbol = sketchingEnhancedModel.polylineSymbol;

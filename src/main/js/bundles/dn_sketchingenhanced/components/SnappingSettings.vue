@@ -26,7 +26,7 @@
             color="primary"
             class="mt-1"
             hide-details
-        ></v-switch>
+        />
         <v-switch
             v-model="selfEnabled"
             :label="i18n.snappingSelfEnabled"
@@ -34,7 +34,7 @@
             color="primary"
             class="mt-1"
             hide-details
-        ></v-switch>
+        />
         <v-switch
             v-model="featureEnabled"
             :label="i18n.snappingFeatureEnabled"
@@ -42,14 +42,17 @@
             color="primary"
             class="mt-1"
             hide-details
-        ></v-switch>
-        <div class="subheading my-2">{{ i18n.snappingFeatureSources }}</div>
+        />
+        <div class="subheading my-2">
+            {{ i18n.snappingFeatureSources }}
+        </div>
         <v-checkbox
             v-for="featureSource in featureSources"
             :key="featureSource.id"
             v-model="featureSource.enabled"
             :label="featureSource.title"
-            :disabled="!enabled || !featureEnabled || !featureSource.visible"
+            :disabled="!enabled || !featureEnabled
+                || !featureSource.isVisibleInHierarchy || !featureSource.isVisibleAtScale"
             color="primary"
             hide-details
             class="mt-1"

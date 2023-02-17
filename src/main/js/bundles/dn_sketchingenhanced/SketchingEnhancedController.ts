@@ -270,7 +270,7 @@ export default class SketchingEnhancedController {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
         const layers = map.allLayers;
-        return mapWidgetModel.watch("scale", ()=>{
+        return mapWidgetModel.watch("scale", () => {
             this.changeSnappingFeatureSources(layers, []);
         });
     }
@@ -279,7 +279,7 @@ export default class SketchingEnhancedController {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
         const layers = map.allLayers;
-        return mapWidgetModel.watch("scale", ()=>{
+        return mapWidgetModel.watch("scale", () => {
             this.changeSnappingFeatureSources(layers, []);
         });
     }
@@ -332,11 +332,15 @@ export default class SketchingEnhancedController {
     getSnappingFeatureSources(featureSources: Collection): any {
         return featureSources.toArray().map((featureSource) => {
             const isVisibleInHierarchy = this.isVisibleInHierarchy(featureSource.layer);
+            const isVisibleAtScale = this.isVisibleAtScale(featureSource.layer);
             return {
                 id: featureSource.layer.uid,
                 title: featureSource.layer.title,
-                visible: isVisibleInHierarchy,
-                enabled: isVisibleInHierarchy ? featureSource.enabled : false
+                // show the feature source as disabled if the layer is not visible in hierarchy
+                // because snapping does not work for disabled layers
+                enabled: isVisibleInHierarchy ? featureSource.enabled : false,
+                isVisibleInHierarchy: isVisibleInHierarchy,
+                isVisibleAtScale: isVisibleAtScale
             };
         });
     }
@@ -353,15 +357,12 @@ export default class SketchingEnhancedController {
     private changeSnappingFeatureSources(added: __esri.Collection, removed: __esri.Collection) {
         const sketchViewModel = this.sketchViewModel;
         const snappingOptions = sketchViewModel.snappingOptions;
-        const scale = sketchViewModel.view.scale;
-        const scale = sketchViewModel.view.scale;
 
         const contained = (featureSources, layer) =>
             featureSources.find((featureSource) => featureSource.layer === layer);
 
         added.forEach((layer) => {
-            if (this.isSnappableLayer(layer) && this.isVisibleAtScale(layer, scale)
-                && !contained(snappingOptions.featureSources, layer)) {
+            if (this.isSnappableLayer(layer) && !contained(snappingOptions.featureSources, layer)) {
                 snappingOptions.featureSources.push({
                     layer: layer, enabled: true
                 });
@@ -375,15 +376,15 @@ export default class SketchingEnhancedController {
         });
 
         snappingOptions.featureSources.forEach((featureSource)=>{
-            if(!this.isVisibleAtScale(featureSource.layer, scale)) {
-                snappingOptions.featureSources.remove(featureSource);
-            }
+            const layer = featureSource.layer;
+            // disable feature source if layer is not visible at scale to prevent query of all features
+            featureSource.enabled = this.isVisibleAtScale(layer);
         });
 
         snappingOptions.featureSources.forEach((featureSource)=>{
-            if(!this.isVisibleAtScale(featureSource.layer, scale)) {
-                snappingOptions.featureSources.remove(featureSource);
-            }
+            const layer = featureSource.layer;
+            // disable feature source if layer is not visible at scale to prevent query of all features
+            featureSource.enabled = this.isVisibleAtScale(layer);
         });
     }
 
@@ -392,7 +393,9 @@ export default class SketchingEnhancedController {
             || layer.type === "geojson" || layer.type === "wfs" || layer.type === "csv") && !layer.internal;
     }
 
-    private isVisibleAtScale(layer, scale) {
+    private isVisibleAtScale(layer) {
+        const mapWidgetModel = this.mapWidgetModel;
+        const scale = mapWidgetModel.scale;
         const minScale = layer.minScale || 0;
         const maxScale = layer.maxScale || 0;
         if (minScale === 0 && maxScale === 0) {

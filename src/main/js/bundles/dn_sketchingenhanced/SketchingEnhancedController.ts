@@ -21,7 +21,6 @@ import type { InjectedReference } from "apprt-core/InjectedReference";
 import { createObservers } from "apprt-core/Observers";
 import Collection from "esri/core/Collection";
 import Layer from "esri/layers/Layer";
-import EsriSymbol from "esri/symbols/Symbol";
 
 export default class SketchingEnhancedController {
 

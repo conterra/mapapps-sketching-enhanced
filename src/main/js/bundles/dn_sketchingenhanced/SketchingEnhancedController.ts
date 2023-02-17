@@ -156,7 +156,7 @@ export default class SketchingEnhancedController {
         this.activateTool(sketchingEnhancedModel.activeTool);
     }
 
-    private createWatchers(): void {
+    createWatchers(): void {
         this.layerVisibilityObservers = this.watchForLayerVisibility();
         this.layersWatcher = this.watchForChangedLayers();
         this.scaleWatcher = this.watchForChangedScale();
@@ -164,7 +164,7 @@ export default class SketchingEnhancedController {
         this.watchForSketchViewModelEvents();
     }
 
-    private removeWatchers(): void {
+    removeWatchers(): void {
         this.layerVisibilityObservers.destroy();
         this.layersWatcher.remove();
         this.layersWatcher = undefined;

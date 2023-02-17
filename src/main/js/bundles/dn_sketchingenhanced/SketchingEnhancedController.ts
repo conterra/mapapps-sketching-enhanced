@@ -19,8 +19,6 @@ import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel"
 import Binding, { WatchHandle } from "apprt-binding/Binding";
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import { createObservers } from "apprt-core/Observers";
-import Collection from "esri/core/Collection";
-import Layer from "esri/layers/Layer";
 
 export default class SketchingEnhancedController {
 
@@ -135,7 +133,7 @@ export default class SketchingEnhancedController {
         }));
     }
 
-    deactivateEdit(): void {
+    private deactivateEdit(): void {
         const sketchViewModel = this.sketchViewModel;
         sketchViewModel.updateOnGraphicClick = false;
         sketchViewModel.view.popup.autoOpenEnabled = true;
@@ -158,7 +156,7 @@ export default class SketchingEnhancedController {
         this.activateTool(sketchingEnhancedModel.activeTool);
     }
 
-    createWatchers(): void {
+    private createWatchers(): void {
         this.layerVisibilityObservers = this.watchForLayerVisibility();
         this.layersWatcher = this.watchForChangedLayers();
         this.scaleWatcher = this.watchForChangedScale();
@@ -166,7 +164,7 @@ export default class SketchingEnhancedController {
         this.watchForSketchViewModelEvents();
     }
 
-    removeWatchers(): void {
+    private removeWatchers(): void {
         this.layerVisibilityObservers.destroy();
         this.layersWatcher.remove();
         this.layersWatcher = undefined;
@@ -174,7 +172,7 @@ export default class SketchingEnhancedController {
         this.scaleWatcher = undefined;
     }
 
-    watchForSketchingEnhancedModelEvents(): void {
+    private watchForSketchingEnhancedModelEvents(): void {
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
 
@@ -195,7 +193,7 @@ export default class SketchingEnhancedController {
         }));
     }
 
-    watchForSketchViewModelEvents(): void {
+    private watchForSketchViewModelEvents(): void {
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
 
@@ -230,7 +228,7 @@ export default class SketchingEnhancedController {
         }));
     }
 
-    watchForLayerVisibility(): any {
+    private watchForLayerVisibility(): any {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
@@ -249,7 +247,7 @@ export default class SketchingEnhancedController {
         return observers;
     }
 
-    watchForChangedLayers(): WatchHandle {
+    private watchForChangedLayers(): WatchHandle {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
         const layers = map.allLayers;
@@ -258,7 +256,7 @@ export default class SketchingEnhancedController {
         });
     }
 
-    watchForChangedScale(): WatchHandle {
+    private watchForChangedScale(): WatchHandle {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
         const layers = map.allLayers;
@@ -303,16 +301,7 @@ export default class SketchingEnhancedController {
             .sync("selfEnabled", "snappingSelfEnabled");
     }
 
-    isVisibleInHierarchy(layer: __esri.Layer): boolean {
-        if (!layer.visible) return false;
-        const parentLayer = layer.parent;
-        if (parentLayer && parentLayer.declaredClass !== "esri.Map") {
-            return this.isVisibleInHierarchy(parentLayer);
-        }
-        return layer.visible;
-    }
-
-    getSnappingFeatureSources(featureSources: Collection): any {
+    private getSnappingFeatureSources(featureSources: __esri.Collection): any {
         return featureSources.toArray().map((featureSource) => {
             const isVisibleInHierarchy = this.isVisibleInHierarchy(featureSource.layer);
             const isVisibleAtScale = this.isVisibleAtScale(featureSource.layer);
@@ -337,7 +326,7 @@ export default class SketchingEnhancedController {
         });
     }
 
-    private changeSnappingFeatureSources(added: Collection, removed: Collection) {
+    private changeSnappingFeatureSources(added: __esri.Collection, removed: __esri.Collection) {
         const sketchViewModel = this.sketchViewModel;
         const snappingOptions = sketchViewModel.snappingOptions;
 
@@ -365,12 +354,12 @@ export default class SketchingEnhancedController {
         });
     }
 
-    private isSnappableLayer(layer: Layer): boolean {
+    private isSnappableLayer(layer: __esri.FeatureLayer): boolean {
         return (layer.type === "feature" || layer.type === "graphics"
             || layer.type === "geojson" || layer.type === "wfs" || layer.type === "csv") && !layer.internal;
     }
 
-    private isVisibleAtScale(layer) {
+    private isVisibleAtScale(layer: __esri.FeatureLayer): boolean {
         const mapWidgetModel = this.mapWidgetModel;
         const scale = mapWidgetModel.scale;
         const minScale = layer.minScale || 0;
@@ -379,6 +368,15 @@ export default class SketchingEnhancedController {
             return true;
         }
         return scale >= maxScale && (minScale !== 0 ? scale <= minScale : true);
+    }
+
+    private isVisibleInHierarchy(layer: __esri.FeatureLayer): boolean {
+        if (!layer.visible) return false;
+        const parentLayer = layer.parent;
+        if (parentLayer && parentLayer.declaredClass !== "esri.Map") {
+            return this.isVisibleInHierarchy(parentLayer);
+        }
+        return layer.visible;
     }
 
     private refreshUndoRedo(): void {

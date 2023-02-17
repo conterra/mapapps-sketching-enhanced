@@ -28,6 +28,7 @@ export default class SketchingEnhancedController {
     private measurementController: MeasurementController;
     private layersWatcher: WatchHandle;
     private scaleWatcher: WatchHandle;
+    private scaleWatcher: WatchHandle;
     private observers = createObservers();
     private editObservers = createObservers();
 
@@ -162,6 +163,7 @@ export default class SketchingEnhancedController {
     createWatchers(): void {
         this.layersWatcher = this.watchForChangedLayers();
         this.scaleWatcher = this.watchForChangedScale();
+        this.scaleWatcher = this.watchForChangedScale();
         this.watchForSketchingEnhancedModelEvents();
         this.watchForSketchViewModelEvents();
     }
@@ -169,6 +171,8 @@ export default class SketchingEnhancedController {
     removeWatchers(): void {
         this.layersWatcher.remove();
         this.layersWatcher = undefined;
+        this.scaleWatcher.remove();
+        this.scaleWatcher = undefined;
         this.scaleWatcher.remove();
         this.scaleWatcher = undefined;
     }
@@ -247,6 +251,15 @@ export default class SketchingEnhancedController {
         });
     }
 
+    watchForChangedScale(): WatchHandle {
+        const mapWidgetModel = this.mapWidgetModel;
+        const map = mapWidgetModel.map;
+        const layers = map.allLayers;
+        return mapWidgetModel.watch("scale", ()=>{
+            this.changeSnappingFeatureSources(layers, []);
+        });
+    }
+
     addSnappingFeatureSources(): void {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
@@ -302,11 +315,12 @@ export default class SketchingEnhancedController {
         const sketchViewModel = this.sketchViewModel;
         const snappingOptions = sketchViewModel.snappingOptions;
         const scale = sketchViewModel.view.scale;
+        const scale = sketchViewModel.view.scale;
 
         const contained = (featureSources, layer) =>
             featureSources.find((featureSource) => featureSource.layer === layer);
 
-        added.forEach((layer: __esri.Layer) => {
+        added.forEach((layer) => {
             if (this.isSnappableLayer(layer) && this.isVisibleAtScale(layer, scale)
                 && !contained(snappingOptions.featureSources, layer)) {
                 snappingOptions.featureSources.push({
@@ -318,6 +332,12 @@ export default class SketchingEnhancedController {
             const snappingFeatureSource = contained(snappingOptions.featureSources, layer);
             if (this.isSnappableLayer(layer) && contained(snappingOptions.featureSources, layer)) {
                 snappingOptions.featureSources.remove(snappingFeatureSource);
+            }
+        });
+
+        snappingOptions.featureSources.forEach((featureSource)=>{
+            if(!this.isVisibleAtScale(featureSource.layer, scale)) {
+                snappingOptions.featureSources.remove(featureSource);
             }
         });
 

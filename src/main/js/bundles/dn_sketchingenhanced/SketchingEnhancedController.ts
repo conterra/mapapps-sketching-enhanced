@@ -27,6 +27,7 @@ export default class SketchingEnhancedController {
     private readonly mapWidgetModel: InjectedReference<any>;
     private measurementController: MeasurementController;
     private layersWatcher: WatchHandle;
+    private scaleWatcher: WatchHandle;
     private observers = createObservers();
     private editObservers = createObservers();
 
@@ -160,6 +161,7 @@ export default class SketchingEnhancedController {
 
     createWatchers(): void {
         this.layersWatcher = this.watchForChangedLayers();
+        this.scaleWatcher = this.watchForChangedScale();
         this.watchForSketchingEnhancedModelEvents();
         this.watchForSketchViewModelEvents();
     }
@@ -167,6 +169,8 @@ export default class SketchingEnhancedController {
     removeWatchers(): void {
         this.layersWatcher.remove();
         this.layersWatcher = undefined;
+        this.scaleWatcher.remove();
+        this.scaleWatcher = undefined;
     }
 
     watchForSketchingEnhancedModelEvents(): void {
@@ -234,6 +238,15 @@ export default class SketchingEnhancedController {
         });
     }
 
+    watchForChangedScale(): WatchHandle {
+        const mapWidgetModel = this.mapWidgetModel;
+        const map = mapWidgetModel.map;
+        const layers = map.allLayers;
+        return mapWidgetModel.watch("scale", ()=>{
+            this.changeSnappingFeatureSources(layers, []);
+        });
+    }
+
     addSnappingFeatureSources(): void {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
@@ -288,12 +301,14 @@ export default class SketchingEnhancedController {
     private changeSnappingFeatureSources(added: __esri.Collection, removed: __esri.Collection) {
         const sketchViewModel = this.sketchViewModel;
         const snappingOptions = sketchViewModel.snappingOptions;
+        const scale = sketchViewModel.view.scale;
 
         const contained = (featureSources, layer) =>
             featureSources.find((featureSource) => featureSource.layer === layer);
 
         added.forEach((layer: __esri.Layer) => {
-            if (this.isSnappableLayer(layer) && !contained(snappingOptions.featureSources, layer)) {
+            if (this.isSnappableLayer(layer) && this.isVisibleAtScale(layer, scale)
+                && !contained(snappingOptions.featureSources, layer)) {
                 snappingOptions.featureSources.push({
                     layer: layer, enabled: true
                 });
@@ -305,11 +320,26 @@ export default class SketchingEnhancedController {
                 snappingOptions.featureSources.remove(snappingFeatureSource);
             }
         });
+
+        snappingOptions.featureSources.forEach((featureSource)=>{
+            if(!this.isVisibleAtScale(featureSource.layer, scale)) {
+                snappingOptions.featureSources.remove(featureSource);
+            }
+        });
     }
 
     private isSnappableLayer(layer: __esri.Layer): boolean {
         return (layer.type === "feature" || layer.type === "graphics"
             || layer.type === "geojson" || layer.type === "wfs" || layer.type === "csv") && !layer.internal;
+    }
+
+    private isVisibleAtScale(layer, scale) {
+        const minScale = layer.minScale || 0;
+        const maxScale = layer.maxScale || 0;
+        if (minScale === 0 && maxScale === 0) {
+            return true;
+        }
+        return scale >= maxScale && (minScale !== 0 ? scale <= minScale : true);
     }
 
     private refreshUndoRedo(): void {

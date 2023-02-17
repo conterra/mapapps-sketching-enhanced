@@ -24,6 +24,8 @@
             "parameter-url",
             "search-ui",
             "locator-store",
+            "scalebar",
+            "coordinateviewer",
             "toc",
             "dn_sketchingenhanced"
         ]
@@ -137,9 +139,9 @@
                     "layers": [
                         {
                             "id": "fliessgewaesser",
-                            "url": "https://geoportal.bafg.de/arcgis3/rest/services/WKSB_2021/Oberflaechenwasserkoerper/MapServer/1",
+                            "title": "Fließgewässer",
                             "type": "AGS_FEATURE",
-                            "title": "Fließgewässer"
+                            "url": "https://geoportal.bafg.de/arcgis3/rest/services/WKSB_2021/Oberflaechenwasserkoerper/MapServer/1"
                         },
                         {
                             "id": "stoerungen",
@@ -148,10 +150,40 @@
                             "url": "https://services.conterra.de/arcgis/rest/services/mapapps/stoerung/FeatureServer/1"
                         },
                         {
-                            "id": "grenzen_mapserver",
+                            "id": "grenzen",
                             "title": "Grenzen",
-                            "type": "AGS_FEATURE",
-                            "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/MapServer/1"
+                            "layers": [
+                                {
+                                    "id": "grenzen_0",
+                                    "title": "Gemeinden",
+                                    "type": "AGS_FEATURE",
+                                    "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/FeatureServer/0",
+                                    "minScale": 250000
+                                },
+                                {
+                                    "id": "grenzen_1",
+                                    "title": "Kreise",
+                                    "type": "AGS_FEATURE",
+                                    "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/FeatureServer/1",
+                                    "maxScale": 250000,
+                                    "minScale": 1000000
+                                },
+                                {
+                                    "id": "grenzen_2",
+                                    "title": "Länder",
+                                    "type": "AGS_FEATURE",
+                                    "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/FeatureServer/2",
+                                    "maxScale": 1000000,
+                                    "minScale": 10000000
+                                },
+                                {
+                                    "id": "grenzen_3",
+                                    "title": "Welt",
+                                    "type": "AGS_FEATURE",
+                                    "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/FeatureServer/3",
+                                    "maxScale": 10000000
+                                }
+                            ]
                         }
                     ]
                 },

@@ -49,7 +49,7 @@
             :key="featureSource.id"
             v-model="featureSource.enabled"
             :label="featureSource.title"
-            :disabled="!enabled || !featureEnabled"
+            :disabled="!enabled || !featureEnabled || !featureSource.visible"
             color="primary"
             hide-details
             class="mt-1"

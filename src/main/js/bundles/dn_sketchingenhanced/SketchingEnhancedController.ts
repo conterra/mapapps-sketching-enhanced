@@ -31,6 +31,7 @@ export default class SketchingEnhancedController {
     private scaleWatcher: WatchHandle;
     private observers = createObservers();
     private editObservers = createObservers();
+    private layerVisibilityObservers: any;
 
     constructor(sketchViewModel: typeof SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
         mapWidgetModel: any) {
@@ -158,6 +159,7 @@ export default class SketchingEnhancedController {
     }
 
     createWatchers(): void {
+        this.layerVisibilityObservers = this.watchForLayerVisibility();
         this.layersWatcher = this.watchForChangedLayers();
         this.scaleWatcher = this.watchForChangedScale();
         this.watchForSketchingEnhancedModelEvents();
@@ -165,6 +167,7 @@ export default class SketchingEnhancedController {
     }
 
     removeWatchers(): void {
+        this.layerVisibilityObservers.destroy();
         this.layersWatcher.remove();
         this.layersWatcher = undefined;
         this.scaleWatcher.remove();
@@ -227,6 +230,25 @@ export default class SketchingEnhancedController {
         }));
     }
 
+    watchForLayerVisibility(): any {
+        const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        const mapWidgetModel = this.mapWidgetModel;
+        const map = mapWidgetModel.map;
+        const layers = map.allLayers;
+        const observers = createObservers();
+        const sketchViewModel = this.sketchViewModel;
+        const snappingOptions = sketchViewModel.snappingOptions;
+        layers.forEach((layer)=>{
+            observers.add(
+                layer.watch("visible", () => {
+                    sketchingEnhancedModel.snappingFeatureSources
+                        = this.getSnappingFeatureSources(snappingOptions.featureSources);
+                })
+            );
+        });
+        return observers;
+    }
+
     watchForChangedLayers(): WatchHandle {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
@@ -263,28 +285,43 @@ export default class SketchingEnhancedController {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         const sketchViewModel = this.sketchViewModel;
         const snappingOptions = sketchViewModel.snappingOptions;
-        const getSnappingFeatureSources = (featureSources) => featureSources.toArray().map((featureSource) => {
-            return {
-                id: featureSource.layer.uid,
-                title: featureSource.layer.title,
-                enabled: featureSource.enabled
-            };
-        });
 
         snappingOptions.featureSources.on("change", () => {
             snappingOptions.featureSources.forEach((featureSource) => {
                 featureSource.watch("enabled", () => {
                     sketchingEnhancedModel.snappingFeatureSources
-                        = getSnappingFeatureSources(snappingOptions.featureSources);
+                        = this.getSnappingFeatureSources(snappingOptions.featureSources);
                 });
             });
-            sketchingEnhancedModel.snappingFeatureSources = getSnappingFeatureSources(snappingOptions.featureSources);
+            sketchingEnhancedModel.snappingFeatureSources =
+                this.getSnappingFeatureSources(snappingOptions.featureSources);
         });
 
         return Binding.for(sketchViewModel.snappingOptions, sketchingEnhancedModel)
             .sync("enabled", "snappingEnabled")
             .sync("featureEnabled", "snappingFeatureEnabled")
             .sync("selfEnabled", "snappingSelfEnabled");
+    }
+
+    isVisibleInHierarchy(layer: __esri.Layer): boolean {
+        if (!layer.visible) return false;
+        const parentLayer = layer.parent;
+        if (parentLayer && parentLayer.declaredClass !== "esri.Map") {
+            return this.isVisibleInHierarchy(parentLayer);
+        }
+        return layer.visible;
+    }
+
+    getSnappingFeatureSources(featureSources: Collection): any {
+        return featureSources.toArray().map((featureSource) => {
+            const isVisibleInHierarchy = this.isVisibleInHierarchy(featureSource.layer);
+            return {
+                id: featureSource.layer.uid,
+                title: featureSource.layer.title,
+                visible: isVisibleInHierarchy,
+                enabled: isVisibleInHierarchy ? featureSource.enabled : false
+            };
+        });
     }
 
     changeSnappingFeatureSource(id: string): void {

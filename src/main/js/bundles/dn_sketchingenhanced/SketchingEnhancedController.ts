@@ -14,7 +14,6 @@
 /// limitations under the License.
 ///
 
-import SketchViewModel from "esri/widgets/Sketch/SketchViewModel";
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
 import Binding, { WatchHandle } from "apprt-binding/Binding";
 import type { InjectedReference } from "apprt-core/InjectedReference";
@@ -22,7 +21,7 @@ import { createObservers } from "apprt-core/Observers";
 
 export default class SketchingEnhancedController {
 
-    private readonly sketchViewModel: SketchViewModel;
+    private readonly sketchViewModel: __esri.SketchViewModel;
     private readonly sketchingEnhancedModel: typeof SketchingEnhancedModel;
     private readonly mapWidgetModel: InjectedReference<any>;
     private layersWatcher: WatchHandle;
@@ -31,7 +30,7 @@ export default class SketchingEnhancedController {
     private editObservers = createObservers();
     private layerVisibilityObservers: any;
 
-    constructor(sketchViewModel: typeof SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
+    constructor(sketchViewModel: __esri.SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
         mapWidgetModel: any) {
         this.sketchViewModel = sketchViewModel;
         this.sketchingEnhancedModel = sketchingEnhancedModel;

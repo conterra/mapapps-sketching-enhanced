@@ -51,6 +51,7 @@
                         v-model="pointSymbolSize"
                         :label="i18n.pointSymbolSize"
                         type="number"
+                        min="1"
                         single-line
                         hide-details
                         class="pa-0"
@@ -81,6 +82,7 @@
                         v-model="pointSymbolOutlineWidth"
                         :label="i18n.pointSymbolOutlineWidth"
                         type="number"
+                        min="0"
                         single-line
                         hide-details
                         class="pa-0"
@@ -136,6 +138,7 @@
                         v-model="polylineSymbolWidth"
                         :label="i18n.polylineSymbolWidth"
                         type="number"
+                        min="1"
                         single-line
                         hide-details
                         class="pa-0"
@@ -221,6 +224,7 @@
                         v-model="polygonSymbolOutlineWidth"
                         :label="i18n.polygonSymbolOutlineWidth"
                         type="number"
+                        min="0"
                         single-line
                         hide-details
                         class="pa-0"
@@ -276,6 +280,7 @@
                         v-model="textSymbolFontSize"
                         :label="i18n.textSymbolFontSize"
                         type="number"
+                        min="1"
                         single-line
                         hide-details
                         class="pa-0"

@@ -46,18 +46,37 @@
         <div class="subheading my-2">
             {{ i18n.snappingFeatureSources }}
         </div>
-        <v-checkbox
+        <div
             v-for="featureSource in featureSources"
             :key="featureSource.id"
-            v-model="featureSource.enabled"
-            :label="featureSource.title"
-            :disabled="!enabled || !featureEnabled
-                || !featureSource.isVisibleInHierarchy || !featureSource.isVisibleAtScale"
-            color="primary"
-            hide-details
-            class="mt-1"
-            @change="changeFeatureSource(featureSource)"
-        />
+            class="ct-flex-container feature-source"
+        >
+            <v-checkbox
+                v-model="featureSource.enabled"
+                :label="featureSource.title"
+                :disabled="!enabled || !featureEnabled
+                    || !featureSource.isVisibleInHierarchy || !featureSource.isVisibleAtScale"
+                color="primary"
+                hide-details
+                class="mt-1"
+                @change="changeFeatureSource(featureSource)"
+            />
+            <v-tooltip
+                v-if="!featureSource.isVisibleInHierarchy || !featureSource.isVisibleAtScale"
+                bottom
+            >
+                <template #activator="{ on }">
+                    <v-icon
+                        color="primary"
+                        class="info-icon"
+                        v-on="on"
+                    >
+                        info
+                    </v-icon>
+                </template>
+                <span>{{ getInfoText(featureSource) }}</span>
+            </v-tooltip>
+        </div>
     </div>
 </template>
 
@@ -124,6 +143,17 @@
         methods: {
             changeFeatureSource(featureSource) {
                 this.$emit("feature-source-changed", featureSource);
+            },
+            getInfoText(featureSource) {
+                if(!featureSource.isVisibleInHierarchy && !featureSource.isVisibleInScale) {
+                    return this.i18n.isNotVisibleInHierarchyAndScale;
+                } else if(!featureSource.isVisibleInHierarchy) {
+                    return this.i18n.isNotVisibleInHierarchy;
+                } else if(!featureSource.isVisibleInScale) {
+                    return this.i18n.isNotVisibleInScale;
+                } else {
+                    return null;
+                }
             }
         }
     };

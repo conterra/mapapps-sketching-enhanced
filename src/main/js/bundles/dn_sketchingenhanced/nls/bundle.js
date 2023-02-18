@@ -42,7 +42,10 @@ export default {
                 snappingEnabled: "Enable snapping",
                 snappingSelfEnabled: "Geometry guides",
                 snappingFeatureEnabled: "Enable map content snapping",
-                snappingFeatureSources: "Snapping layers"
+                snappingFeatureSources: "Snapping layers",
+                isNotVisibleInHierarchyAndScale: "This layer is invisible in current state an deactivated in map.",
+                isNotVisibleInHierarchy: "This layer is deactivated.",
+                isNotVisibleInScale: "This layer is invisible in current scale."
             },
             symbolSettings: {
                 pointSymbolStyle: "Style",

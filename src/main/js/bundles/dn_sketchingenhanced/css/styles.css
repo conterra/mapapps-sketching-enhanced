@@ -49,6 +49,11 @@
     padding: 0 8px;
 }
 
+.ctAppRoot .dn_sketchingenhanced--settings-menu .feature-source .info-icon {
+    cursor: default;
+    padding-top: 7px;
+}
+
 .ctAppRoot .vuetify-menues .vc-sketch {
     color: #45474d;
 }

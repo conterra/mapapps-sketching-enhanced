@@ -28,7 +28,6 @@ export default class SketchingEnhancedController {
     private measurementController: MeasurementController;
     private layersWatcher: WatchHandle;
     private scaleWatcher: WatchHandle;
-    private scaleWatcher: WatchHandle;
     private observers = createObservers();
     private editObservers = createObservers();
     private layerVisibilityObservers: any;
@@ -42,7 +41,7 @@ export default class SketchingEnhancedController {
     }
 
     activateTool(tool: string): void {
-        // TODO: Add enable ui for measurem
+        // TODO: Add enable ui for measurement
         this.measurementController.activateMeasuring();
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
@@ -165,7 +164,6 @@ export default class SketchingEnhancedController {
         this.layerVisibilityObservers = this.watchForLayerVisibility();
         this.layersWatcher = this.watchForChangedLayers();
         this.scaleWatcher = this.watchForChangedScale();
-        this.scaleWatcher = this.watchForChangedScale();
         this.watchForSketchingEnhancedModelEvents();
         this.watchForSketchViewModelEvents();
     }
@@ -174,8 +172,6 @@ export default class SketchingEnhancedController {
         this.layerVisibilityObservers.destroy();
         this.layersWatcher.remove();
         this.layersWatcher = undefined;
-        this.scaleWatcher.remove();
-        this.scaleWatcher = undefined;
         this.scaleWatcher.remove();
         this.scaleWatcher = undefined;
     }
@@ -353,12 +349,6 @@ export default class SketchingEnhancedController {
             if (this.isSnappableLayer(layer) && contained(snappingOptions.featureSources, layer)) {
                 snappingOptions.featureSources.remove(snappingFeatureSource);
             }
-        });
-
-        snappingOptions.featureSources.forEach((featureSource)=>{
-            const layer = featureSource.layer;
-            // disable feature source if layer is not visible at scale to prevent query of all features
-            featureSource.enabled = this.isVisibleAtScale(layer);
         });
 
         snappingOptions.featureSources.forEach((featureSource)=>{

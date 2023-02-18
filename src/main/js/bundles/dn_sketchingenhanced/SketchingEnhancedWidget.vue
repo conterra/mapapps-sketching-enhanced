@@ -92,6 +92,7 @@
         <div class="ct-flex-container ct-flex-container--row">
             <div class="left ct-flex-item ct-flex-item--no-grow ct-flex-item--no-shrink overflowAuto">
                 <navigation
+                    class="dn_sketchingenhanced--navigation"
                     :i18n="i18n"
                     :active-ui="activeUi"
                     :active-tool.sync="activeTool"
@@ -126,6 +127,7 @@
                 </div>
                 <div v-else>
                     <symbol-settings
+                        class="dn_sketchingenhanced--symbol-settings"
                         :i18n="i18n.symbolSettings"
                         :active-ui="activeUi"
                         :point-symbol.sync="pointSymbol"

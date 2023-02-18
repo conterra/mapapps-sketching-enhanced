@@ -16,7 +16,7 @@
 
 -->
 <template>
-    <v-card class="navigation fullHeight">
+    <v-card class="fullHeight">
         <v-list class="pa-0">
             <div
                 v-for="element in elements"

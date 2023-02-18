@@ -266,6 +266,7 @@
                         :placeholder="i18n.textSymbolPlaceholderText"
                         single-line
                         hide-details
+                        clearable
                         class="pa-0"
                     />
                 </v-flex>

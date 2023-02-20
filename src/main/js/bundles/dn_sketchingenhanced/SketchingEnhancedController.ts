@@ -151,8 +151,6 @@ export default class SketchingEnhancedController {
         const sketchViewModel = this.sketchViewModel;
         sketchViewModel.cancel();
         this.deactivateEdit();
-        const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        this.activateTool(sketchingEnhancedModel.activeTool);
     }
 
     createWatchers(): void {

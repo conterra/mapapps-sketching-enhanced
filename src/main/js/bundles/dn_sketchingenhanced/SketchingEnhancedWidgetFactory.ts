@@ -69,9 +69,9 @@ export default class SketchingEnhancedWidgetFactory {
             controller.activateTool(sketchingEnhancedModel.initialActiveTool);
         };
         widget.deactivateTool = function () {
+            controller.cancelSketching();
             controller.removeSnappingFeatureSources();
             controller.removeWatchers();
-            controller.cancelSketching();
             async(() => {
                 snappingBinding.disable();
                 sketchViewModelBinding.disable();
@@ -127,6 +127,8 @@ export default class SketchingEnhancedWidgetFactory {
         });
         vm.$on("cancel", () => {
             controller.cancelSketching();
+            const activeTool = sketchingEnhancedModel.activeTool;
+            controller.activateTool(activeTool);
         });
 
         vm.$on("feature-source-changed", (featureSource) => {

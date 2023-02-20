@@ -72,8 +72,7 @@ export default class QueryBuilderWidgetFactory {
         widget.deactivateTool = function () {
             controller.removeSnappingFeatureSources();
             controller.removeWatchers();
-            sketchViewModel.cancel();
-            sketchViewModel.updateOnGraphicClick = false;
+            controller.cancelSketching();
             async(() => {
                 snappingBinding.disable();
                 sketchViewModelBinding.disable();

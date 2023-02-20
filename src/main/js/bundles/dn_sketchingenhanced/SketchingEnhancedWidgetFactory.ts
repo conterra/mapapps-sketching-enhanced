@@ -26,7 +26,7 @@ import SketchingEnhancedController from "dn_sketchingenhanced/SketchingEnhancedC
 
 const LAYER_ID = "sketch-graphics";
 
-export default class QueryBuilderWidgetFactory {
+export default class SketchingEnhancedWidgetFactory {
 
     private vm: Vue;
     private controller: SketchingEnhancedController;
@@ -57,7 +57,6 @@ export default class QueryBuilderWidgetFactory {
         const widget = VueDijit(this.vm, {class: "sketching-enhanced-widget"});
         const controller = this.controller;
         const sketchingEnhancedModel = this._sketchingEnhancedModel;
-        const sketchViewModel = this.sketchViewModel;
 
         let sketchViewModelBinding = this.sketchViewModelBinding;
         let snappingBinding = this.snappingBinding;
@@ -70,10 +69,9 @@ export default class QueryBuilderWidgetFactory {
             controller.activateTool(sketchingEnhancedModel.initialActiveTool);
         };
         widget.deactivateTool = function () {
+            controller.cancelSketching();
             controller.removeSnappingFeatureSources();
             controller.removeWatchers();
-            sketchViewModel.cancel();
-            sketchViewModel.updateOnGraphicClick = false;
             async(() => {
                 snappingBinding.disable();
                 sketchViewModelBinding.disable();
@@ -129,6 +127,8 @@ export default class QueryBuilderWidgetFactory {
         });
         vm.$on("cancel", () => {
             controller.cancelSketching();
+            const activeTool = sketchingEnhancedModel.activeTool;
+            controller.activateTool(activeTool);
         });
 
         vm.$on("feature-source-changed", (featureSource) => {

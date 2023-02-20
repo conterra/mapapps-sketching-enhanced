@@ -156,8 +156,6 @@ export default class SketchingEnhancedController {
         const sketchViewModel = this.sketchViewModel;
         sketchViewModel.cancel();
         this.deactivateEdit();
-        const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        this.activateTool(sketchingEnhancedModel.activeTool);
     }
 
     createWatchers(): void {
@@ -358,12 +356,12 @@ export default class SketchingEnhancedController {
         });
     }
 
-    private isSnappableLayer(layer: __esri.FeatureLayer): boolean {
+    private isSnappableLayer(layer: __esri.Layer): boolean {
         return (layer.type === "feature" || layer.type === "graphics"
             || layer.type === "geojson" || layer.type === "wfs" || layer.type === "csv") && !layer.internal;
     }
 
-    private isVisibleAtScale(layer: __esri.FeatureLayer): boolean {
+    private isVisibleAtScale(layer: __esri.Layer): boolean {
         const mapWidgetModel = this.mapWidgetModel;
         const scale = mapWidgetModel.scale;
         const minScale = layer.minScale || 0;
@@ -374,7 +372,7 @@ export default class SketchingEnhancedController {
         return scale >= maxScale && (minScale !== 0 ? scale <= minScale : true);
     }
 
-    private isVisibleInHierarchy(layer: __esri.FeatureLayer): boolean {
+    private isVisibleInHierarchy(layer: __esri.Layer): boolean {
         if (!layer.visible) return false;
         const parentLayer = layer.parent;
         if (parentLayer && parentLayer.declaredClass !== "esri.Map") {

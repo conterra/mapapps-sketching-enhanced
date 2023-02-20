@@ -122,9 +122,7 @@ export default class MeasuringController {
         polyline.addPath([point1, point2]);
         const distanceUnit = this.getDistanceUnit();
         const distance = this.calculateGeometryLength(polyline, sketchingEnhancedModel.distanceUnit);
-        const intlDistance = intl.formatNumber(distance, {
-            style: "decimal"
-        });
+        const intlDistance = this.formatNumber(distance);
         const center = polyline.extent.center;
         const suffix = distanceUnit.abbreviation;
         return this.getMeasurementTextGraphic(center, baseAngle, intlDistance, suffix);
@@ -141,9 +139,7 @@ export default class MeasuringController {
     private getLengthGraphic(polyline: __esri.Polyline): __esri.Graphic {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         const length = this.calculateGeometryLength(polyline, sketchingEnhancedModel.distanceUnit);
-        const intlLength = intl.formatNumber(length, {
-            style: "decimal"
-        });
+        const intlLength = this.formatNumber(length);
         const center = polyline.extent.center;
         const distanceUnit = this.getDistanceUnit();
         const suffix = distanceUnit.abbreviation;
@@ -163,9 +159,7 @@ export default class MeasuringController {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
 
         const area = this.calculateGeometryArea(polygon, sketchingEnhancedModel.areaUnit);
-        const intlArea = intl.formatNumber(area, {
-            style: "decimal"
-        });
+        const intlArea = this.formatNumber(area);
         const center = polygon.extent.center;
         const areaUnit = this.getAreaUnit();
         const suffix = areaUnit.abbreviation;
@@ -347,6 +341,14 @@ export default class MeasuringController {
         });
 
         return textGraphic;
+    }
+
+    private formatNumber(area: number): string {
+        const numberFormatIntlOptions = intl.convertNumberFormatToIntlOptions({
+            places: 2,
+            digitSeparator: true
+        });
+        return intl.formatNumber(area, numberFormatIntlOptions);
     }
 
     private getDistanceUnit() {

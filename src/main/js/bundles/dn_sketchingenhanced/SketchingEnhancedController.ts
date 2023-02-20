@@ -42,9 +42,11 @@ export default class SketchingEnhancedController {
 
     activateTool(tool: string): void {
         // TODO: Add enable ui for measurement
-        this.measurementController.activateMeasuring();
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        if(sketchingEnhancedModel.measurementEnabled) {
+            this.measurementController.activateMeasuring();
+        }
         this.deactivateEdit();
         switch (tool) {
             case "point":

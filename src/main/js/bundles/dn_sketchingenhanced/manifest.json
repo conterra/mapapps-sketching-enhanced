@@ -134,7 +134,9 @@
                     "horizontalAlignment": "left",
                     "verticalAlignment": "baseline"
                 },
-                "measurement": {
+                "distanceUnit": "meters",
+                "areaUnit": "square-meters",
+                "measurementSettings": {
                     "textSymbol": {
                         "type": "text",
                         "color": {
@@ -170,7 +172,6 @@
                             "title": "${ui.units.kilometers}"
                         }
                     ],
-                    "distanceUnit": "meters",
                     "areaUnits": [
                         {
                             "name": "square-meters",
@@ -187,8 +188,7 @@
                             "abbreviation": "ha",
                             "title": "${ui.units.hectares}"
                         }
-                    ],
-                    "areaUnit": "square-meters"
+                    ]
                 }
             }
         },

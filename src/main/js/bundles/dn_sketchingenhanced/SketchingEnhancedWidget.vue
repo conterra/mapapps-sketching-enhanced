@@ -78,6 +78,13 @@
                     <div class="title mb-2">
                         {{ i18n.settings }}
                     </div>
+                    <v-switch
+                        v-model="measurementEnabled"
+                        :label="i18n.measurementSettings.measurementEnabled"
+                        color="primary"
+                        class="mt-1"
+                        hide-details
+                    />
                     <snapping-settings
                         :i18n="i18n.snappingSettings"
                         :snapping-enabled.sync="snappingEnabled"
@@ -229,6 +236,10 @@
                 default: function () {
                     return undefined;
                 }
+            },
+            measurementEnabled: {
+                type: Boolean,
+                default: false
             }
         }
     };

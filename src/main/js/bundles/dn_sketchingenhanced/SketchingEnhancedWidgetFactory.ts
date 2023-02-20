@@ -103,7 +103,8 @@ export default class SketchingEnhancedWidgetFactory {
             .syncAll("editEnabled", "snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
             .syncAllToLeft("snappingFeatureSources")
             .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol")
-            .syncAll("editSymbol");
+            .syncAll("editSymbol")
+            .syncAll("measurementEnabled");
 
         vm.pointSymbol = sketchingEnhancedModel.pointSymbol;
         vm.polylineSymbol = sketchingEnhancedModel.polylineSymbol;

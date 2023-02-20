@@ -334,7 +334,7 @@ export default class MeasuringController {
             }
         };
 
-        const textSymbol = sketchingEnhancedModel.measurement.textSymbol;
+        const textSymbol = sketchingEnhancedModel.measurementSettings.textSymbol;
         textSymbol.text = measurement + " " + unitSuffix;
         textSymbol.angle = angle;
         const textSize = textSymbol.font.size / 2;
@@ -351,16 +351,16 @@ export default class MeasuringController {
 
     private getDistanceUnit() {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        const measurementSettings = sketchingEnhancedModel.measurement;
+        const measurementSettings = sketchingEnhancedModel.measurementSettings;
         return measurementSettings.distanceUnits.find((unit) =>
-            unit.name === measurementSettings.distanceUnit);
+            unit.name === sketchingEnhancedModel.distanceUnit);
     }
 
     private getAreaUnit() {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        const measurementSettings = sketchingEnhancedModel.measurement;
+        const measurementSettings = sketchingEnhancedModel.measurementSettings;
         return measurementSettings.areaUnits.find((unit) =>
-            unit.name === measurementSettings.areaUnit);
+            unit.name === sketchingEnhancedModel.areaUnit);
     }
 
     private addTempGraphicsToLayer(): void {

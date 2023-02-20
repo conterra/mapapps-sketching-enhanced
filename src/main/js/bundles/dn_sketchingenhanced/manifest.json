@@ -134,37 +134,62 @@
                     "horizontalAlignment": "left",
                     "verticalAlignment": "baseline"
                 },
-                "distanceUnits": [
-                    {
-                        "name": "meters",
-                        "abbreviation": "m",
-                        "title": "${ui.units.meters}"
+                "measurement": {
+                    "textSymbol": {
+                        "type": "text",
+                        "color": {
+                            "r": 50,
+                            "g": 50,
+                            "b": 50,
+                            "a": 1
+                        },
+                        "font": {
+                            "size": 12,
+                            "family": "sans-serif",
+                            "weight": "normal"
+                        },
+                        "haloColor": {
+                            "r": 255,
+                            "g": 255,
+                            "b": 255,
+                            "a": 1
+                        },
+                        "haloSize": 2,
+                        "horizontalAlignment": "center",
+                        "verticalAlignment": "baseline"
                     },
-                    {
-                        "name": "kilometers",
-                        "abbreviation": "km",
-                        "title": "${ui.units.kilometers}"
-                    }
-                ],
-                "distanceUnit": "meters",
-                "areaUnits": [
-                    {
-                        "name": "square-meters",
-                        "abbreviation": "m²",
-                        "title": "${ui.units.square-meters}"
-                    },
-                    {
-                        "name": "square-kilometers",
-                        "abbreviation": "km²",
-                        "title": "${ui.units.square-kilometers}"
-                    },
-                    {
-                        "name": "hectares",
-                        "abbreviation": "ha",
-                        "title": "${ui.units.hectares}"
-                    }
-                ],
-                "areaUnit": "square-meters"
+                    "distanceUnits": [
+                        {
+                            "name": "meters",
+                            "abbreviation": "m",
+                            "title": "${ui.units.meters}"
+                        },
+                        {
+                            "name": "kilometers",
+                            "abbreviation": "km",
+                            "title": "${ui.units.kilometers}"
+                        }
+                    ],
+                    "distanceUnit": "meters",
+                    "areaUnits": [
+                        {
+                            "name": "square-meters",
+                            "abbreviation": "m²",
+                            "title": "${ui.units.square-meters}"
+                        },
+                        {
+                            "name": "square-kilometers",
+                            "abbreviation": "km²",
+                            "title": "${ui.units.square-kilometers}"
+                        },
+                        {
+                            "name": "hectares",
+                            "abbreviation": "ha",
+                            "title": "${ui.units.hectares}"
+                        }
+                    ],
+                    "areaUnit": "square-meters"
+                }
             }
         },
         {
@@ -205,10 +230,12 @@
                 "activateHandler": "activateTool",
                 "deactivateHandler": "deactivateTool"
             },
-            "references":[{
-                "name": "handlerScope",
-                "providing": "dn_sketchingenhanced.Widget"
-            }]
+            "references": [
+                {
+                    "name": "handlerScope",
+                    "providing": "dn_sketchingenhanced.Widget"
+                }
+            ]
         }
     ]
 }

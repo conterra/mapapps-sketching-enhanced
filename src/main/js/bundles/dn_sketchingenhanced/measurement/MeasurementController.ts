@@ -1,3 +1,19 @@
+///
+/// Copyright (C) 2022 con terra GmbH (info@conterra.de)
+///
+/// Licensed under the Apache License, Version 2.0 (the "License");
+/// you may not use this file except in compliance with the License.
+/// You may obtain a copy of the License at
+///
+///         http://www.apache.org/licenses/LICENSE-2.0
+///
+/// Unless required by applicable law or agreed to in writing, software
+/// distributed under the License is distributed on an "AS IS" BASIS,
+/// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+/// See the License for the specific language governing permissions and
+/// limitations under the License.
+///
+
 import { WatchHandle } from "apprt-binding/Binding";
 import type {InjectedReference} from "apprt-core/InjectedReference";
 import SketchingEnhancedModel from "./SketchingEnhancedModel";
@@ -24,7 +40,6 @@ export default class MeasuringController {
     }
 
     activateMeasuring(): void {
-        const sketchViewModel = this.sketchViewModel;
         this.sketchViewModelCreateWatcher = this.createSketchViewModelWatcher();
     }
 
@@ -35,7 +50,6 @@ export default class MeasuringController {
 
     private createSketchViewModelWatcher(): WatchHandle {
         const sketchViewModel = this.sketchViewModel;
-        const sketchingEnhancedModel = this.sketchingEnhancedModel;
 
         return sketchViewModel.on("create", (event) => {
             setTimeout(() => {
@@ -169,11 +183,7 @@ export default class MeasuringController {
      * @private
      */
     private getBaseAdjustedAngleBetweenPoints(point1: __esri.Point, point2: __esri.Point): number {
-        // calculate angle between a pair of points
-        const angleBetweenPoints = this.calculateAngle(point1, point2);
-
-        // adjust angle according to their spatial relation
-        return this.adjustAngleToQuadrant(point1, point2, angleBetweenPoints);
+        return this.calculateAngle(point1, point2);
     }
 
     /**
@@ -234,7 +244,9 @@ export default class MeasuringController {
      * @private
      */
     private calculateAngle(point1: __esri.Point, point2: __esri.Point): number {
-        return Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
+        const quadrant = this.getQuadrant(point1, point2);
+        const angle = Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
+        return this.adjustAngleToQuadrant(quadrant, angle);
     }
 
     /**
@@ -247,10 +259,8 @@ export default class MeasuringController {
      *
      * @private
      */
-    private adjustAngleToQuadrant(point1: __esri.Point, point2: __esri.Point, angle: number): number {
+    private adjustAngleToQuadrant(quadrant: number, angle: number): number {
         let adjustedAngle;
-        const quadrant = this.getQuadrant(point1, point2);
-
         switch (quadrant) {
             case 1:
                 adjustedAngle = 180 - angle;
@@ -324,9 +334,12 @@ export default class MeasuringController {
             }
         };
 
-        const textSymbol = sketchingEnhancedModel.textSymbol;
+        const textSymbol = sketchingEnhancedModel.measurement.textSymbol;
         textSymbol.text = measurement + " " + unitSuffix;
         textSymbol.angle = angle;
+        const textSize = textSymbol.font.size / 2;
+        textSymbol.xoffset = textSize * Math.sin(angle / (180 / Math.PI)) + "px";
+        textSymbol.yoffset = textSize * Math.cos(angle / (180 / Math.PI)) + "px";
 
         const textGraphic = new Graphic({
             geometry: pointGeometry,
@@ -338,14 +351,16 @@ export default class MeasuringController {
 
     private getDistanceUnit() {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        return sketchingEnhancedModel.distanceUnits.find((unit) =>
-            unit.name === sketchingEnhancedModel.distanceUnit);
+        const measurementSettings = sketchingEnhancedModel.measurement;
+        return measurementSettings.distanceUnits.find((unit) =>
+            unit.name === measurementSettings.distanceUnit);
     }
 
     private getAreaUnit() {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        return sketchingEnhancedModel.areaUnits.find((unit) =>
-            unit.name === sketchingEnhancedModel.areaUnit);
+        const measurementSettings = sketchingEnhancedModel.measurement;
+        return measurementSettings.areaUnits.find((unit) =>
+            unit.name === measurementSettings.areaUnit);
     }
 
     private addTempGraphicsToLayer(): void {

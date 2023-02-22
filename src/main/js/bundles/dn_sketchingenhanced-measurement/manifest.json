@@ -24,6 +24,12 @@
             "propertiesConstructor": true,
             "properties": {
                 "measurementEnabled": true,
+                "pointCoordSpatialReference": {
+                    "wkid": 3857
+                },
+                "pointCoordPlaces": 3,
+                "pointCoordUnitSymbolX": "°E",
+                "pointCoordUnitSymbolY": "°N",
                 "textSymbol": {
                     "type": "text",
                     "color": {
@@ -49,6 +55,7 @@
                 },
                 "distanceUnit": "meters",
                 "areaUnit": "square-meters",
+                "angleUnit": "degree",
                 "distanceUnits": [
                     {
                         "name": "meters",
@@ -77,6 +84,18 @@
                         "abbreviation": "ha",
                         "title": "${ui.units.hectares}"
                     }
+                ],
+                "angleUnits": [
+                    {
+                        "name": "degree",
+                        "abbreviation": "°",
+                        "title": "${ui.units.degree}"
+                    },
+                    {
+                        "name": "gon",
+                        "abbreviation": "km²",
+                        "title": "${ui.units.gon}"
+                    }
                 ]
             }
         },
@@ -90,6 +109,11 @@
                 {
                     "name": "_sketchingEnhancedModel",
                     "providing": "dn_sketchingenhanced.SketchingEnhancedModel"
+                },
+                {
+                    "name": "_coordinateTransformer",
+                    "providing": "ct.api.coordinatetransformer.CoordinateTransformer",
+                    "cardinality": "0..1"
                 },
                 {
                     "name": "_mapWidgetModel",

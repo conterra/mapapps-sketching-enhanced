@@ -14,7 +14,6 @@
 /// limitations under the License.
 ///
 
-import type Polygon from "esri/geometry/Polygon";
 import type CoordinateTransformer from "@conterra/ct-mapapps-typings/coordinatetransformer/CoordinateTransformer";
 import * as geometryEngine from 'esri/geometry/geometryEngine';
 import * as intl from "esri/intl";
@@ -67,7 +66,7 @@ export class MeasurementCalculator {
      *
      * @public
      */
-    public getLength(geometry: Polygon | Polyline,
+    public getLength(geometry: __esri.Polygon | __esri.Polyline,
         unit: __esri.LinearUnits | 'auto' = this.measurementModel?.distanceUnit): string {
         const unitForCalculation = unit === 'auto' ? 'meters' : unit;
         const length = this.calculateGeometryLength(geometry, unitForCalculation);
@@ -84,7 +83,7 @@ export class MeasurementCalculator {
      *
      * @private
      */
-    private calculateGeometryLength(geometry: Polygon | Polyline, unit: __esri.LinearUnits): number {
+    private calculateGeometryLength(geometry: __esri.Polygon | __esri.Polyline, unit: __esri.LinearUnits): number {
         if (this.shouldCalculateGeodesic(geometry.spatialReference)) {
             return geometryEngine.geodesicLength(geometry, unit);
         } else {
@@ -102,7 +101,8 @@ export class MeasurementCalculator {
      *
      * @public
      */
-    public getArea(geometry: Polygon, unit: __esri.ArealUnits | 'auto' = this.measurementModel?.areaUnit): string {
+    public getArea(geometry: __esri.Polygon,
+        unit: __esri.ArealUnits | 'auto' = this.measurementModel?.areaUnit): string {
         const unitForCalculation = unit === 'auto' ? 'square-meters' : unit;
         const area = this.calculateGeometryArea(geometry, unitForCalculation);
         return this.formatNumber(area, 2);
@@ -118,7 +118,7 @@ export class MeasurementCalculator {
      *
      * @private
      */
-    private calculateGeometryArea(polygon: Polygon, unit: __esri.ArealUnits): number {
+    private calculateGeometryArea(polygon: __esri.Polygon, unit: __esri.ArealUnits): number {
         if (this.shouldCalculateGeodesic(polygon.spatialReference)) {
             return geometryEngine.geodesicArea(polygon, unit);
         } else {

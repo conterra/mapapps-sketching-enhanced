@@ -51,7 +51,7 @@ export default class MeasuringController {
     private createSketchViewModelWatcher(): WatchHandle {
         const sketchViewModel = this.sketchViewModel;
 
-        return sketchViewModel.on("create", (event) => {
+        const watcher = sketchViewModel.on("create", (event) => {
             setTimeout(() => {
                 const tempGraphics: Array<__esri.Graphic> = [];
                 const graphic = event.graphic;
@@ -90,15 +90,18 @@ export default class MeasuringController {
                 }
 
                 if (event.state === "complete") {
+                    watcher.remove();
                     this.addTempGraphicsToLayer();
                     this.clearTempGraphics();
                 }
 
                 if (event.state === "cancel") {
+                    watcher.remove();
                     this.clearTempGraphics();
                 }
             }, 10);
         });
+        return watcher;
     }
 
     /**

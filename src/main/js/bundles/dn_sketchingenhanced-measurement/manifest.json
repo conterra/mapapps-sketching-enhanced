@@ -1,0 +1,101 @@
+{
+    "name": "dn_sketchingenhanced-measurement",
+    "version": "3.1.1-SNAPSHOT",
+    "title": "${bundleName}",
+    "description": "${bundleDescription}",
+    "vendor": "con terra GmbH",
+    "main": "",
+    "icon": {},
+    "productName": "devnet-mapapps-sketching-enhanced",
+    "dependencies": {
+        "dn_vuecolor": "^2.0.0",
+        "esri": "^4.7.2",
+        "map-widget": "^4.12.0",
+        "apprt-core": "^4.12.0",
+        "apprt-binding": "^4.12.0",
+        "apprt-vue": "^4.12.0",
+        "apprt-vuetify": "^4.12.0"
+    },
+    "components": [
+        {
+            "name": "Config",
+            "impl": "./MeasurementModel",
+            "provides": "dn_sketchingenhanced-measurement.MeasurementModel",
+            "propertiesConstructor": true,
+            "properties": {
+                "measurementEnabled": true,
+                "textSymbol": {
+                    "type": "text",
+                    "color": {
+                        "r": 50,
+                        "g": 50,
+                        "b": 50,
+                        "a": 1
+                    },
+                    "font": {
+                        "size": 12,
+                        "family": "sans-serif",
+                        "weight": "normal"
+                    },
+                    "haloColor": {
+                        "r": 255,
+                        "g": 255,
+                        "b": 255,
+                        "a": 1
+                    },
+                    "haloSize": 2,
+                    "horizontalAlignment": "center",
+                    "verticalAlignment": "baseline"
+                },
+                "distanceUnit": "meters",
+                "areaUnit": "square-meters",
+                "distanceUnits": [
+                    {
+                        "name": "meters",
+                        "abbreviation": "m",
+                        "title": "${ui.units.meters}"
+                    },
+                    {
+                        "name": "kilometers",
+                        "abbreviation": "km",
+                        "title": "${ui.units.kilometers}"
+                    }
+                ],
+                "areaUnits": [
+                    {
+                        "name": "square-meters",
+                        "abbreviation": "m²",
+                        "title": "${ui.units.square-meters}"
+                    },
+                    {
+                        "name": "square-kilometers",
+                        "abbreviation": "km²",
+                        "title": "${ui.units.square-kilometers}"
+                    },
+                    {
+                        "name": "hectares",
+                        "abbreviation": "ha",
+                        "title": "${ui.units.hectares}"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "MeasurementController",
+            "references": [
+                {
+                    "name": "_measurementModel",
+                    "providing": "dn_sketchingenhanced-measurement.MeasurementModel"
+                },
+                {
+                    "name": "_sketchingEnhancedModel",
+                    "providing": "dn_sketchingenhanced.SketchingEnhancedModel"
+                },
+                {
+                    "name": "_mapWidgetModel",
+                    "providing": "map-widget.MapWidgetModel"
+                }
+            ]
+        }
+    ]
+}

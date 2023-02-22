@@ -28,11 +28,11 @@ const LAYER_ID = "sketch-graphics";
 
 export default class SketchingEnhancedWidgetFactory {
 
+    private readonly _i18n!: InjectedReference<any>;
+    private readonly _mapWidgetModel!: InjectedReference<any>;
+    private readonly _sketchingEnhancedModel!: InjectedReference<any>;
     private vm: Vue;
     private controller: SketchingEnhancedController;
-    private _i18n!: InjectedReference<any>;
-    private _sketchingEnhancedModel!: InjectedReference<any>;
-    private _mapWidgetModel!: InjectedReference<any>;
     private sketchViewModel: __esri.SketchViewModel;
     private sketchViewModelBinding: Bindable;
     private snappingBinding: Bindable;
@@ -42,8 +42,9 @@ export default class SketchingEnhancedWidgetFactory {
         const mapWidgetModel = this._mapWidgetModel;
         const graphicsLayer = findOrBuildGraphicsLayer(sketchingEnhancedModel, mapWidgetModel);
         const sketchViewModel = this.sketchViewModel = createSketchViewModel(sketchingEnhancedModel, graphicsLayer);
+        sketchingEnhancedModel.sketchViewModel = sketchViewModel;
         const controller = this.controller =
-            new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel, mapWidgetModel, graphicsLayer);
+            new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel, mapWidgetModel);
         this.getView().then((view) => {
             sketchViewModel.view = view;
         });
@@ -103,8 +104,7 @@ export default class SketchingEnhancedWidgetFactory {
             .syncAll("editEnabled", "snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
             .syncAllToLeft("snappingFeatureSources")
             .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol")
-            .syncAll("editSymbol")
-            .syncAll("measurementEnabled");
+            .syncAll("editSymbol");
 
         vm.pointSymbol = sketchingEnhancedModel.pointSymbol;
         vm.polylineSymbol = sketchingEnhancedModel.polylineSymbol;

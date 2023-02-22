@@ -34,10 +34,9 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     polygonSymbol: {},
     textSymbol: {},
     editSymbol: {},
-    measurementEnabled: false,
     distanceUnit: "meters",
     areaUnit: "square-meters",
-    measurementSettings: {}
+    sketchViewModel: {},
 }): Impl & MutableType<P> {
     properties(mutableDefinition, mutableProperties);
     return mutableDefinition;
@@ -62,10 +61,9 @@ interface SketchingEnhancedModelProps {
     polygonSymbol: EsriSymbol,
     textSymbol: EsriSymbol,
     editSymbol: EsriSymbol,
-    measurementEnabled: boolean,
     distanceUnit: string,
     areaUnit: string,
-    measurementSettings: object
+    sketchViewModel: __esri.SketchViewModel
 }
 
 export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
@@ -85,8 +83,7 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         polygonSymbol: {},
         textSymbol: {},
         editSymbol: undefined,
-        measurementEnabled: false,
         distanceUnit: "meters",
         areaUnit: "square-meters",
-        measurementSettings: {}
+        sketchViewModel: {}
     });

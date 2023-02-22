@@ -16,27 +16,36 @@
 
 import { WatchHandle } from "apprt-binding/Binding";
 import type {InjectedReference} from "apprt-core/InjectedReference";
-import SketchingEnhancedModel from "./SketchingEnhancedModel";
 import * as geometryEngine from "esri/geometry/geometryEngine";
 import * as intl from "esri/intl";
 import { Polyline } from "esri/geometry";
 import Graphic from "esri/Graphic";
 import Collection from "esri/core/Collection";
+import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
+import MeasurementModel from "./MeasurementModel";
 
-export default class MeasuringController {
+export default class MeasurementController {
 
-    private readonly i18n: InjectedReference<any>;
-    private sketchingEnhancedModel: typeof SketchingEnhancedModel;
+    private readonly _i18n: InjectedReference<any>;
+    private readonly _measurementModel: InjectedReference<typeof MeasurementModel>;
+    private readonly _sketchingEnhancedModel: InjectedReference<typeof SketchingEnhancedModel>;
     private sketchViewModel: __esri.SketchViewModel;
     private graphicsLayer: __esri.GraphicsLayer;
     private sketchViewModelCreateWatcher: WatchHandle;
     private tempGraphics: __esri.Collection<__esri.Graphic> = new Collection();
 
-    public constructor(sketchViewModel: __esri.SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
-        graphicsLayer: __esri.GraphicsLayer) {
-        this.sketchingEnhancedModel = sketchingEnhancedModel;
-        this.sketchViewModel = sketchViewModel;
-        this.graphicsLayer = graphicsLayer;
+    activate(): void {
+        if(this._sketchingEnhancedModel.sketchViewModel) {
+            this.sketchViewModel = this._sketchingEnhancedModel.sketchViewModel;
+            this.graphicsLayer = this.sketchViewModel.layer;
+        } else {
+            const watcher = this._sketchingEnhancedModel.watch("sketchViewModel", (sketchViewModel: any)=>{
+                watcher.remove();
+                this.sketchViewModel = sketchViewModel;
+                this.graphicsLayer = sketchViewModel.graphicsLayer;
+            });
+        }
+        this.activateMeasuring();
     }
 
     activateMeasuring(): void {
@@ -114,7 +123,7 @@ export default class MeasuringController {
      * @private
      */
     private getDistanceLabelBetweenPointsGraphic(point1: __esri.Point, point2: __esri.Point): __esri.Graphic {
-        const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        const measurementModel = this._measurementModel;
         const sketchViewModel = this.sketchViewModel;
         const baseAngle = this.getBaseAdjustedAngleBetweenPoints(point1, point2);
         const polyline = new Polyline({
@@ -124,7 +133,26 @@ export default class MeasuringController {
         });
         polyline.addPath([point1, point2]);
         const distanceUnit = this.getDistanceUnit();
-        const distance = this.calculateGeometryLength(polyline, sketchingEnhancedModel.distanceUnit);
+        const distance = this.calculateGeometryLength(polyline, measurementModel.distanceUnit);
+        const intlDistance = this.formatNumber(distance);
+        const center = polyline.extent.center;
+        const suffix = distanceUnit.abbreviation;
+        return this.getMeasurementTextGraphic(center, baseAngle, intlDistance, suffix);
+    }
+
+    /**
+     * Method to generate angel label graphic.
+     *
+     * @param point1 Point 1
+     * @param point2 Point 2
+     * @returns __esri.Graphic
+     *
+     * @private
+     */
+    private getAngleLabelBetweenPointsGraphic(point1: __esri.Point, point2: __esri.Point): __esri.Graphic {
+        const measurementModel = this._measurementModel;
+        const baseAngle = this.getBaseAdjustedAngleBetweenPoints(point1, point2);
+        const angleUnit = this.getDistanceUnit();
         const intlDistance = this.formatNumber(distance);
         const center = polyline.extent.center;
         const suffix = distanceUnit.abbreviation;
@@ -140,8 +168,8 @@ export default class MeasuringController {
      * @private
      */
     private getLengthGraphic(polyline: __esri.Polyline): __esri.Graphic {
-        const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        const length = this.calculateGeometryLength(polyline, sketchingEnhancedModel.distanceUnit);
+        const measurementModel = this._measurementModel;
+        const length = this.calculateGeometryLength(polyline, measurementModel.distanceUnit);
         const intlLength = this.formatNumber(length);
         const center = polyline.extent.center;
         const distanceUnit = this.getDistanceUnit();
@@ -159,9 +187,8 @@ export default class MeasuringController {
      * @private
      */
     private getAreaGraphic(polygon: __esri.Polygon): __esri.Graphic {
-        const sketchingEnhancedModel = this.sketchingEnhancedModel;
-
-        const area = this.calculateGeometryArea(polygon, sketchingEnhancedModel.areaUnit);
+        const measurementModel = this._measurementModel;
+        const area = this.calculateGeometryArea(polygon, measurementModel.areaUnit);
         const intlArea = this.formatNumber(area);
         const center = polygon.extent.center;
         const areaUnit = this.getAreaUnit();
@@ -318,7 +345,7 @@ export default class MeasuringController {
      */
     private getMeasurementTextGraphic(center: __esri.Point, angle: number, measurement: string,
         unitSuffix: string): __esri.Graphic {
-        const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        const measurementModel = this._measurementModel;
         const sketchViewModel = this.sketchViewModel;
         const currentWKID = sketchViewModel.view.spatialReference.wkid;
 
@@ -331,7 +358,7 @@ export default class MeasuringController {
             }
         };
 
-        const textSymbol = sketchingEnhancedModel.measurementSettings.textSymbol;
+        const textSymbol = measurementModel.textSymbol;
         textSymbol.text = measurement + " " + unitSuffix;
         textSymbol.angle = angle;
         const textSize = textSymbol.font.size / 2;
@@ -355,17 +382,15 @@ export default class MeasuringController {
     }
 
     private getDistanceUnit() {
-        const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        const measurementSettings = sketchingEnhancedModel.measurementSettings;
-        return measurementSettings.distanceUnits.find((unit) =>
-            unit.name === sketchingEnhancedModel.distanceUnit);
+        const measurementModel = this._measurementModel;
+        return measurementModel.distanceUnits.find((unit) =>
+            unit.name === measurementModel.distanceUnit);
     }
 
     private getAreaUnit() {
-        const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        const measurementSettings = sketchingEnhancedModel.measurementSettings;
-        return measurementSettings.areaUnits.find((unit) =>
-            unit.name === sketchingEnhancedModel.areaUnit);
+        const measurementModel = this._measurementModel;
+        return measurementModel.areaUnits.find((unit) =>
+            unit.name === measurementModel.areaUnit);
     }
 
     private addTempGraphicsToLayer(): void {

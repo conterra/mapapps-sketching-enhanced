@@ -27,7 +27,8 @@
             "scalebar",
             "coordinateviewer",
             "toc",
-            "dn_sketchingenhanced"
+            "dn_sketchingenhanced",
+            "dn_sketchingenhanced-measurement"
         ]
     },
     "bundles": {

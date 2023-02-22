@@ -15,17 +15,15 @@
 ///
 
 import SketchingEnhancedModel from "./SketchingEnhancedModel";
-import MeasurementController from "./measurement/MeasurementController";
 import Binding, { WatchHandle } from "apprt-binding/Binding";
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import { createObservers } from "apprt-core/Observers";
 
 export default class SketchingEnhancedController {
 
-    private readonly sketchViewModel: __esri.SketchViewModel;
-    private readonly sketchingEnhancedModel: typeof SketchingEnhancedModel;
-    private readonly mapWidgetModel: InjectedReference<any>;
-    private measurementController: MeasurementController;
+    private sketchViewModel: __esri.SketchViewModel;
+    private sketchingEnhancedModel: typeof SketchingEnhancedModel;
+    private mapWidgetModel: InjectedReference<any>;
     private layersWatcher: WatchHandle;
     private scaleWatcher: WatchHandle;
     private observers = createObservers();
@@ -33,20 +31,15 @@ export default class SketchingEnhancedController {
     private layerVisibilityObservers: any;
 
     constructor(sketchViewModel: __esri.SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
-        mapWidgetModel: any, graphicsLayer: __esri.GraphicsLayer) {
+        mapWidgetModel: any) {
         this.sketchViewModel = sketchViewModel;
         this.sketchingEnhancedModel = sketchingEnhancedModel;
         this.mapWidgetModel = mapWidgetModel;
-        this.measurementController = new MeasurementController(sketchViewModel, sketchingEnhancedModel, graphicsLayer);
     }
 
     activateTool(tool: string): void {
-        // TODO: Add enable ui for measurement
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        if(sketchingEnhancedModel.measurementEnabled) {
-            this.measurementController.activateMeasuring();
-        }
         this.deactivateEdit();
         switch (tool) {
             case "point":

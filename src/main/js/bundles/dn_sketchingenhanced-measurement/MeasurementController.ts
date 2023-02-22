@@ -32,20 +32,41 @@ export default class MeasurementController {
     private sketchViewModel: __esri.SketchViewModel;
     private graphicsLayer: __esri.GraphicsLayer;
     private sketchViewModelCreateWatcher: WatchHandle;
+    private measurementEnabledWatcher: WatchHandle;
     private tempGraphics: __esri.Collection<__esri.Graphic> = new Collection();
 
     activate(): void {
         if(this._sketchingEnhancedModel.sketchViewModel) {
             this.sketchViewModel = this._sketchingEnhancedModel.sketchViewModel;
             this.graphicsLayer = this.sketchViewModel.layer;
+            if(this._measurementModel.measurementEnabled) {
+                this.activateMeasuring();
+            }
         } else {
             const watcher = this._sketchingEnhancedModel.watch("sketchViewModel", (sketchViewModel: any)=>{
                 watcher.remove();
                 this.sketchViewModel = sketchViewModel;
                 this.graphicsLayer = sketchViewModel.graphicsLayer;
+                if(this._measurementModel.measurementEnabled) {
+                    this.activateMeasuring();
+                }
             });
         }
-        this.activateMeasuring();
+        this.measurementEnabledWatcher = this.watchForMeasurementEnabled();
+    }
+
+    deactivate(): void {
+        this.measurementEnabledWatcher.remove();
+    }
+
+    watchForMeasurementEnabled(): WatchHandle {
+        return this._measurementModel.watch("measurementEnabled", ({value}) => {
+            if(value) {
+                this.activateMeasuring();
+            } else {
+                this.deactivateMeasuring();
+            }
+        });
     }
 
     activateMeasuring(): void {

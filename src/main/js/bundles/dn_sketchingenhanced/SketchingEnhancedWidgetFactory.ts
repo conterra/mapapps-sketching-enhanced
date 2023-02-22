@@ -30,15 +30,18 @@ export default class SketchingEnhancedWidgetFactory {
 
     private readonly _i18n!: InjectedReference<any>;
     private readonly _mapWidgetModel!: InjectedReference<any>;
+    private readonly _measurementModel!: InjectedReference<any>;
     private readonly _sketchingEnhancedModel!: InjectedReference<any>;
     private vm: Vue;
     private controller: SketchingEnhancedController;
     private sketchViewModel: __esri.SketchViewModel;
     private sketchViewModelBinding: Bindable;
+    private measurementModelBinding: Bindable;
     private snappingBinding: Bindable;
 
     activate(): void {
         const sketchingEnhancedModel = this._sketchingEnhancedModel;
+        const measurementModel = this._measurementModel;
         const mapWidgetModel = this._mapWidgetModel;
         const graphicsLayer = findOrBuildGraphicsLayer(sketchingEnhancedModel, mapWidgetModel);
         const sketchViewModel = this.sketchViewModel = createSketchViewModel(sketchingEnhancedModel, graphicsLayer);
@@ -48,7 +51,7 @@ export default class SketchingEnhancedWidgetFactory {
         this.getView().then((view) => {
             sketchViewModel.view = view;
         });
-        this.initComponent(sketchingEnhancedModel, sketchViewModel, controller);
+        this.initComponent(sketchingEnhancedModel, measurementModel, sketchViewModel, controller);
     }
 
     deactivate(): void {
@@ -60,12 +63,14 @@ export default class SketchingEnhancedWidgetFactory {
         const sketchingEnhancedModel = this._sketchingEnhancedModel;
 
         let sketchViewModelBinding = this.sketchViewModelBinding;
+        let measurementModelBinding = this.measurementModelBinding;
         let snappingBinding = this.snappingBinding;
         widget.activateTool = function () {
             controller.addSnappingFeatureSources();
             controller.createWatchers();
 
             snappingBinding.enable().syncToLeftNow();
+            measurementModelBinding.enable().syncToLeftNow();
             sketchViewModelBinding.enable().syncToLeftNow();
             controller.activateTool(sketchingEnhancedModel.initialActiveTool);
         };
@@ -74,6 +79,7 @@ export default class SketchingEnhancedWidgetFactory {
             controller.removeSnappingFeatureSources();
             controller.removeWatchers();
             async(() => {
+                measurementModelBinding.disable();
                 snappingBinding.disable();
                 sketchViewModelBinding.disable();
             }, 500);
@@ -85,13 +91,15 @@ export default class SketchingEnhancedWidgetFactory {
                 snappingBinding = undefined;
                 sketchViewModelBinding.unbind();
                 sketchViewModelBinding = undefined;
+                measurementModelBinding.unbind();
+                measurementModelBinding = undefined;
                 this.vm.$off();
             }
         });
         return widget;
     }
 
-    private initComponent(sketchingEnhancedModel, sketchViewModel, controller) {
+    private initComponent(sketchingEnhancedModel, measurementModel, sketchViewModel, controller) {
         const i18n: any = this._i18n.get().ui;
         const vm = this.vm = new Vue(SketchingEnhancedWidget);
         vm.i18n = i18n;
@@ -105,6 +113,9 @@ export default class SketchingEnhancedWidgetFactory {
             .syncAllToLeft("snappingFeatureSources")
             .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol")
             .syncAll("editSymbol");
+
+        this.measurementModelBinding = Binding.for(vm, measurementModel)
+            .syncAll("measurementEnabled");
 
         vm.pointSymbol = sketchingEnhancedModel.pointSymbol;
         vm.polylineSymbol = sketchingEnhancedModel.polylineSymbol;

@@ -149,6 +149,10 @@
                     "providing": "dn_sketchingenhanced.SketchingEnhancedModel"
                 },
                 {
+                    "name": "_measurementModel",
+                    "providing": "dn_sketchingenhanced-measurement.MeasurementModel"
+                },
+                {
                     "name": "_mapWidgetModel",
                     "providing": "map-widget.MapWidgetModel"
                 }

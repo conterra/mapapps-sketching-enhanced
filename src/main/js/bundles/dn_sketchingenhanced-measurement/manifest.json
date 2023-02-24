@@ -120,6 +120,18 @@
                     "providing": "map-widget.MapWidgetModel"
                 }
             ]
+        },
+        {
+            "name": "MeasurementWidgetFactory",
+            "impl": "./MeasurementWidgetFactory",
+            "instanceFactory": true,
+            "provides": "dn_sketchingenhanced-measurement.MeasurementWidget",
+            "references": [
+                {
+                    "name": "_measurementModel",
+                    "providing": "dn_sketchingenhanced-measurement.MeasurementModel"
+                }
+            ]
         }
     ]
 }

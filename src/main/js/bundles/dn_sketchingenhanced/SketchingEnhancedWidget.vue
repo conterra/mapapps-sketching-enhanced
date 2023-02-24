@@ -107,42 +107,66 @@
                 />
             </div>
             <div class="center ct-flex-item overflowAuto px-3">
-                <div v-if="editEnabled">
-                    <v-alert
-                        :value="editEnabled"
-                        type="info"
+                <v-tabs
+                    slider-color="primary"
+                >
+                    <v-tab
+                        ripple
                     >
-                        {{ i18n.editHint }}
-                    </v-alert>
-                    <symbol-settings
-                        v-if="editSymbol"
-                        :i18n="i18n.symbolSettings"
-                        :active-ui="activeUi"
-                        :point-symbol.sync="editSymbol"
-                        :polyline-symbol.sync="editSymbol"
-                        :polygon-symbol.sync="editSymbol"
-                        :text-symbol.sync="editSymbol"
-                    />
-                </div>
-                <div v-else-if="!activeTool">
-                    <v-alert
-                        :value="true"
-                        type="info"
+                        Zeichnen
+                    </v-tab>
+                    <v-tab
+                        v-if="measurementEnabled && measurementWidget"
+                        ripple
                     >
-                        {{ i18n.toolHint }}
-                    </v-alert>
-                </div>
-                <div v-else>
-                    <symbol-settings
-                        class="dn_sketchingenhanced--symbol-settings"
-                        :i18n="i18n.symbolSettings"
-                        :active-ui="activeUi"
-                        :point-symbol.sync="pointSymbol"
-                        :polyline-symbol.sync="polylineSymbol"
-                        :polygon-symbol.sync="polygonSymbol"
-                        :text-symbol.sync="textSymbol"
-                    />
-                </div>
+                        Messen
+                    </v-tab>
+                    <v-tab-item>
+                        <div v-if="!editEnabled">
+                            <div v-if="!activeTool">
+                                <v-alert
+                                    :value="true"
+                                    type="info"
+                                >
+                                    {{ i18n.toolHint }}
+                                </v-alert>
+                            </div>
+                            <symbol-settings
+                                class="dn_sketchingenhanced--symbol-settings"
+                                :i18n="i18n.symbolSettings"
+                                :active-ui="activeUi"
+                                :point-symbol.sync="pointSymbol"
+                                :polyline-symbol.sync="polylineSymbol"
+                                :polygon-symbol.sync="polygonSymbol"
+                                :text-symbol.sync="textSymbol"
+                            />
+                        </div>
+                        <div v-else>
+                            <v-alert
+                                :value="true"
+                                type="info"
+                            >
+                                {{ i18n.editHint }}
+                            </v-alert>
+                            <symbol-settings
+                                v-if="editSymbol"
+                                :i18n="i18n.symbolSettings"
+                                :active-ui="activeUi"
+                                :point-symbol.sync="editSymbol"
+                                :polyline-symbol.sync="editSymbol"
+                                :polygon-symbol.sync="editSymbol"
+                                :text-symbol.sync="editSymbol"
+                            />
+                        </div>
+                    </v-tab-item>
+                    <v-tab-item v-if="measurementEnabled && measurementWidget">
+                        <component
+                            :is="measurementWidgetInstance.view"
+                            v-bind="{ ...measurementWidgetInstance.props }"
+                            v-on="measurementWidgetInstance.events"
+                        />
+                    </v-tab-item>
+                </v-tabs>
             </div>
         </div>
     </div>
@@ -240,6 +264,17 @@
             measurementEnabled: {
                 type: Boolean,
                 default: false
+            },
+            measurementWidget: {
+                type: Object,
+                default: function () {
+                    return {};
+                }
+            }
+        },
+        computed: {
+            measurementWidgetInstance() {
+                return this.measurementWidget();
             }
         }
     };

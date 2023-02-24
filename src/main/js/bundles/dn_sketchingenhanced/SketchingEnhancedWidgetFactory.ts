@@ -121,6 +121,7 @@ export default class SketchingEnhancedWidgetFactory {
         vm.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
         vm.polygonSymbol = sketchingEnhancedModel.polygonSymbol;
         vm.textSymbol = sketchingEnhancedModel.textSymbol;
+        vm.measurementWidget = () => this._measurementWidget;
 
         vm.$on("activate-tool", (tool) => {
             controller.activateTool(tool);

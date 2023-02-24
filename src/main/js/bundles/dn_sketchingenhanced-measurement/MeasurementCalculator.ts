@@ -36,7 +36,7 @@ export class MeasurementCalculator {
     * @return corrdinate string
     * @private
     */
-    public async getPointCoordinates(point: __esri.Point): Promise<string> {
+    public async getPointCoordinates(point: __esri.Point): Promise<object> {
         if (!point) {
             return null;
         }
@@ -44,8 +44,6 @@ export class MeasurementCalculator {
         const spatialReference = point.spatialReference;
         const targetSpatialReference = this.measurementModel.pointCoordSpatialReference || spatialReference;
         const places = this.measurementModel.pointCoordPlaces;
-        const unitSymbolX = this.measurementModel.pointCoordUnitSymbolX;
-        const unitSymbolY = this.measurementModel.pointCoordUnitSymbolY;
         const transformedPoint = await this.transformGeometry(point, targetSpatialReference.wkid) as __esri.Point;
 
         if (!transformedPoint) {
@@ -53,7 +51,9 @@ export class MeasurementCalculator {
         }
         const x = transformedPoint.x.toFixed(places);
         const y = transformedPoint.y.toFixed(places);
-        return `${x}${unitSymbolX} / ${y}${unitSymbolY}`;
+        return {
+            x, y
+        };
     }
 
     /**

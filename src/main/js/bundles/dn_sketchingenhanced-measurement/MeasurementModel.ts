@@ -23,7 +23,11 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     distanceUnit: __esri.LinearUnits,
     areaUnit: __esri.ArealUnits,
     distanceUnits: Array<any>,
-    areaUnits: Array<any>
+    areaUnits: Array<any>,
+    length: string,
+    area: string,
+    x: string,
+    y: string
 }): Impl & MutableType<P> {
     properties(mutableDefinition, mutableProperties);
     return mutableDefinition;
@@ -38,7 +42,11 @@ interface SketchingEnhancedModelProps {
     distanceUnit: __esri.LinearUnits,
     areaUnit: __esri.ArealUnits,
     distanceUnits: Array<any>,
-    areaUnits: Array<any>
+    areaUnits: Array<any>,
+    length: string,
+    area: string
+    x: string,
+    y: string
 }
 
 export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
@@ -48,5 +56,9 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         distanceUnit: "meters",
         areaUnit: "square-meters",
         distanceUnits: [],
-        areaUnits: []
+        areaUnits: [],
+        length: undefined,
+        area: undefined,
+        x: undefined,
+        y: undefined
     });

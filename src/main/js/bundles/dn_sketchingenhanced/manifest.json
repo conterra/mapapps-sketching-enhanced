@@ -155,6 +155,11 @@
                 {
                     "name": "_mapWidgetModel",
                     "providing": "map-widget.MapWidgetModel"
+                },
+                {
+                    "name": "_measurementWidget",
+                    "providing": "dn_sketchingenhanced-measurement.MeasurementWidget",
+                    "cardinality": "0..1"
                 }
             ]
         },

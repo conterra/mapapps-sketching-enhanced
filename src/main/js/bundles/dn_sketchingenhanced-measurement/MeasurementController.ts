@@ -89,6 +89,7 @@ export default class MeasurementController {
 
         sketchViewModelObservers.add(sketchViewModel.on("create", (event) => {
             this.drawMeasurementGraphics(event);
+            this.getMeasurmentCalculations(event);
         }));
 
         sketchViewModelObservers.add(sketchViewModel.on("delete", (event) => {
@@ -107,6 +108,43 @@ export default class MeasurementController {
             });
             this.drawMeasurementGraphics(event);
         }));
+    }
+
+    private async getMeasurmentCalculations(event: any): Promise<void> {
+        const measurementCalculator = this.measurementCalculator;
+        const measurementModel = this._measurementModel;
+        const graphic = event.graphics?.length ? event.graphics[0] : event.graphic;
+        if(!graphic) {
+            return;
+        }
+        measurementModel.x = undefined;
+        measurementModel.y = undefined;
+        measurementModel.area = undefined;
+        measurementModel.length = undefined;
+
+        if (graphic?.geometry?.type === "point") {
+            const point = graphic.geometry as __esri.Point;
+            const coordinates = await measurementCalculator.getPointCoordinates(point);
+            measurementModel.x = coordinates.x;
+            measurementModel.y = coordinates.y;
+        }
+        if (graphic?.geometry?.type === "polyline") {
+            const polyline = graphic.geometry as __esri.Polyline;
+            const length = measurementCalculator.getLength(polyline, measurementModel.distanceUnit);
+            measurementModel.length = length;
+        }
+        if (graphic?.geometry?.type === "polygon") {
+            const polygon = graphic.geometry as __esri.Polygon;
+            const area = measurementCalculator.getArea(polygon, measurementModel.areaUnit);
+            measurementModel.area = area;
+        }
+
+        if (event.state === "cancel") {
+            measurementModel.x = undefined;
+            measurementModel.y = undefined;
+            measurementModel.area = undefined;
+            measurementModel.length = undefined;
+        }
     }
 
     private drawMeasurementGraphics(event: any): void {
@@ -203,8 +241,14 @@ export default class MeasurementController {
      */
     private async getPointCoordinatesGraphic(point: __esri.Point): Promise<__esri.Graphic> {
         const measurementCalculator = this.measurementCalculator;
+        const measurementModel = this._measurementModel;
         const coordinates = await measurementCalculator.getPointCoordinates(point);
-        return this.getMeasurementTextGraphic(point, 0, coordinates, null);
+        const x = coordinates.x;
+        const y = coordinates.y
+        const unitSymbolX = measurementModel.pointCoordUnitSymbolX;
+        const unitSymbolY = measurementModel.pointCoordUnitSymbolY;
+        const coordinatesString = `${x}${unitSymbolX} / ${y}${unitSymbolY}`;
+        return this.getMeasurementTextGraphic(point, 0, coordinatesString, null);
     }
 
     /**

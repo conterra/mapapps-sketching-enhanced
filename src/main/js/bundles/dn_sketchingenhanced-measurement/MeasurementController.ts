@@ -81,6 +81,7 @@ export default class MeasurementController {
     deactivateMeasuring(): void {
         // remove watcher
         this.sketchViewModelObservers.destroy();
+        this.clearTempGraphics();
     }
 
     private createSketchViewModelObservers(): void {

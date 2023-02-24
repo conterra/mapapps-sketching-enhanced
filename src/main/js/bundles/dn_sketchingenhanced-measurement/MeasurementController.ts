@@ -15,6 +15,7 @@
 ///
 
 import { WatchHandle } from "apprt-binding/Binding";
+import { createObservers, Observers } from "apprt-core/Observers";
 import type {InjectedReference} from "apprt-core/InjectedReference";
 import { Polyline } from "esri/geometry";
 import Graphic from "esri/Graphic";
@@ -23,6 +24,7 @@ import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel"
 import MeasurementModel from "./MeasurementModel";
 import { MeasurementCalculator } from "./MeasurementCalculator";
 import { CoordinateTransformer } from "@conterra/ct-mapapps-typings/coordinatetransformer/CoordinateTransformer";
+import async from "apprt-core/async";
 
 export default class MeasurementController {
 
@@ -32,10 +34,10 @@ export default class MeasurementController {
     private readonly _coordinateTransformer: InjectedReference<CoordinateTransformer>;
     private sketchViewModel: __esri.SketchViewModel;
     private graphicsLayer: __esri.GraphicsLayer;
-    private sketchViewModelCreateWatcher: WatchHandle;
     private measurementEnabledWatcher: WatchHandle;
     private measurementCalculator: MeasurementCalculator;
     private tempGraphics: __esri.Collection<__esri.Graphic> = new Collection();
+    private sketchViewModelObservers = createObservers();
 
     activate(): void {
         this.measurementCalculator = new MeasurementCalculator(this._measurementModel, this._coordinateTransformer);
@@ -73,95 +75,121 @@ export default class MeasurementController {
     }
 
     activateMeasuring(): void {
-        this.sketchViewModelCreateWatcher = this.createSketchViewModelWatcher();
+        this.createSketchViewModelObservers();
     }
 
     deactivateMeasuring(): void {
         // remove watcher
-        this.sketchViewModelCreateWatcher.remove();
+        this.sketchViewModelObservers.destroy();
     }
 
-    private createSketchViewModelWatcher(): WatchHandle {
+    private createSketchViewModelObservers(): void {
         const sketchViewModel = this.sketchViewModel;
+        const sketchViewModelObservers = this.sketchViewModelObservers;
 
-        return sketchViewModel.on("create", (event) => {
-            setTimeout(async () => {
-                const tempGraphics: Array<__esri.Graphic> = [];
-                const graphic = event.graphic;
-                if(!graphic) {
-                    return;
+        sketchViewModelObservers.add(sketchViewModel.on("create", (event) => {
+            this.drawMeasurementGraphics(event);
+        }));
+
+        sketchViewModelObservers.add(sketchViewModel.on("delete", (event) => {
+            async(() => {
+                event.graphics.forEach((graphic) => {
+                    const uid = graphic.attributes?.uid;
+                    uid && this.deleteMeasurementGraphics(uid);
+                });
+            }, 100);
+        }));
+
+        sketchViewModelObservers.add(sketchViewModel.on("update", (event) => {
+            event.graphics.forEach((graphic) => {
+                const uid = graphic.attributes?.uid;
+                uid && this.deleteMeasurementGraphics(uid);
+            });
+            this.drawMeasurementGraphics(event);
+        }));
+    }
+
+    private drawMeasurementGraphics(event: any): void {
+        setTimeout(async () => {
+            const tempGraphics: Array<__esri.Graphic> = [];
+            const graphic = event.graphics?.length ? event.graphics[0] : event.graphic;
+            if(!graphic) {
+                return;
+            }
+
+            if (graphic?.geometry?.type === "point") {
+                const point = graphic.geometry as __esri.Point;
+
+                const textGraphic = await this.getPointCoordinatesGraphic(point);
+                tempGraphics.push(textGraphic);
+                this.addTempGraphics(tempGraphics);
+            }
+            if (graphic?.geometry?.type === "polyline") {
+                const polyline = graphic.geometry as __esri.Polyline;
+
+                const paths = polyline.paths[0];
+                for (let i = 0; i < paths.length - 1; i++) {
+                    const point1 = polyline.getPoint(0, i);
+                    const point2 = polyline.getPoint(0, i+1);
+                    tempGraphics.push(this.getDistanceLabelBetweenPointsGraphic(point1, point2));
                 }
-
-                if (graphic?.geometry?.type === "point") {
-                    const point = graphic.geometry as __esri.Point;
-
-                    const textGraphic = await this.getPointCoordinatesGraphic(point);
-                    tempGraphics.push(textGraphic);
-                    this.addTempGraphics(tempGraphics);
-                }
-                if (graphic?.geometry?.type === "polyline") {
-                    const polyline = graphic.geometry as __esri.Polyline;
-
-                    const paths = polyline.paths[0];
-                    for (let i = 0; i < paths.length - 1; i++) {
-                        const point1 = polyline.getPoint(0, i);
-                        const point2 = polyline.getPoint(0, i+1);
-                        tempGraphics.push(this.getDistanceLabelBetweenPointsGraphic(point1, point2));
+                if(paths.length > 2) {
+                    tempGraphics.push(this.getLengthGraphic(polyline));
+                    for (let i = 1; i < paths.length - 1; i++) {
+                        const centerPoint = polyline.getPoint(0, i);
+                        const nextPoint = polyline.getPoint(0, i+1);
+                        const previousPoint = polyline.getPoint(0, i-1);
+                        const angleGraphic =
+                            this.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
+                        tempGraphics.push(angleGraphic);
                     }
-                    if(paths.length > 2) {
-                        tempGraphics.push(this.getLengthGraphic(polyline));
-                        for (let i = 1; i < paths.length - 1; i++) {
-                            const centerPoint = polyline.getPoint(0, i);
-                            const nextPoint = polyline.getPoint(0, i+1);
-                            const previousPoint = polyline.getPoint(0, i-1);
-                            const angleGraphic =
-                                this.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
-                            tempGraphics.push(angleGraphic);
+                }
+                this.addTempGraphics(tempGraphics);
+            }
+            if (graphic?.geometry?.type === "polygon") {
+                const polygon = graphic.geometry as __esri.Polygon;
+
+                const rings = polygon.rings[0];
+                for (let i = 0; i < rings.length - 1; i++) {
+                    const point1 = polygon.getPoint(0, i);
+                    const point2 = polygon.getPoint(0, i+1);
+                    tempGraphics.push(this.getDistanceLabelBetweenPointsGraphic(point1, point2));
+
+                }
+                if(rings.length > 3) {
+                    tempGraphics.push(this.getAreaGraphic(polygon));
+                    for (let i = 1; i < rings.length; i++) {
+                        const centerPoint = polygon.getPoint(0, i);
+                        // switch next and previous point to calculate inner angles
+                        const nextPoint = polygon.getPoint(0, i-1);
+                        let previousPoint;
+                        // use first point to calculate last angle
+                        if(i === rings.length-1) {
+                            previousPoint = polygon.getPoint(0, 1);
+                        } else {
+                            previousPoint = polygon.getPoint(0, i+1);
                         }
+                        const angleGraphic =
+                            this.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
+                        tempGraphics.push(angleGraphic);
                     }
-                    this.addTempGraphics(tempGraphics);
                 }
-                if (graphic?.geometry?.type === "polygon") {
-                    const polygon = graphic.geometry as __esri.Polygon;
+                this.addTempGraphics(tempGraphics);
+            }
 
-                    const rings = polygon.rings[0];
-                    for (let i = 0; i < rings.length - 1; i++) {
-                        const point1 = polygon.getPoint(0, i);
-                        const point2 = polygon.getPoint(0, i+1);
-                        tempGraphics.push(this.getDistanceLabelBetweenPointsGraphic(point1, point2));
-
-                    }
-                    if(rings.length > 3) {
-                        tempGraphics.push(this.getAreaGraphic(polygon));
-                        for (let i = 1; i < rings.length; i++) {
-                            const centerPoint = polygon.getPoint(0, i);
-                            // switch next and previous point to calculate inner angles
-                            const nextPoint = polygon.getPoint(0, i-1);
-                            let previousPoint;
-                            // use first point to calculate last angle
-                            if(i === rings.length-1) {
-                                previousPoint = polygon.getPoint(0, 1);
-                            } else {
-                                previousPoint = polygon.getPoint(0, i+1);
-                            }
-                            const angleGraphic =
-                                this.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
-                            tempGraphics.push(angleGraphic);
-                        }
-                    }
-                    this.addTempGraphics(tempGraphics);
+            if (event.state === "complete") {
+                // add uid to drawn graphic
+                if(!graphic.attributes?.uid) {
+                    graphic.setAttribute("uid", graphic.uid);
                 }
+                this.addTempGraphicsToLayer(graphic);
+                this.clearTempGraphics();
+            }
 
-                if (event.state === "complete") {
-                    this.addTempGraphicsToLayer();
-                    this.clearTempGraphics();
-                }
-
-                if (event.state === "cancel") {
-                    this.clearTempGraphics();
-                }
-            }, 10);
-        });
+            if (event.state === "cancel") {
+                this.clearTempGraphics();
+            }
+        }, 10);
     }
 
     /**
@@ -328,8 +356,14 @@ export default class MeasurementController {
             unit.name === measurementModel.angleUnit);
     }
 
-    private addTempGraphicsToLayer(): void {
-        this.graphicsLayer.addMany(this.tempGraphics.toArray());
+    private addTempGraphicsToLayer(graphic: __esri.Graphic): void {
+        const graphics = this.tempGraphics;
+        if(graphic.attributes.uid) {
+            graphics.forEach((g)=>{
+                g.setAttribute("parentUid", graphic.attributes.uid);
+            });
+        }
+        this.graphicsLayer.addMany(graphics.toArray());
     }
 
     private addTempGraphics(graphics: Array<__esri.Graphic>): void {
@@ -344,5 +378,12 @@ export default class MeasurementController {
         const graphics = this.tempGraphics;
         view.graphics.removeMany(graphics);
         this.tempGraphics.removeAll();
+    }
+
+    private deleteMeasurementGraphics(uid: number): void {
+        const sketchViewModel = this.sketchViewModel;
+        const graphics = sketchViewModel.layer.graphics;
+        const graphicsToRemove = graphics.filter((g)=>g.attributes.parentUid === uid);
+        graphics.removeMany(graphicsToRemove);
     }
 }

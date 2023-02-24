@@ -28,8 +28,8 @@
                     "wkid": 3857
                 },
                 "pointCoordPlaces": 3,
-                "pointCoordUnitSymbolX": "X",
-                "pointCoordUnitSymbolY": "Y",
+                "pointCoordUnitSymbolX": "",
+                "pointCoordUnitSymbolY": "",
                 "textSymbol": {
                     "type": "text",
                     "color": {

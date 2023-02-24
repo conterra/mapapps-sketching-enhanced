@@ -156,7 +156,7 @@ export default class MeasurementController {
                 return;
             }
 
-            if (graphic?.geometry?.type === "point") {
+            if (graphic?.geometry?.type === "point" && !graphic.symbol.text) {
                 const point = graphic.geometry as __esri.Point;
 
                 const textGraphic = await this.getPointCoordinatesGraphic(point);

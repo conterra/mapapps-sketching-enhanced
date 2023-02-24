@@ -20,9 +20,9 @@ import type {Mutable as MutableType} from "@conterra/ct-mapapps-typings/apprt-co
 function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     measurementEnabled: boolean,
     textSymbol: __esri.TextSymbol,
-    distanceUnit: __esri.LinearUnits,
+    lengthUnit: __esri.LinearUnits,
     areaUnit: __esri.ArealUnits,
-    distanceUnits: Array<any>,
+    lengthUnits: Array<any>,
     areaUnits: Array<any>,
     length: string,
     area: string,
@@ -39,9 +39,9 @@ class SketchingEnhancedModel extends Mutable {
 interface SketchingEnhancedModelProps {
     measurementEnabled: boolean,
     textSymbol: __esri.TextSymbol,
-    distanceUnit: __esri.LinearUnits,
+    lengthUnit: __esri.LinearUnits,
     areaUnit: __esri.ArealUnits,
-    distanceUnits: Array<any>,
+    lengthUnits: Array<any>,
     areaUnits: Array<any>,
     length: string,
     area: string
@@ -53,9 +53,9 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
     {
         measurementEnabled: false,
         textSymbol: undefined,
-        distanceUnit: "meters",
+        lengthUnit: "meters",
         areaUnit: "square-meters",
-        distanceUnits: [],
+        lengthUnits: [],
         areaUnits: [],
         length: undefined,
         area: undefined,

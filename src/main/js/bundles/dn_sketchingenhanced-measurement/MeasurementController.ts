@@ -130,7 +130,7 @@ export default class MeasurementController {
         }
         if (graphic?.geometry?.type === "polyline") {
             const polyline = graphic.geometry as __esri.Polyline;
-            const length = measurementCalculator.getLength(polyline, measurementModel.distanceUnit);
+            const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
             measurementModel.length = length;
         }
         if (graphic?.geometry?.type === "polygon") {
@@ -271,11 +271,11 @@ export default class MeasurementController {
             }
         });
         polyline.addPath([point1, point2]);
-        const distanceUnit = this.getDistanceUnit();
-        const distance = measurementCalculator.getLength(polyline, measurementModel.distanceUnit);
+        const lengthUnit = this.getDistanceUnit();
+        const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
         const center = polyline.extent.center;
-        const suffix = distanceUnit.abbreviation;
-        return this.getMeasurementTextGraphic(center, angle, distance, suffix);
+        const suffix = lengthUnit.abbreviation;
+        return this.getMeasurementTextGraphic(center, angle, length, suffix);
     }
 
     /**
@@ -309,10 +309,10 @@ export default class MeasurementController {
     private getLengthGraphic(polyline: __esri.Polyline): __esri.Graphic {
         const measurementCalculator = this.measurementCalculator;
         const measurementModel = this._measurementModel;
-        const length = measurementCalculator.getLength(polyline, measurementModel.distanceUnit);
+        const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
         const center = polyline.extent.center;
-        const distanceUnit = this.getDistanceUnit();
-        const suffix = distanceUnit.abbreviation;
+        const lengthUnit = this.getDistanceUnit();
+        const suffix = lengthUnit.abbreviation;
 
         return this.getMeasurementTextGraphic(center, 0, length, suffix);
     }
@@ -384,8 +384,8 @@ export default class MeasurementController {
 
     private getDistanceUnit() {
         const measurementModel = this._measurementModel;
-        return measurementModel.distanceUnits.find((unit) =>
-            unit.name === measurementModel.distanceUnit);
+        return measurementModel.lengthUnits.find((unit) =>
+            unit.name === measurementModel.lengthUnit);
     }
 
     private getAreaUnit() {

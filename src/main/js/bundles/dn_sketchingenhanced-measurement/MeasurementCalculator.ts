@@ -67,7 +67,7 @@ export class MeasurementCalculator {
      * @public
      */
     public getLength(geometry: __esri.Polygon | __esri.Polyline,
-        unit: __esri.LinearUnits | 'auto' = this.measurementModel?.distanceUnit): string {
+        unit: __esri.LinearUnits | 'auto' = this.measurementModel?.lengthUnit): string {
         const unitForCalculation = unit === 'auto' ? 'meters' : unit;
         const length = this.calculateGeometryLength(geometry, unitForCalculation);
         return this.formatNumber(length, 2);

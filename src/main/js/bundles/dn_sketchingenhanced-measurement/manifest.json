@@ -53,10 +53,10 @@
                     "horizontalAlignment": "center",
                     "verticalAlignment": "baseline"
                 },
-                "distanceUnit": "meters",
+                "lengthUnit": "meters",
                 "areaUnit": "square-meters",
                 "angleUnit": "degree",
-                "distanceUnits": [
+                "lengthUnits": [
                     {
                         "name": "meters",
                         "abbreviation": "m",

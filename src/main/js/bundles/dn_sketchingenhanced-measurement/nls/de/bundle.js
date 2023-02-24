@@ -17,6 +17,7 @@ export default {
     bundleName: "Erweitertes Zeichnen - Messen",
     bundleDescription: "Dieses Bundle fügt der erweiterten Zeichenfunktionalität Messfunktionen hinzu.",
     ui: {
+        measurementEnabled: "Messen aktivieren",
         x: "x-Wert",
         y: "y-Wert",
         length: "Länge",

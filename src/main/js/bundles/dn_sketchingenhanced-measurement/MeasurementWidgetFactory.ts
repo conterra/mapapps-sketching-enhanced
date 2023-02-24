@@ -36,6 +36,7 @@ export default class MeasurementWidgetFactory {
                 }
 
                 this.binding = Binding.for(e, this._measurementModel)
+                    .syncAll("measurementEnabled")
                     .syncAllToLeft("length", "area", "x", "y")
                     .syncToLeftNow()
                     .enable();

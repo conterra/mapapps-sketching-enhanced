@@ -18,6 +18,7 @@ export default {
         bundleName: "Sketching Enhanced - Measurement",
         bundleDescription: "This bundle adds measurement to the extended sketching functionality.",
         ui: {
+            measurementEnabled: "Measurement enabled",
             x: "x-value",
             y: "y-value",
             length: "Length",

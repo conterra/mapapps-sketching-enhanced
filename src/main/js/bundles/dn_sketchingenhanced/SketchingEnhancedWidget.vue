@@ -78,13 +78,6 @@
                     <div class="title mb-2">
                         {{ i18n.settings }}
                     </div>
-                    <v-switch
-                        v-model="measurementEnabled"
-                        :label="i18n.measurementSettings.measurementEnabled"
-                        color="primary"
-                        class="mt-1"
-                        hide-details
-                    />
                     <snapping-settings
                         :i18n="i18n.snappingSettings"
                         :snapping-enabled.sync="snappingEnabled"
@@ -116,7 +109,7 @@
                         Zeichnen
                     </v-tab>
                     <v-tab
-                        v-if="measurementEnabled && measurementWidget"
+                        v-if="measurementWidget"
                         ripple
                     >
                         Messen
@@ -159,7 +152,7 @@
                             />
                         </div>
                     </v-tab-item>
-                    <v-tab-item v-if="measurementEnabled && measurementWidget">
+                    <v-tab-item v-if="measurementWidget">
                         <component
                             :is="measurementWidgetInstance.view"
                             v-bind="{ ...measurementWidgetInstance.props }"
@@ -261,14 +254,10 @@
                     return undefined;
                 }
             },
-            measurementEnabled: {
-                type: Boolean,
-                default: false
-            },
             measurementWidget: {
                 type: Object,
                 default: function () {
-                    return {};
+                    return undefined;
                 }
             }
         },

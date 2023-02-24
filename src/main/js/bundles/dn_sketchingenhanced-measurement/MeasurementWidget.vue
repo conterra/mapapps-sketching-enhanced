@@ -17,6 +17,13 @@
 -->
 <template>
     <v-container class="pa-1 measurement fullHeight">
+        <v-switch
+            v-model="measurementEnabled"
+            :label="i18n.measurementEnabled"
+            color="primary"
+            class="mt-1"
+            hide-details
+        />
         <v-text-field
             v-if="x"
             v-model="x"
@@ -49,7 +56,10 @@
 </template>
 
 <script>
+    import Bindable from "apprt-vue/mixins/Bindable";
+
     export default {
+        mixins: [Bindable],
         props: {
             i18n: {
                 type: Object,
@@ -60,6 +70,7 @@
         },
         data() {
             return {
+                measurementEnabled: false,
                 x: "",
                 y: "",
                 length: "",

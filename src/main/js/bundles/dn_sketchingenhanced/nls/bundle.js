@@ -37,9 +37,6 @@ export default {
             editHint: "Click on a graphic in the map to edit it.",
             toolHint: "Select a sketching tool to draw on map.",
             settings: "Settings",
-            measurementSettings: {
-                measurementEnabled: "Enable measurement"
-            },
             snappingSettings: {
                 title: "Snapping controls",
                 snappingEnabled: "Enable snapping",

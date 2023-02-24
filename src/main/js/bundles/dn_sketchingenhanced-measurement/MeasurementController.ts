@@ -245,7 +245,7 @@ export default class MeasurementController {
         const measurementModel = this._measurementModel;
         const coordinates = await measurementCalculator.getPointCoordinates(point);
         const x = coordinates.x;
-        const y = coordinates.y
+        const y = coordinates.y;
         const unitSymbolX = measurementModel.pointCoordUnitSymbolX;
         const unitSymbolY = measurementModel.pointCoordUnitSymbolY;
         const coordinatesString = `${x}${unitSymbolX} / ${y}${unitSymbolY}`;
@@ -347,6 +347,9 @@ export default class MeasurementController {
      */
     private getMeasurementTextGraphic(center: __esri.Point, angle: number, measurement: string,
         unitSuffix: string): __esri.Graphic {
+        if(!measurement) {
+            return;
+        }
         const measurementModel = this._measurementModel;
         const sketchViewModel = this.sketchViewModel;
         const currentWKID = sketchViewModel.view.spatialReference.wkid;
@@ -397,6 +400,7 @@ export default class MeasurementController {
     }
 
     private addTempGraphics(graphics: Array<__esri.Graphic>): void {
+        graphics = graphics.filter((graphic)=>graphic);
         this.clearTempGraphics();
         const view = this.sketchViewModel.view;
         view.graphics.addMany(graphics);

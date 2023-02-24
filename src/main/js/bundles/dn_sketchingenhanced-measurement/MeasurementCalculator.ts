@@ -70,6 +70,9 @@ export class MeasurementCalculator {
         unit: __esri.LinearUnits | 'auto' = this.measurementModel?.lengthUnit): string {
         const unitForCalculation = unit === 'auto' ? 'meters' : unit;
         const length = this.calculateGeometryLength(geometry, unitForCalculation);
+        if(!length) {
+            return;
+        }
         return this.formatNumber(length, 2);
     }
 
@@ -105,6 +108,9 @@ export class MeasurementCalculator {
         unit: __esri.ArealUnits | 'auto' = this.measurementModel?.areaUnit): string {
         const unitForCalculation = unit === 'auto' ? 'square-meters' : unit;
         const area = this.calculateGeometryArea(geometry, unitForCalculation);
+        if(!area) {
+            return;
+        }
         return this.formatNumber(area, 2);
     }
 
@@ -135,11 +141,13 @@ export class MeasurementCalculator {
      *
      * @public
      */
-    public getAngleBetweenTwoPoints(point1: __esri.Point, point2: __esri.Point): string {
+    public getAngleBetweenTwoPoints(point1: __esri.Point, point2: __esri.Point): number {
         const quadrant = this.getQuadrant(point1, point2);
-        let angle = Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
-        angle = this.adjustAngleToQuadrant(quadrant, angle);
-        return this.formatNumber(angle, 0);
+        const angle = Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
+        if(isNaN(angle)) {
+            return;
+        }
+        return this.adjustAngleToQuadrant(quadrant, angle);
     }
 
     /**
@@ -158,6 +166,9 @@ export class MeasurementCalculator {
         const p3Quadrant = this.getQuadrant(previousPoint, centerPoint);
         const quadrant = [p2Quadrant, p3Quadrant].join(' ');
         const angle = this.calculateAngle(centerPoint, nextPoint, previousPoint, quadrant);
+        if(isNaN(angle)) {
+            return;
+        }
         return this.formatNumber(angle, 0);
     }
 

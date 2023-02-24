@@ -28,28 +28,28 @@
             v-if="x"
             v-model="x"
             :label="i18n.x"
-            prefix="$"
+            :prefix="pointCoordUnitSymbolX"
             readonly
         />
         <v-text-field
             v-if="y"
             v-model="y"
             :label="i18n.y"
-            prefix="$"
+            :prefix="pointCoordUnitSymbolY"
             readonly
         />
         <v-text-field
             v-if="length"
             v-model="length"
             :label="i18n.length"
-            prefix="$"
+            :suffix="lengthUnitAbbreviation"
             readonly
         />
         <v-text-field
             v-if="area"
             v-model="area"
             :label="i18n.area"
-            prefix="$"
+            :suffix="areaUnitAbbreviation"
             readonly
         />
     </v-container>
@@ -71,6 +71,12 @@
         data() {
             return {
                 measurementEnabled: false,
+                lengthUnit: "meters",
+                lengthUnitAbbreviation: "m",
+                areaUnit: "square-meters",
+                areaUnitAbbreviation: "m²",
+                pointCoordUnitSymbolX: "X",
+                pointCoordUnitSymbolY: "Y",
                 x: "",
                 y: "",
                 length: "",

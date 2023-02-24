@@ -271,10 +271,9 @@ export default class MeasurementController {
             }
         });
         polyline.addPath([point1, point2]);
-        const lengthUnit = this.getDistanceUnit();
         const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
         const center = polyline.extent.center;
-        const suffix = lengthUnit.abbreviation;
+        const suffix = measurementModel.lengthUnitAbbreviation;
         return this.getMeasurementTextGraphic(center, angle, length, suffix);
     }
 
@@ -311,8 +310,7 @@ export default class MeasurementController {
         const measurementModel = this._measurementModel;
         const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
         const center = polyline.extent.center;
-        const lengthUnit = this.getDistanceUnit();
-        const suffix = lengthUnit.abbreviation;
+        const suffix = measurementModel.lengthUnitAbbreviation;
 
         return this.getMeasurementTextGraphic(center, 0, length, suffix);
     }
@@ -330,8 +328,7 @@ export default class MeasurementController {
         const measurementModel = this._measurementModel;
         const area = measurementCalculator.getArea(polygon, measurementModel.areaUnit);
         const center = polygon.extent.center;
-        const areaUnit = this.getAreaUnit();
-        const suffix = areaUnit.abbreviation;
+        const suffix = measurementModel.areaUnitAbbreviation;
 
         return this.getMeasurementTextGraphic(center, 0, area, suffix);
     }
@@ -380,18 +377,6 @@ export default class MeasurementController {
         });
 
         return textGraphic;
-    }
-
-    private getDistanceUnit() {
-        const measurementModel = this._measurementModel;
-        return measurementModel.lengthUnits.find((unit) =>
-            unit.name === measurementModel.lengthUnit);
-    }
-
-    private getAreaUnit() {
-        const measurementModel = this._measurementModel;
-        return measurementModel.areaUnits.find((unit) =>
-            unit.name === measurementModel.areaUnit);
     }
 
     private getAngleUnit() {

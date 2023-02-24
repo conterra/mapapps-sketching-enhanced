@@ -20,45 +20,88 @@ import type {Mutable as MutableType} from "@conterra/ct-mapapps-typings/apprt-co
 function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     measurementEnabled: boolean,
     textSymbol: __esri.TextSymbol,
-    lengthUnit: __esri.LinearUnits,
-    areaUnit: __esri.ArealUnits,
-    lengthUnits: Array<any>,
-    areaUnits: Array<any>,
     length: string,
+    lengthUnit: __esri.LinearUnits,
+    lengthUnitAbbreviation: string,
+    lengthUnits: Array<any>,
     area: string,
+    areaUnit: __esri.ArealUnits,
+    areaUnitAbbreviation: string,
+    areaUnits: Array<any>,
+    angleUnit: __esri.AngleUnit,
+    angleUnitAbbreviation: string,
+    angleUnits: Array<any>,
     x: string,
-    y: string
+    y: string,
+    pointCoordSpatialReference: __esri.SpatialReference
+    pointCoordPlaces: number,
+    pointCoordUnitSymbolX: string,
+    pointCoordUnitSymbolY: string
 }): Impl & MutableType<P> {
     properties(mutableDefinition, mutableProperties);
     return mutableDefinition;
 }
 
 class SketchingEnhancedModel extends Mutable {
+    activate() {
+        this.watch("lengthUnit", ({value}) => {
+            const lengthUnitObj = this.lengthUnits.find((unit) =>
+                unit.name === value);
+            if(lengthUnitObj) {
+                this.lengthUnitAbbreviation = lengthUnitObj.abbreviation;
+            }
+        });
+        this.watch("areaUnit", ({value}) => {
+            const areaUnitObj = this.areaUnits.find((unit) =>
+                unit.name === value);
+            if(areaUnitObj) {
+                this.areaUnitAbbreviation = areaUnitObj.abbreviation;
+            }
+        });
+    }
 }
 
 interface SketchingEnhancedModelProps {
     measurementEnabled: boolean,
     textSymbol: __esri.TextSymbol,
-    lengthUnit: __esri.LinearUnits,
-    areaUnit: __esri.ArealUnits,
-    lengthUnits: Array<any>,
-    areaUnits: Array<any>,
     length: string,
-    area: string
+    lengthUnit: __esri.LinearUnits,
+    lengthUnitAbbreviation: string,
+    lengthUnits: Array<any>,
+    area: string,
+    areaUnit: __esri.ArealUnits,
+    areaUnitAbbreviation: string,
+    areaUnits: Array<any>,
+    angleUnit: __esri.AngleUnit,
+    angleUnitAbbreviation: string,
+    angleUnits: Array<any>,
     x: string,
-    y: string
+    y: string,
+    pointCoordSpatialReference: __esri.SpatialReference
+    pointCoordPlaces: number,
+    pointCoordUnitSymbolX: string,
+    pointCoordUnitSymbolY: string
 }
 
 export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
     {
         measurementEnabled: false,
         textSymbol: undefined,
-        lengthUnit: "meters",
-        areaUnit: "square-meters",
-        lengthUnits: [],
-        areaUnits: [],
         length: undefined,
+        lengthUnit: "meters",
+        lengthUnitAbbreviation: "m",
+        lengthUnits: [],
         area: undefined,
+        areaUnit: "square-meters",
+        areaUnitAbbreviation: "m²",
+        areaUnits: [],
+        angleUnit: "degrees",
+        angleUnitAbbreviation: "°",
+        angleUnits: [],
         x: undefined,
-        y: undefined
+        y: undefined,
+        pointCoordSpatialReference: undefined,
+        pointCoordPlaces: 3,
+        pointCoordUnitSymbolX: "X",
+        pointCoordUnitSymbolY: "Y"
     });

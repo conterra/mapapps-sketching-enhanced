@@ -38,6 +38,9 @@ export default class MeasurementWidgetFactory {
                 this.binding = Binding.for(e, this._measurementModel)
                     .syncAll("measurementEnabled")
                     .syncAllToLeft("length", "area", "x", "y")
+                    .syncAllToLeft("lengthUnit", "lengthUnitAbbreviation", "lengthUnits")
+                    .syncAllToLeft("areaUnit", "areaUnitAbbreviation", "areaUnits")
+                    .syncAllToLeft("pointCoordUnitSymbolX", "pointCoordUnitSymbolY")
                     .syncToLeftNow()
                     .enable();
             }

@@ -28,8 +28,8 @@
                     "wkid": 3857
                 },
                 "pointCoordPlaces": 3,
-                "pointCoordUnitSymbolX": "°E",
-                "pointCoordUnitSymbolY": "°N",
+                "pointCoordUnitSymbolX": "X",
+                "pointCoordUnitSymbolY": "Y",
                 "textSymbol": {
                     "type": "text",
                     "color": {
@@ -55,7 +55,7 @@
                 },
                 "lengthUnit": "meters",
                 "areaUnit": "square-meters",
-                "angleUnit": "degree",
+                "angleUnit": "degrees",
                 "lengthUnits": [
                     {
                         "name": "meters",
@@ -87,9 +87,9 @@
                 ],
                 "angleUnits": [
                     {
-                        "name": "degree",
+                        "name": "degrees",
                         "abbreviation": "°",
-                        "title": "${ui.units.degree}"
+                        "title": "${ui.units.degrees}"
                     },
                     {
                         "name": "gon",

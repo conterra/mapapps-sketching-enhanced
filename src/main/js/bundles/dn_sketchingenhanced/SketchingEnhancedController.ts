@@ -15,9 +15,10 @@
 ///
 
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
-import Binding, { WatchHandle } from "apprt-binding/Binding";
+import Binding, { Bindable, WatchHandle } from "apprt-binding/Binding";
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import { createObservers } from "apprt-core/Observers";
+import Collection from "esri/core/Collection";
 
 export default class SketchingEnhancedController {
 
@@ -254,11 +255,13 @@ export default class SketchingEnhancedController {
     }
 
     private watchForChangedScale(): WatchHandle {
+        const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        const sketchViewModel = this.sketchViewModel;
         const mapWidgetModel = this.mapWidgetModel;
-        const map = mapWidgetModel.map;
-        const layers = map.allLayers;
+        const snappingOptions = sketchViewModel.snappingOptions;
         return mapWidgetModel.watch("scale", () => {
-            this.changeSnappingFeatureSources(layers, []);
+            sketchingEnhancedModel.snappingFeatureSources
+                = this.getSnappingFeatureSources(snappingOptions.featureSources);
         });
     }
 
@@ -266,14 +269,14 @@ export default class SketchingEnhancedController {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
         const layers = map.allLayers;
-        this.changeSnappingFeatureSources(layers, []);
+        this.changeSnappingFeatureSources(layers, new Collection());
     }
 
     removeSnappingFeatureSources(): void {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
         const layers = map.allLayers;
-        this.changeSnappingFeatureSources([], layers);
+        this.changeSnappingFeatureSources(new Collection(), layers);
     }
 
     createSnappingBinding(): Binding {
@@ -292,7 +295,7 @@ export default class SketchingEnhancedController {
                 this.getSnappingFeatureSources(snappingOptions.featureSources);
         });
 
-        return Binding.for(sketchViewModel.snappingOptions, sketchingEnhancedModel)
+        return Binding.for(sketchViewModel.snappingOptions as Bindable, sketchingEnhancedModel)
             .sync("enabled", "snappingEnabled")
             .sync("featureEnabled", "snappingFeatureEnabled")
             .sync("selfEnabled", "snappingSelfEnabled");
@@ -305,9 +308,7 @@ export default class SketchingEnhancedController {
             return {
                 id: featureSource.layer.uid,
                 title: featureSource.layer.title,
-                // show the feature source as disabled if the layer is not visible in hierarchy
-                // because snapping does not work for disabled layers
-                enabled: isVisibleInHierarchy ? featureSource.enabled : false,
+                enabled: featureSource.enabled,
                 isVisibleInHierarchy: isVisibleInHierarchy,
                 isVisibleAtScale: isVisibleAtScale
             };
@@ -342,12 +343,6 @@ export default class SketchingEnhancedController {
             if (this.isSnappableLayer(layer) && contained(snappingOptions.featureSources, layer)) {
                 snappingOptions.featureSources.remove(snappingFeatureSource);
             }
-        });
-
-        snappingOptions.featureSources.forEach((featureSource)=>{
-            const layer = featureSource.layer;
-            // disable feature source if layer is not visible at scale to prevent query of all features
-            featureSource.enabled = this.isVisibleAtScale(layer);
         });
     }
 

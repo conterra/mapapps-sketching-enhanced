@@ -108,6 +108,7 @@ export default class MeasurementController {
                 uid && this.deleteMeasurementGraphics(uid);
             });
             this.drawMeasurementGraphics(event);
+            this.getMeasurmentCalculations(event);
         }));
     }
 

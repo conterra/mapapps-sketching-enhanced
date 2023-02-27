@@ -36,7 +36,14 @@ export default class MeasurementWidgetFactory {
                 }
 
                 this.binding = Binding.for(e, this._measurementModel)
-                    .syncAll("measurementEnabled")
+                    .syncAll("measurementEnabled",
+                        "lineMeasurementForPolylinesEnabled",
+                        "angleMeasurementForPolylinesEnabled",
+                        "totalLengthMeasurementForPolylinesEnabled",
+                        "lineMeasurementForPolygonsEnabled",
+                        "angleMeasurementForPolygonsEnabled",
+                        "areaMeasurementForPolygonsEnabled",
+                        "circumferenceMeasurementForPolygonsEnabled")
                     .syncAllToLeft("length", "area", "x", "y")
                     .syncAllToLeft("lengthUnit", "lengthUnitAbbreviation", "lengthUnits")
                     .syncAllToLeft("areaUnit", "areaUnitAbbreviation", "areaUnits")

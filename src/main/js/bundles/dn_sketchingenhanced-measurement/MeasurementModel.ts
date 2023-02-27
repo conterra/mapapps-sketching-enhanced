@@ -19,6 +19,13 @@ import type {Mutable as MutableType} from "@conterra/ct-mapapps-typings/apprt-co
 
 function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     measurementEnabled: boolean,
+    totalLengthMeasurementForPolylinesEnabled: boolean,
+    lineMeasurementForPolylinesEnabled: boolean,
+    angleMeasurementForPolylinesEnabled: boolean,
+    lineMeasurementForPolygonsEnabled: boolean,
+    angleMeasurementForPolygonsEnabled: boolean,
+    areaMeasurementForPolygonsEnabled: boolean,
+    circumferenceMeasurementForPolygonsEnabled: boolean,
     textSymbol: __esri.TextSymbol,
     length: string,
     lengthUnit: __esri.LinearUnits,
@@ -63,6 +70,13 @@ class SketchingEnhancedModel extends Mutable {
 
 interface SketchingEnhancedModelProps {
     measurementEnabled: boolean,
+    totalLengthMeasurementForPolylinesEnabled: boolean,
+    lineMeasurementForPolylinesEnabled: boolean,
+    angleMeasurementForPolylinesEnabled: boolean,
+    lineMeasurementForPolygonsEnabled: boolean,
+    angleMeasurementForPolygonsEnabled: boolean,
+    areaMeasurementForPolygonsEnabled: boolean,
+    circumferenceMeasurementForPolygonsEnabled: boolean,
     textSymbol: __esri.TextSymbol,
     length: string,
     lengthUnit: __esri.LinearUnits,
@@ -85,7 +99,14 @@ interface SketchingEnhancedModelProps {
 
 export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
     {
-        measurementEnabled: false,
+        measurementEnabled: true,
+        totalLengthMeasurementForPolylinesEnabled: true,
+        lineMeasurementForPolylinesEnabled: true,
+        angleMeasurementForPolylinesEnabled: true,
+        lineMeasurementForPolygonsEnabled: true,
+        angleMeasurementForPolygonsEnabled: true,
+        areaMeasurementForPolygonsEnabled: true,
+        circumferenceMeasurementForPolygonsEnabled: true,
         textSymbol: undefined,
         length: undefined,
         lengthUnit: "meters",

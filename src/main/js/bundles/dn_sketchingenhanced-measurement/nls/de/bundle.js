@@ -18,6 +18,13 @@ export default {
     bundleDescription: "Dieses Bundle fügt der erweiterten Zeichenfunktionalität Messfunktionen hinzu.",
     ui: {
         measurementEnabled: "Messen aktivieren",
+        lineMeasurementForPolylinesEnabled: "Länge der Linienelemente anzeigen",
+        angleMeasurementForPolylinesEnabled: "Winkel anzeigen",
+        totalLengthMeasurementForPolylinesEnabled: "Gesamtlänge der Polylinie anzeigen",
+        lineMeasurementForPolygonsEnabled: "Kantenlänge von Polygonen anzeigen",
+        angleMeasurementForPolygonsEnabled: "Winkel anzeigen",
+        areaMeasurementForPolygonsEnabled: "Fläche der Polygone anzeigen",
+        circumferenceMeasurementForPolygonsEnabled: "Umfang von Polygonen anzeigen",
         x: "x-Wert",
         y: "y-Wert",
         length: "Länge",

@@ -24,6 +24,13 @@
             "propertiesConstructor": true,
             "properties": {
                 "measurementEnabled": true,
+                "lineMeasurementForPolylinesEnabled": true,
+                "angleMeasurementForPolylinesEnabled": true,
+                "totalLengthMeasurementForPolylinesEnabled": true,
+                "lineMeasurementForPolygonsEnabled": true,
+                "angleMeasurementForPolygonsEnabled": true,
+                "areaMeasurementForPolygonsEnabled": true,
+                "circumferenceMeasurementForPolygonsEnabled": true,
                 "pointCoordSpatialReference": {
                     "wkid": 3857
                 },

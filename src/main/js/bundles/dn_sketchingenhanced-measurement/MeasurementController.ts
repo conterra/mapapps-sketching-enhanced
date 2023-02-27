@@ -150,6 +150,7 @@ export default class MeasurementController {
     }
 
     private drawMeasurementGraphics(event: any): void {
+        const measurementModel = this._measurementModel;
         setTimeout(async () => {
             const tempGraphics: Array<__esri.Graphic> = [];
             const graphic = event.graphics?.length ? event.graphics[0] : event.graphic;
@@ -168,20 +169,26 @@ export default class MeasurementController {
                 const polyline = graphic.geometry as __esri.Polyline;
 
                 const paths = polyline.paths[0];
-                for (let i = 0; i < paths.length - 1; i++) {
-                    const point1 = polyline.getPoint(0, i);
-                    const point2 = polyline.getPoint(0, i+1);
-                    tempGraphics.push(this.getDistanceLabelBetweenPointsGraphic(point1, point2));
+                if(measurementModel.lineMeasurementForPolylinesEnabled) {
+                    for (let i = 0; i < paths.length - 1; i++) {
+                        const point1 = polyline.getPoint(0, i);
+                        const point2 = polyline.getPoint(0, i+1);
+                        tempGraphics.push(this.getDistanceLabelBetweenPointsGraphic(point1, point2));
+                    }
                 }
                 if(paths.length > 2) {
-                    tempGraphics.push(this.getLengthGraphic(polyline));
-                    for (let i = 1; i < paths.length - 1; i++) {
-                        const centerPoint = polyline.getPoint(0, i);
-                        const nextPoint = polyline.getPoint(0, i+1);
-                        const previousPoint = polyline.getPoint(0, i-1);
-                        const angleGraphic =
+                    if(measurementModel.totalLengthMeasurementForPolylinesEnabled) {
+                        tempGraphics.push(this.getLengthGraphic(polyline));
+                    }
+                    if(measurementModel.angleMeasurementForPolylinesEnabled) {
+                        for (let i = 1; i < paths.length - 1; i++) {
+                            const centerPoint = polyline.getPoint(0, i);
+                            const nextPoint = polyline.getPoint(0, i+1);
+                            const previousPoint = polyline.getPoint(0, i-1);
+                            const angleGraphic =
                             this.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
-                        tempGraphics.push(angleGraphic);
+                            tempGraphics.push(angleGraphic);
+                        }
                     }
                 }
                 this.addTempGraphics(tempGraphics);
@@ -190,28 +197,37 @@ export default class MeasurementController {
                 const polygon = graphic.geometry as __esri.Polygon;
 
                 const rings = polygon.rings[0];
-                for (let i = 0; i < rings.length - 1; i++) {
-                    const point1 = polygon.getPoint(0, i);
-                    const point2 = polygon.getPoint(0, i+1);
-                    tempGraphics.push(this.getDistanceLabelBetweenPointsGraphic(point1, point2));
+                if(measurementModel.lineMeasurementForPolygonsEnabled) {
+                    for (let i = 0; i < rings.length - 1; i++) {
+                        const point1 = polygon.getPoint(0, i);
+                        const point2 = polygon.getPoint(0, i+1);
+                        tempGraphics.push(this.getDistanceLabelBetweenPointsGraphic(point1, point2));
 
+                    }
                 }
                 if(rings.length > 3) {
-                    tempGraphics.push(this.getAreaGraphic(polygon));
-                    for (let i = 1; i < rings.length; i++) {
-                        const centerPoint = polygon.getPoint(0, i);
-                        // switch next and previous point to calculate inner angles
-                        const nextPoint = polygon.getPoint(0, i-1);
-                        let previousPoint;
-                        // use first point to calculate last angle
-                        if(i === rings.length-1) {
-                            previousPoint = polygon.getPoint(0, 1);
-                        } else {
-                            previousPoint = polygon.getPoint(0, i+1);
-                        }
-                        const angleGraphic =
+                    if(measurementModel.areaMeasurementForPolygonsEnabled) {
+                        tempGraphics.push(this.getAreaGraphic(polygon));
+                    }
+                    if(measurementModel.circumferenceMeasurementForPolygonsEnabled) {
+                        tempGraphics.push(this.getLengthGraphic(polygon));
+                    }
+                    if(measurementModel.angleMeasurementForPolygonsEnabled) {
+                        for (let i = 1; i < rings.length; i++) {
+                            const centerPoint = polygon.getPoint(0, i);
+                            // switch next and previous point to calculate inner angles
+                            const nextPoint = polygon.getPoint(0, i-1);
+                            let previousPoint;
+                            // use first point to calculate last angle
+                            if(i === rings.length-1) {
+                                previousPoint = polygon.getPoint(0, 1);
+                            } else {
+                                previousPoint = polygon.getPoint(0, i+1);
+                            }
+                            const angleGraphic =
                             this.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
-                        tempGraphics.push(angleGraphic);
+                            tempGraphics.push(angleGraphic);
+                        }
                     }
                 }
                 this.addTempGraphics(tempGraphics);
@@ -250,7 +266,7 @@ export default class MeasurementController {
         const unitSymbolX = measurementModel.pointCoordUnitSymbolX;
         const unitSymbolY = measurementModel.pointCoordUnitSymbolY;
         const coordinatesString = `${x}${unitSymbolX} / ${y}${unitSymbolY}`;
-        return this.getMeasurementTextGraphic(point, 0, coordinatesString, null);
+        return this.getMeasurementTextGraphic(point, 0, coordinatesString, null, false);
     }
 
     /**
@@ -276,7 +292,7 @@ export default class MeasurementController {
         const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
         const center = polyline.extent.center;
         const suffix = measurementModel.lengthUnitAbbreviation;
-        return this.getMeasurementTextGraphic(center, angle, length, suffix);
+        return this.getMeasurementTextGraphic(center, angle, length, suffix, false);
     }
 
     /**
@@ -296,25 +312,25 @@ export default class MeasurementController {
         const angleUnit = this.getAngleUnit();
         const suffix = angleUnit.abbreviation;
         const center = centerPoint;
-        return this.getMeasurementTextGraphic(center, 0, angle, suffix);
+        return this.getMeasurementTextGraphic(center, 0, angle, suffix, false);
     }
 
     /**
      * Function to generate length label graphic.
      *
-     * @param polyline Polyline
+     * @param line Polyline | Polygon
      * @returns __esri.Graphic
      *
      * @private
      */
-    private getLengthGraphic(polyline: __esri.Polyline): __esri.Graphic {
+    private getLengthGraphic(line: __esri.Polyline | __esri.Polygon): __esri.Graphic {
         const measurementCalculator = this.measurementCalculator;
         const measurementModel = this._measurementModel;
-        const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
-        const center = polyline.extent.center;
+        const length = measurementCalculator.getLength(line, measurementModel.lengthUnit);
+        const center = line.extent.center;
         const suffix = measurementModel.lengthUnitAbbreviation;
 
-        return this.getMeasurementTextGraphic(center, 0, length, suffix);
+        return this.getMeasurementTextGraphic(center, 0, length, suffix, line.type === "polygon");
     }
 
     /**
@@ -332,7 +348,7 @@ export default class MeasurementController {
         const center = polygon.extent.center;
         const suffix = measurementModel.areaUnitAbbreviation;
 
-        return this.getMeasurementTextGraphic(center, 0, area, suffix);
+        return this.getMeasurementTextGraphic(center, 0, area, suffix, false);
     }
 
     /**
@@ -347,7 +363,7 @@ export default class MeasurementController {
      * @private
      */
     private getMeasurementTextGraphic(center: __esri.Point, angle: number, measurement: string,
-        unitSuffix: string): __esri.Graphic {
+        unitSuffix: string, additionalYoffset: boolean): __esri.Graphic {
         if(!measurement) {
             return;
         }
@@ -372,7 +388,10 @@ export default class MeasurementController {
         textSymbol.angle = angle;
         const textSize = textSymbol.font.size / 2;
         const xoffset = textSize * Math.sin(angle / (180 / Math.PI));
-        const yoffset = textSize * Math.cos(angle / (180 / Math.PI));
+        let yoffset = textSize * Math.cos(angle / (180 / Math.PI));
+        if(additionalYoffset) {
+            yoffset -= textSymbol.font.size + textSize;
+        }
         textSymbol.xoffset = xoffset.toString() + "px";
         textSymbol.yoffset = yoffset.toString() + "px";
 

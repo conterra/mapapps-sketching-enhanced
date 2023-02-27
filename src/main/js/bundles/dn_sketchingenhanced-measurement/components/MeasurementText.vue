@@ -19,6 +19,7 @@
     <v-container class="pa-0 pt-3 measurement ct-flex-container ct-flex-container--row">
         <v-text-field
             v-model="value"
+            :disabled="disabled"
             :label="label"
             :prefix="prefix"
             :suffix="suffix"
@@ -30,6 +31,7 @@
         <v-tooltip top>
             <v-btn
                 slot="activator"
+                :disabled="disabled"
                 small
                 icon
                 flat
@@ -53,6 +55,10 @@
                 default: function () {
                     return {};
                 }
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             },
             value: {
                 type: String,

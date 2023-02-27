@@ -21,11 +21,75 @@
             v-model="measurementEnabled"
             :label="i18n.measurementEnabled"
             color="primary"
-            class="mt-1 pb-3"
+            class="mt-1"
+            hide-details
+        />
+        <v-switch
+            v-if="activeUi ==='polyline'"
+            v-model="lineMeasurementForPolylinesEnabled"
+            :disabled="!measurementEnabled"
+            :label="i18n.lineMeasurementForPolylinesEnabled"
+            color="primary"
+            class="mt-1"
+            hide-details
+        />
+        <v-switch
+            v-if="activeUi ==='polyline'"
+            v-model="angleMeasurementForPolylinesEnabled"
+            :disabled="!measurementEnabled"
+            :label="i18n.angleMeasurementForPolylinesEnabled"
+            color="primary"
+            class="mt-1"
+            hide-details
+        />
+        <v-switch
+            v-if="activeUi ==='polyline'"
+            v-model="totalLengthMeasurementForPolylinesEnabled"
+            :disabled="!measurementEnabled"
+            :label="i18n.totalLengthMeasurementForPolylinesEnabled"
+            color="primary"
+            class="mt-1"
+            hide-details
+        />
+        <v-switch
+            v-if="activeUi ==='polygon'"
+            v-model="lineMeasurementForPolygonsEnabled"
+            :disabled="!measurementEnabled"
+            :label="i18n.lineMeasurementForPolygonsEnabled"
+            color="primary"
+            class="mt-1"
+            hide-details
+        />
+        <v-switch
+            v-if="activeUi ==='polygon'"
+            v-model="angleMeasurementForPolygonsEnabled"
+            :disabled="!measurementEnabled"
+            :label="i18n.angleMeasurementForPolygonsEnabled"
+            color="primary"
+            class="mt-1"
+            hide-details
+        />
+        <v-switch
+            v-if="activeUi ==='polygon'"
+            v-model="areaMeasurementForPolygonsEnabled"
+            :disabled="!measurementEnabled"
+            :label="i18n.areaMeasurementForPolygonsEnabled"
+            color="primary"
+            class="mt-1"
+            hide-details
+        />
+        <v-switch
+            v-if="activeUi ==='polygon'"
+            v-model="circumferenceMeasurementForPolygonsEnabled"
+            :disabled="!measurementEnabled"
+            :label="i18n.circumferenceMeasurementForPolygonsEnabled"
+            color="primary"
+            class="mt-1"
             hide-details
         />
         <measurement-text
             v-if="activeUi ==='point'"
+            :disabled="!measurementEnabled"
             :i18n="i18n"
             :value="x"
             :label="i18n.x"
@@ -34,6 +98,7 @@
         />
         <measurement-text
             v-if="activeUi ==='point'"
+            :disabled="!measurementEnabled"
             :i18n="i18n"
             :value="y"
             :label="i18n.y"
@@ -41,6 +106,7 @@
         />
         <measurement-text
             v-if="activeUi ==='polyline'"
+            :disabled="!measurementEnabled"
             :i18n="i18n"
             :value="length"
             :label="i18n.length"
@@ -48,6 +114,7 @@
         />
         <measurement-text
             v-if="activeUi ==='polygon'"
+            :disabled="!measurementEnabled"
             :i18n="i18n"
             :value="area"
             :label="i18n.area"
@@ -79,7 +146,14 @@
         },
         data() {
             return {
-                measurementEnabled: false,
+                measurementEnabled: true,
+                lineMeasurementForPolylinesEnabled: true,
+                angleMeasurementForPolylinesEnabled: true,
+                totalLengthMeasurementForPolylinesEnabled: true,
+                lineMeasurementForPolygonsEnabled: true,
+                angleMeasurementForPolygonsEnabled: true,
+                areaMeasurementForPolygonsEnabled: true,
+                circumferenceMeasurementForPolygonsEnabled: true,
                 lengthUnit: "meters",
                 lengthUnitAbbreviation: "m",
                 areaUnit: "square-meters",

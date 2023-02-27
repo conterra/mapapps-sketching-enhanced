@@ -19,6 +19,13 @@ export default {
         bundleDescription: "This bundle adds measurement to the extended sketching functionality.",
         ui: {
             measurementEnabled: "Measurement enabled",
+            lineMeasurementForPolylinesEnabled: "Show length of line elements",
+            angleMeasurementForPolylinesEnabled: "Show angles",
+            totalLengthMeasurementForPolylinesEnabled: "Show total polyline length",
+            lineMeasurementForPolygonsEnabled: "Show edge length of polygons",
+            angleMeasurementForPolygonsEnabled: "Show angles",
+            areaMeasurementForPolygonsEnabled: "Show area of polygons",
+            circumferenceMeasurementForPolygonsEnabled: "Show circumference of polygons",
             x: "x-value",
             y: "y-value",
             length: "Length",

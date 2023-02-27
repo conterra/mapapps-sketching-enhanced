@@ -28,10 +28,16 @@
             "coordinateviewer",
             "toc",
             "dn_sketchingenhanced",
-            "dn_sketchingenhanced-measurement"
+            "dn_sketchingenhanced-measurement",
+            "sdi_appstatemanagement"
         ]
     },
     "bundles": {
+        "sdi_appstatestore": {
+            "AppStateStore": {
+                "stateManagementServiceUrl": "http://localhost:8080/savestate/resources/appstates"
+            }
+        },
         "dn_sketchingenhanced": {
             "Config": {
                 "initialActiveTool": "point",
@@ -238,6 +244,7 @@
                         "title": "Werkzeuge",
                         "cssClass": "ct-main-app-menu",
                         "tools": [
+                            "sdi_stateManagementTool",
                             "tocToggleTool",
                             "printingToggleTool",
                             "sharelinkTool",

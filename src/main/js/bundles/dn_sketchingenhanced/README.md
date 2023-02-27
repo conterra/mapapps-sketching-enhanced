@@ -18,7 +18,7 @@ To make the functions of this bundle available to the user, the following tool c
 
 ## Configuration Reference
 
-Um das Bundle in der app.json zu konfigurieren, verwenden Sie die konfigurierbaren, im folgenden Beispiel gezeigten Eigenschaften und ihre Default-Werte:
+To configure the bundle in app.json, use the configurable properties shown in the following example and their default values:
 
 ```json
 "dn_sketchingenhanced": {

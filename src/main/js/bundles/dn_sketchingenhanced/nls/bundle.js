@@ -43,7 +43,7 @@ export default {
                 snappingSelfEnabled: "Geometry guides",
                 snappingFeatureEnabled: "Enable map content snapping",
                 snappingFeatureSources: "Snapping layers",
-                isNotVisibleInHierarchyAndScale: "This layer is invisible in current state an deactivated in map.",
+                isNotVisibleInHierarchyAndScale: "This layer is invisible in current scale an disabled in toc.",
                 isNotVisibleInHierarchy: "This layer is deactivated.",
                 isNotVisibleInScale: "This layer is invisible in current scale."
             },

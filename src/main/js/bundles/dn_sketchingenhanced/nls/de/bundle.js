@@ -42,7 +42,7 @@ export default {
             snappingSelfEnabled: "Geometrieführungslinien",
             snappingFeatureEnabled: "Karteninhalte fangen",
             snappingFeatureSources: "Fang-Inhalte",
-            isNotVisibleInHierarchyAndScale: "Dieser Layer ist im aktuellen Mapstab nicht sichtbar und deaktiviert.",
+            isNotVisibleInHierarchyAndScale: "Dieser Layer ist im aktuellen Mapstab nicht sichtbar und im TOC deaktiviert.",
             isNotVisibleInHierarchy: "Dieser Layer ist deaktiviert.",
             isNotVisibleInScale: "Dieser Layer ist im aktuellen Mapstab nicht sichtbar."
         },

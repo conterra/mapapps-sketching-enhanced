@@ -16,49 +16,54 @@
 
 -->
 <template>
-    <v-container class="pa-1 measurement fullHeight">
+    <v-container class="pa-1 fullHeight">
         <v-switch
             v-model="measurementEnabled"
             :label="i18n.measurementEnabled"
             color="primary"
-            class="mt-1"
+            class="mt-1 pb-3"
             hide-details
         />
-        <v-text-field
-            v-if="x"
-            v-model="x"
+        <measurement-text
+            v-if="activeUi ==='point'"
+            :i18n="i18n"
+            :value="x"
             :label="i18n.x"
             :prefix="pointCoordUnitSymbolX"
-            readonly
+            :placeholder="i18n.hint"
         />
-        <v-text-field
-            v-if="y"
-            v-model="y"
+        <measurement-text
+            v-if="activeUi ==='point'"
+            :i18n="i18n"
+            :value="y"
             :label="i18n.y"
             :prefix="pointCoordUnitSymbolY"
-            readonly
         />
-        <v-text-field
-            v-if="length"
-            v-model="length"
+        <measurement-text
+            v-if="activeUi ==='polyline'"
+            :i18n="i18n"
+            :value="length"
             :label="i18n.length"
             :suffix="lengthUnitAbbreviation"
-            readonly
         />
-        <v-text-field
-            v-if="area"
-            v-model="area"
+        <measurement-text
+            v-if="activeUi ==='polygon'"
+            :i18n="i18n"
+            :value="area"
             :label="i18n.area"
             :suffix="areaUnitAbbreviation"
-            readonly
         />
     </v-container>
 </template>
 
 <script>
     import Bindable from "apprt-vue/mixins/Bindable";
+    import MeasurementText from './components/MeasurementText.vue';
 
     export default {
+        components: {
+            "measurement-text": MeasurementText
+        },
         mixins: [Bindable],
         props: {
             i18n: {
@@ -66,6 +71,10 @@
                 default: function () {
                     return {};
                 }
+            },
+            activeUi: {
+                type: String,
+                default: undefined
             }
         },
         data() {

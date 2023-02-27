@@ -22,7 +22,9 @@ export default {
             x: "x-value",
             y: "y-value",
             length: "Length",
-            area: "Area"
+            area: "Area",
+            noMeasurement: "There is no measurement yet",
+            copyToClipboard: 'Copy to Clipboard'
         }
     },
     de: true

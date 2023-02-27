@@ -155,6 +155,7 @@
                     <v-tab-item v-if="measurementWidget">
                         <component
                             :is="measurementWidgetInstance.view"
+                            :active-ui="activeUi"
                             v-bind="{ ...measurementWidgetInstance.props }"
                             v-on="measurementWidgetInstance.events"
                         />

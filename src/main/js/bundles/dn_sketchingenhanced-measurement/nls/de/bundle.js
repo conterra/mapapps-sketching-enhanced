@@ -21,6 +21,8 @@ export default {
         x: "x-Wert",
         y: "y-Wert",
         length: "Länge",
-        area: "Fläche"
+        area: "Fläche",
+        noMeasurement: "Es liegt noch keine Messung vor",
+        copyToClipboard: 'Copy to Clipboard'
     }
 };

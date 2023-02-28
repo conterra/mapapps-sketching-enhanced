@@ -38,6 +38,7 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     angleUnit: __esri.AngleUnit,
     angleUnitAbbreviation: string,
     angleUnits: Array<any>,
+    circumference: string,
     x: string,
     y: string,
     pointCoordSpatialReference: __esri.SpatialReference
@@ -89,6 +90,7 @@ interface SketchingEnhancedModelProps {
     angleUnit: __esri.AngleUnit,
     angleUnitAbbreviation: string,
     angleUnits: Array<any>,
+    circumference: string,
     x: string,
     y: string,
     pointCoordSpatialReference: __esri.SpatialReference
@@ -119,6 +121,7 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         angleUnit: "degrees",
         angleUnitAbbreviation: "°",
         angleUnits: [],
+        circumference: undefined,
         x: undefined,
         y: undefined,
         pointCoordSpatialReference: undefined,

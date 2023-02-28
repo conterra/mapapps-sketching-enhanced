@@ -116,6 +116,14 @@
             v-if="activeUi ==='polygon'"
             :disabled="!measurementEnabled"
             :i18n="i18n"
+            :value="circumference"
+            :label="i18n.circumference"
+            :suffix="lengthUnitAbbreviation"
+        />
+        <measurement-text
+            v-if="activeUi ==='polygon'"
+            :disabled="!measurementEnabled"
+            :i18n="i18n"
             :value="area"
             :label="i18n.area"
             :suffix="areaUnitAbbreviation"
@@ -160,10 +168,11 @@
                 areaUnitAbbreviation: "m²",
                 pointCoordUnitSymbolX: "X",
                 pointCoordUnitSymbolY: "Y",
-                x: "",
-                y: "",
-                length: "",
-                area: ""
+                x: undefined,
+                y: undefined,
+                length: undefined,
+                area: undefined,
+                circumference: undefined
             };
         },
         created() {

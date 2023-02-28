@@ -121,8 +121,9 @@ export default class MeasurementController {
         }
         measurementModel.x = undefined;
         measurementModel.y = undefined;
-        measurementModel.area = undefined;
         measurementModel.length = undefined;
+        measurementModel.area = undefined;
+        measurementModel.circumference = undefined;
 
         if (graphic?.geometry?.type === "point") {
             const point = graphic.geometry as __esri.Point;
@@ -139,13 +140,16 @@ export default class MeasurementController {
             const polygon = graphic.geometry as __esri.Polygon;
             const area = measurementCalculator.getArea(polygon, measurementModel.areaUnit);
             measurementModel.area = area;
+            const circumference = measurementCalculator.getLength(polygon, measurementModel.lengthUnit);
+            measurementModel.circumference = circumference;
         }
 
         if (event.state === "cancel") {
             measurementModel.x = undefined;
             measurementModel.y = undefined;
-            measurementModel.area = undefined;
             measurementModel.length = undefined;
+            measurementModel.area = undefined;
+            measurementModel.circumference = undefined;
         }
     }
 

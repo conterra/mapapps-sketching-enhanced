@@ -29,6 +29,7 @@ export default {
         y: "y-Wert",
         length: "Länge",
         area: "Fläche",
+        circumference: "Umring",
         noMeasurement: "Es liegt noch keine Messung vor",
         copyToClipboard: 'Copy to Clipboard'
     }

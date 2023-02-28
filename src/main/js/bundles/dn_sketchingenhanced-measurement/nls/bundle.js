@@ -30,6 +30,7 @@ export default {
             y: "y-value",
             length: "Length",
             area: "Area",
+            circumference: "Circumference",
             noMeasurement: "There is no measurement yet",
             copyToClipboard: 'Copy to Clipboard'
         }

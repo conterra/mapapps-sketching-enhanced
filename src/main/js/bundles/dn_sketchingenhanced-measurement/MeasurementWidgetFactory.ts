@@ -44,7 +44,7 @@ export default class MeasurementWidgetFactory {
                         "angleMeasurementForPolygonsEnabled",
                         "areaMeasurementForPolygonsEnabled",
                         "circumferenceMeasurementForPolygonsEnabled")
-                    .syncAllToLeft("length", "area", "x", "y")
+                    .syncAllToLeft("length", "area", "circumference", "x", "y")
                     .syncAllToLeft("lengthUnit", "lengthUnitAbbreviation", "lengthUnits")
                     .syncAllToLeft("areaUnit", "areaUnitAbbreviation", "areaUnits")
                     .syncAllToLeft("pointCoordUnitSymbolX", "pointCoordUnitSymbolY")

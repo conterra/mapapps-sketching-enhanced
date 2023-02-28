@@ -25,7 +25,7 @@
             hide-details
         />
         <v-switch
-            v-if="activeUi ==='polyline'"
+            v-if="activeTool ==='polyline'"
             v-model="lineMeasurementForPolylinesEnabled"
             :disabled="!measurementEnabled"
             :label="i18n.lineMeasurementForPolylinesEnabled"
@@ -34,7 +34,7 @@
             hide-details
         />
         <v-switch
-            v-if="activeUi ==='polyline'"
+            v-if="activeTool ==='polyline'"
             v-model="angleMeasurementForPolylinesEnabled"
             :disabled="!measurementEnabled"
             :label="i18n.angleMeasurementForPolylinesEnabled"
@@ -52,7 +52,7 @@
             hide-details
         />
         <v-switch
-            v-if="activeUi ==='polygon'"
+            v-if="activeTool ==='polygon' || activeTool ==='rectangle'"
             v-model="lineMeasurementForPolygonsEnabled"
             :disabled="!measurementEnabled"
             :label="i18n.lineMeasurementForPolygonsEnabled"
@@ -61,7 +61,7 @@
             hide-details
         />
         <v-switch
-            v-if="activeUi ==='polygon'"
+            v-if="activeTool ==='polygon' || activeTool ==='rectangle'"
             v-model="angleMeasurementForPolygonsEnabled"
             :disabled="!measurementEnabled"
             :label="i18n.angleMeasurementForPolygonsEnabled"
@@ -148,6 +148,10 @@
                 }
             },
             activeUi: {
+                type: String,
+                default: undefined
+            },
+            activeTool: {
                 type: String,
                 default: undefined
             }

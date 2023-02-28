@@ -156,6 +156,7 @@
                         <component
                             :is="measurementWidgetInstance.view"
                             :active-ui="activeUi"
+                            :active-tool="activeTool"
                             v-bind="{ ...measurementWidgetInstance.props }"
                             v-on="measurementWidgetInstance.events"
                         />

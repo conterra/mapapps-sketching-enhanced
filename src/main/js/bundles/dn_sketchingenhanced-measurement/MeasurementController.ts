@@ -159,6 +159,8 @@ export default class MeasurementController {
 
     private drawMeasurementGraphics(event: any): void {
         const measurementModel = this._measurementModel;
+        const sketchingEnhancedModel = this._sketchingEnhancedModel;
+        const activeTool = sketchingEnhancedModel.activeTool;
         const graphicsFactory = this.measurementGraphicsFactory;
         setTimeout(async () => {
             const tempGraphics: Array<__esri.Graphic> = [];
@@ -178,7 +180,7 @@ export default class MeasurementController {
                 const polyline = graphic.geometry as __esri.Polyline;
 
                 const paths = polyline.paths[0];
-                if(measurementModel.lineMeasurementForPolylinesEnabled) {
+                if(measurementModel.lineMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
                     for (let i = 0; i < paths.length - 1; i++) {
                         const point1 = polyline.getPoint(0, i);
                         const point2 = polyline.getPoint(0, i+1);
@@ -189,7 +191,7 @@ export default class MeasurementController {
                     if(measurementModel.totalLengthMeasurementForPolylinesEnabled) {
                         tempGraphics.push(graphicsFactory.getLengthGraphic(polyline));
                     }
-                    if(measurementModel.angleMeasurementForPolylinesEnabled) {
+                    if(measurementModel.angleMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
                         for (let i = 1; i < paths.length - 1; i++) {
                             const centerPoint = polyline.getPoint(0, i);
                             const nextPoint = polyline.getPoint(0, i+1);
@@ -206,7 +208,8 @@ export default class MeasurementController {
                 const polygon = graphic.geometry as __esri.Polygon;
 
                 const rings = polygon.rings[0];
-                if(measurementModel.lineMeasurementForPolygonsEnabled) {
+                if(measurementModel.lineMeasurementForPolygonsEnabled
+                    && activeTool !== "polygon_freehand" && activeTool !== "circle") {
                     for (let i = 0; i < rings.length - 1; i++) {
                         const point1 = polygon.getPoint(0, i);
                         const point2 = polygon.getPoint(0, i+1);
@@ -221,7 +224,8 @@ export default class MeasurementController {
                     if(measurementModel.circumferenceMeasurementForPolygonsEnabled) {
                         tempGraphics.push(graphicsFactory.getLengthGraphic(polygon));
                     }
-                    if(measurementModel.angleMeasurementForPolygonsEnabled) {
+                    if(measurementModel.angleMeasurementForPolygonsEnabled
+                        && activeTool !== "polygon_freehand" && activeTool !== "circle") {
                         for (let i = 1; i < rings.length; i++) {
                             const centerPoint = polygon.getPoint(0, i);
                             // switch next and previous point to calculate inner angles

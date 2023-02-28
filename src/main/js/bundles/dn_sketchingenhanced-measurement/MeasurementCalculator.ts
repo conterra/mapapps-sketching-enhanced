@@ -20,7 +20,7 @@ import * as intl from "esri/intl";
 import type { Polyline } from "esri/geometry";
 import MeasurementModel from "./MeasurementModel";
 
-export class MeasurementCalculator {
+export default class MeasurementCalculator {
     measurementModel: typeof MeasurementModel;
     coordinateTransformer: CoordinateTransformer;
 

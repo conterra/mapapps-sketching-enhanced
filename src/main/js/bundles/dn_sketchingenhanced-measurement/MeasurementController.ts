@@ -17,12 +17,11 @@
 import { WatchHandle } from "apprt-binding/Binding";
 import { createObservers, Observers } from "apprt-core/Observers";
 import type {InjectedReference} from "apprt-core/InjectedReference";
-import { Polyline } from "esri/geometry";
-import Graphic from "esri/Graphic";
 import Collection from "esri/core/Collection";
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
 import MeasurementModel from "./MeasurementModel";
-import { MeasurementCalculator } from "./MeasurementCalculator";
+import MeasurementCalculator from "./MeasurementCalculator";
+import MeasurementGraphicsFactory from "./MeasurementGraphicsFactory";
 import { CoordinateTransformer } from "@conterra/ct-mapapps-typings/coordinatetransformer/CoordinateTransformer";
 import async from "apprt-core/async";
 
@@ -36,6 +35,7 @@ export default class MeasurementController {
     private graphicsLayer: __esri.GraphicsLayer;
     private measurementEnabledWatcher: WatchHandle;
     private measurementCalculator: MeasurementCalculator;
+    private measurementGraphicsFactory: MeasurementGraphicsFactory;
     private tempGraphics: __esri.Collection<__esri.Graphic> = new Collection();
     private sketchViewModelObservers = createObservers();
 
@@ -43,6 +43,8 @@ export default class MeasurementController {
         this.measurementCalculator = new MeasurementCalculator(this._measurementModel, this._coordinateTransformer);
         if(this._sketchingEnhancedModel.sketchViewModel) {
             this.sketchViewModel = this._sketchingEnhancedModel.sketchViewModel;
+            this.measurementGraphicsFactory = new MeasurementGraphicsFactory(this._measurementModel,
+                this.sketchViewModel, this.measurementCalculator);
             this.graphicsLayer = this.sketchViewModel.layer;
             if(this._measurementModel.measurementEnabled) {
                 this.activateMeasuring();
@@ -51,6 +53,8 @@ export default class MeasurementController {
             const watcher = this._sketchingEnhancedModel.watch("sketchViewModel", (sketchViewModel: any)=>{
                 watcher.remove();
                 this.sketchViewModel = sketchViewModel;
+                this.measurementGraphicsFactory = new MeasurementGraphicsFactory(this._measurementModel,
+                    this.sketchViewModel, this.measurementCalculator);
                 this.graphicsLayer = sketchViewModel.graphicsLayer;
                 if(this._measurementModel.measurementEnabled) {
                     this.activateMeasuring();
@@ -155,6 +159,7 @@ export default class MeasurementController {
 
     private drawMeasurementGraphics(event: any): void {
         const measurementModel = this._measurementModel;
+        const graphicsFactory = this.measurementGraphicsFactory;
         setTimeout(async () => {
             const tempGraphics: Array<__esri.Graphic> = [];
             const graphic = event.graphics?.length ? event.graphics[0] : event.graphic;
@@ -165,7 +170,7 @@ export default class MeasurementController {
             if (graphic?.geometry?.type === "point" && !graphic.symbol.text) {
                 const point = graphic.geometry as __esri.Point;
 
-                const textGraphic = await this.getPointCoordinatesGraphic(point);
+                const textGraphic = await graphicsFactory.getPointCoordinatesGraphic(point);
                 tempGraphics.push(textGraphic);
                 this.addTempGraphics(tempGraphics);
             }
@@ -177,12 +182,12 @@ export default class MeasurementController {
                     for (let i = 0; i < paths.length - 1; i++) {
                         const point1 = polyline.getPoint(0, i);
                         const point2 = polyline.getPoint(0, i+1);
-                        tempGraphics.push(this.getDistanceLabelBetweenPointsGraphic(point1, point2));
+                        tempGraphics.push(graphicsFactory.getDistanceLabelBetweenPointsGraphic(point1, point2));
                     }
                 }
                 if(paths.length > 2) {
                     if(measurementModel.totalLengthMeasurementForPolylinesEnabled) {
-                        tempGraphics.push(this.getLengthGraphic(polyline));
+                        tempGraphics.push(graphicsFactory.getLengthGraphic(polyline));
                     }
                     if(measurementModel.angleMeasurementForPolylinesEnabled) {
                         for (let i = 1; i < paths.length - 1; i++) {
@@ -190,7 +195,7 @@ export default class MeasurementController {
                             const nextPoint = polyline.getPoint(0, i+1);
                             const previousPoint = polyline.getPoint(0, i-1);
                             const angleGraphic =
-                            this.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
+                            graphicsFactory.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
                             tempGraphics.push(angleGraphic);
                         }
                     }
@@ -205,16 +210,16 @@ export default class MeasurementController {
                     for (let i = 0; i < rings.length - 1; i++) {
                         const point1 = polygon.getPoint(0, i);
                         const point2 = polygon.getPoint(0, i+1);
-                        tempGraphics.push(this.getDistanceLabelBetweenPointsGraphic(point1, point2));
+                        tempGraphics.push(graphicsFactory.getDistanceLabelBetweenPointsGraphic(point1, point2));
 
                     }
                 }
                 if(rings.length > 3) {
                     if(measurementModel.areaMeasurementForPolygonsEnabled) {
-                        tempGraphics.push(this.getAreaGraphic(polygon));
+                        tempGraphics.push(graphicsFactory.getAreaGraphic(polygon));
                     }
                     if(measurementModel.circumferenceMeasurementForPolygonsEnabled) {
-                        tempGraphics.push(this.getLengthGraphic(polygon));
+                        tempGraphics.push(graphicsFactory.getLengthGraphic(polygon));
                     }
                     if(measurementModel.angleMeasurementForPolygonsEnabled) {
                         for (let i = 1; i < rings.length; i++) {
@@ -229,7 +234,7 @@ export default class MeasurementController {
                                 previousPoint = polygon.getPoint(0, i+1);
                             }
                             const angleGraphic =
-                            this.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
+                            graphicsFactory.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
                             tempGraphics.push(angleGraphic);
                         }
                     }
@@ -250,167 +255,6 @@ export default class MeasurementController {
                 this.clearTempGraphics();
             }
         }, 10);
-    }
-
-    /**
-     * Method to generate point coordinate graphic.
-     *
-     * @param point1 Point 1
-     * @param point2 Point 2
-     * @returns __esri.Graphic
-     *
-     * @private
-     */
-    private async getPointCoordinatesGraphic(point: __esri.Point): Promise<__esri.Graphic> {
-        const measurementCalculator = this.measurementCalculator;
-        const measurementModel = this._measurementModel;
-        const coordinates = await measurementCalculator.getPointCoordinates(point);
-        const x = coordinates.x;
-        const y = coordinates.y;
-        const unitSymbolX = measurementModel.pointCoordUnitSymbolX;
-        const unitSymbolY = measurementModel.pointCoordUnitSymbolY;
-        const coordinatesString = `${x}${unitSymbolX} / ${y}${unitSymbolY}`;
-        return this.getMeasurementTextGraphic(point, 0, coordinatesString, null, false);
-    }
-
-    /**
-     * Method to generate partial length label graphic.
-     *
-     * @param point1 Point 1
-     * @param point2 Point 2
-     * @returns __esri.Graphic
-     *
-     * @private
-     */
-    private getDistanceLabelBetweenPointsGraphic(point1: __esri.Point, point2: __esri.Point): __esri.Graphic {
-        const measurementCalculator = this.measurementCalculator;
-        const measurementModel = this._measurementModel;
-        const sketchViewModel = this.sketchViewModel;
-        const angle = measurementCalculator.getAngleBetweenTwoPoints(point1, point2);
-        const polyline = new Polyline({
-            spatialReference: {
-                wkid: sketchViewModel.view.spatialReference.wkid
-            }
-        });
-        polyline.addPath([point1, point2]);
-        const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
-        const center = polyline.extent.center;
-        const suffix = measurementModel.lengthUnitAbbreviation;
-        return this.getMeasurementTextGraphic(center, angle, length, suffix, false);
-    }
-
-    /**
-     * Method to generate angel label graphic.
-     *
-     * @param centerPoint center point
-     * @param nextPoint next point
-     * @param previousPoint previous point
-     * @returns __esri.Graphic
-     *
-     * @private
-     */
-    private getAngleLabelBetweenPointsGraphic(centerPoint: __esri.Point, nextPoint: __esri.Point,
-        previousPoint: __esri.Point): __esri.Graphic {
-        const measurementCalculator = this.measurementCalculator;
-        const angle = measurementCalculator.getAngleBetweenThreePoints(centerPoint, nextPoint, previousPoint);
-        const angleUnit = this.getAngleUnit();
-        const suffix = angleUnit.abbreviation;
-        const center = centerPoint;
-        return this.getMeasurementTextGraphic(center, 0, angle, suffix, false);
-    }
-
-    /**
-     * Function to generate length label graphic.
-     *
-     * @param line Polyline | Polygon
-     * @returns __esri.Graphic
-     *
-     * @private
-     */
-    private getLengthGraphic(line: __esri.Polyline | __esri.Polygon): __esri.Graphic {
-        const measurementCalculator = this.measurementCalculator;
-        const measurementModel = this._measurementModel;
-        const length = measurementCalculator.getLength(line, measurementModel.lengthUnit);
-        const center = line.extent.center;
-        const suffix = measurementModel.lengthUnitAbbreviation;
-
-        return this.getMeasurementTextGraphic(center, 0, length, suffix, line.type === "polygon");
-    }
-
-    /**
-     * Function to generate area label graphic.
-     *
-     * @param polygon Polygon
-     * @returns __esri.Graphic
-     *
-     * @private
-     */
-    private getAreaGraphic(polygon: __esri.Polygon): __esri.Graphic {
-        const measurementCalculator = this.measurementCalculator;
-        const measurementModel = this._measurementModel;
-        const area = measurementCalculator.getArea(polygon, measurementModel.areaUnit);
-        const center = polygon.extent.center;
-        const suffix = measurementModel.areaUnitAbbreviation;
-
-        return this.getMeasurementTextGraphic(center, 0, area, suffix, false);
-    }
-
-    /**
-     * Function to create a measurement text graphic.
-     *
-     * @param center Center of the line
-     * @param angle Angle of the line
-     * @param measurement Distance measurement of the line
-     * @param unitSuffix Text to be displayed after measurement
-     * @returns __esri.Graphic
-     *
-     * @private
-     */
-    private getMeasurementTextGraphic(center: __esri.Point, angle: number, measurement: string,
-        unitSuffix: string, additionalYoffset: boolean): __esri.Graphic {
-        if(!measurement) {
-            return;
-        }
-        const measurementModel = this._measurementModel;
-        const sketchViewModel = this.sketchViewModel;
-        const currentWKID = sketchViewModel.view.spatialReference.wkid;
-
-        const pointGeometry = {
-            type: "point",
-            x: center.x,
-            y: center.y,
-            spatialReference: {
-                wkid: currentWKID
-            }
-        };
-
-        const textSymbol = measurementModel.textSymbol;
-        textSymbol.text = measurement;
-        if(unitSuffix) {
-            textSymbol.text += " " + unitSuffix;
-        }
-        textSymbol.angle = angle;
-        const textSize = textSymbol.font.size / 2;
-        const xoffset = textSize * Math.sin(angle / (180 / Math.PI));
-        let yoffset = textSize * Math.cos(angle / (180 / Math.PI));
-        if(additionalYoffset) {
-            yoffset -= textSymbol.font.size + textSize;
-        }
-        textSymbol.xoffset = xoffset.toString() + "px";
-        textSymbol.yoffset = yoffset.toString() + "px";
-
-        const textGraphic = new Graphic({
-            geometry: pointGeometry,
-            symbol: textSymbol
-        });
-
-        return textGraphic;
-    }
-
-    private getAngleUnit() {
-        const measurementModel = this._measurementModel;
-        return measurementModel.angleUnits.find((unit) =>
-            unit.name === measurementModel.angleUnit);
     }
 
     private addTempGraphicsToLayer(graphic: __esri.Graphic): void {

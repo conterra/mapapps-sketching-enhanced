@@ -23,31 +23,24 @@ import SketchViewModel from "esri/widgets/Sketch/SketchViewModel";
 import GraphicsLayer from "esri/layers/GraphicsLayer";
 import SketchingEnhancedWidget from "./SketchingEnhancedWidget.vue";
 import SketchingEnhancedController from "dn_sketchingenhanced/SketchingEnhancedController";
+import SketchingEnhancedModel from "./SketchingEnhancedModel";
+import MapWidgetModel from "@conterra/ct-mapapps-typings/map-widget/MapWidgetModel";
 
 const LAYER_ID = "sketch-graphics";
 
 export default class SketchingEnhancedWidgetFactory {
 
+    private readonly _i18n!: InjectedReference<any>;
+    private readonly _mapWidgetModel!: InjectedReference<MapWidgetModel>;
+    private readonly _sketchingEnhancedModel!: InjectedReference<typeof SketchingEnhancedModel>;
     private vm: Vue;
     private controller: SketchingEnhancedController;
-    private _i18n!: InjectedReference<any>;
-    private _sketchingEnhancedModel!: InjectedReference<any>;
-    private _mapWidgetModel!: InjectedReference<any>;
     private sketchViewModel: SketchViewModel;
     private sketchViewModelBinding: Bindable;
     private snappingBinding: Bindable;
 
     activate(): void {
-        const sketchingEnhancedModel = this._sketchingEnhancedModel;
-        const mapWidgetModel = this._mapWidgetModel;
-        const graphicsLayer = findOrBuildGraphicsLayer(sketchingEnhancedModel, mapWidgetModel);
-        const sketchViewModel = this.sketchViewModel = createSketchViewModel(sketchingEnhancedModel, graphicsLayer);
-        const controller = this.controller =
-            new SketchingEnhancedController(sketchViewModel, sketchingEnhancedModel, mapWidgetModel);
-        this.getView().then((view) => {
-            sketchViewModel.view = view;
-        });
-        this.initComponent(sketchingEnhancedModel, sketchViewModel, controller);
+        this.initComponent();
     }
 
     deactivate(): void {
@@ -55,33 +48,56 @@ export default class SketchingEnhancedWidgetFactory {
 
     createInstance(): any {
         const widget = VueDijit(this.vm, {class: "sketching-enhanced-widget"});
-        const controller = this.controller;
         const sketchingEnhancedModel = this._sketchingEnhancedModel;
-
+        const mapWidgetModel = this._mapWidgetModel;
         let sketchViewModelBinding = this.sketchViewModelBinding;
-        let snappingBinding = this.snappingBinding;
-        widget.activateTool = function () {
+
+        widget.activateTool = async () => {
+            // create GraphicsLayer
+            const graphicsLayer = findOrBuildGraphicsLayer(sketchingEnhancedModel, mapWidgetModel);
+            // create SketchViewModel
+            let sketchViewModel = this.sketchViewModel;
+            if(!sketchViewModel) {
+                const view = await this.getView();
+                sketchViewModel = this.sketchViewModel =
+                    createSketchViewModel(sketchingEnhancedModel, graphicsLayer, view);
+            }
+
+            // create SketchingEnhancedController
+            let controller = this.controller;
+            if(!controller) {
+                controller = this.controller =
+                    new SketchingEnhancedController(this.sketchViewModel, sketchingEnhancedModel, mapWidgetModel);
+            }
+
+            this.createVMWatchers();
             controller.addSnappingFeatureSources();
             controller.createWatchers();
 
+            let snappingBinding = this.snappingBinding;
+            if(!snappingBinding) {
+                snappingBinding = this.snappingBinding = controller.createSnappingBinding();
+            }
             snappingBinding.enable().syncToLeftNow();
             sketchViewModelBinding.enable().syncToLeftNow();
             controller.activateTool(sketchingEnhancedModel.initialActiveTool);
         };
-        widget.deactivateTool = function () {
+        widget.deactivateTool = () => {
+            const controller = this.controller;
             controller.cancelSketching();
             controller.removeSnappingFeatureSources();
             controller.removeWatchers();
+            this.vm.$off();
             async(() => {
-                snappingBinding.disable();
+                this.snappingBinding.disable();
                 sketchViewModelBinding.disable();
             }, 500);
         };
 
         widget.own({
             remove() {
-                snappingBinding.unbind();
-                snappingBinding = undefined;
+                this.snappingBinding.unbind();
+                this.snappingBinding = undefined;
                 sketchViewModelBinding.unbind();
                 sketchViewModelBinding = undefined;
                 this.vm.$off();
@@ -90,26 +106,35 @@ export default class SketchingEnhancedWidgetFactory {
         return widget;
     }
 
-    private initComponent(sketchingEnhancedModel, sketchViewModel, controller) {
+    private initComponent() {
         const i18n: any = this._i18n.get().ui;
         const vm = this.vm = new Vue(SketchingEnhancedWidget);
         vm.i18n = i18n;
         vm.snappingControlsNode = document.createElement("div");
 
-        this.snappingBinding = controller.createSnappingBinding();
-
-        this.sketchViewModelBinding = Binding.for(vm, sketchingEnhancedModel)
-            .syncAll("activeTool", "activeUi", "canUndo", "canRedo", "canDelete")
-            .syncAll("editEnabled", "snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
-            .syncAllToLeft("snappingFeatureSources")
-            .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol")
-            .syncAll("editSymbol");
-
+        const sketchingEnhancedModel = this._sketchingEnhancedModel;
         vm.pointSymbol = sketchingEnhancedModel.pointSymbol;
         vm.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
         vm.polygonSymbol = sketchingEnhancedModel.polygonSymbol;
         vm.textSymbol = sketchingEnhancedModel.textSymbol;
 
+        this.sketchViewModelBinding =this.createSketchViewModelBinding(vm, sketchingEnhancedModel);
+    }
+
+    private createSketchViewModelBinding(vm: Vue, sketchingEnhancedModel: typeof SketchingEnhancedModel): Binding {
+        return Binding.for(vm, sketchingEnhancedModel)
+            .syncAll("activeTool", "activeUi", "canUndo", "canRedo", "canDelete")
+            .syncAll("editEnabled", "snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
+            .syncAllToLeft("snappingFeatureSources")
+            .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol")
+            .syncAll("editSymbol");
+    }
+
+    private createVMWatchers(): void {
+        const sketchingEnhancedModel = this._sketchingEnhancedModel;
+        const sketchViewModel = this.sketchViewModel;
+        const controller = this.controller;
+        const vm = this.vm;
         vm.$on("activate-tool", (tool) => {
             controller.activateTool(tool);
         });
@@ -136,9 +161,9 @@ export default class SketchingEnhancedWidgetFactory {
         });
     }
 
-    private getView() {
+    private getView(): Promise<__esri.View> {
         const mapWidgetModel = this._mapWidgetModel;
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             if (mapWidgetModel.view) {
                 resolve(mapWidgetModel.view);
             } else {
@@ -151,9 +176,11 @@ export default class SketchingEnhancedWidgetFactory {
 
 }
 
-function createSketchViewModel(sketchingEnhancedModel, graphicsLayer) {
+function createSketchViewModel(sketchingEnhancedModel: SketchViewModel,
+    graphicsLayer: __esri.GraphicsLayer, view: __esri.View) {
     return new SketchViewModel({
         layer: graphicsLayer,
+        view: view,
         pointSymbol: sketchingEnhancedModel.pointSymbol,
         polylineSymbol: sketchingEnhancedModel.polylineSymbol,
         polygonSymbol: sketchingEnhancedModel.polygonSymbol,
@@ -174,7 +201,8 @@ function createSketchViewModel(sketchingEnhancedModel, graphicsLayer) {
     });
 }
 
-function findOrBuildGraphicsLayer(sketchingEnhancedModel, mapWidgetModel) {
+function findOrBuildGraphicsLayer(sketchingEnhancedModel: typeof SketchingEnhancedModel,
+    mapWidgetModel: MapWidgetModel) {
     const layerId = sketchingEnhancedModel.graphicsLayerId || LAYER_ID;
     let layer = mapWidgetModel.map.findLayerById(layerId);
     if (layer) {

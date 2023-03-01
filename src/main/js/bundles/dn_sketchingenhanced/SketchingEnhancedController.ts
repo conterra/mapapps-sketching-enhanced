@@ -19,12 +19,13 @@ import Binding, { Bindable, WatchHandle } from "apprt-binding/Binding";
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import { createObservers } from "apprt-core/Observers";
 import Collection from "esri/core/Collection";
+import MapWidgetModel from "@conterra/ct-mapapps-typings/map-widget/MapWidgetModel";
 
 export default class SketchingEnhancedController {
 
     private readonly sketchViewModel: __esri.SketchViewModel;
     private readonly sketchingEnhancedModel: typeof SketchingEnhancedModel;
-    private readonly mapWidgetModel: InjectedReference<any>;
+    private readonly mapWidgetModel: InjectedReference<MapWidgetModel>;
     private layersWatcher: WatchHandle;
     private scaleWatcher: WatchHandle;
     private observers = createObservers();
@@ -136,7 +137,9 @@ export default class SketchingEnhancedController {
     private deactivateEdit(): void {
         const sketchViewModel = this.sketchViewModel;
         sketchViewModel.updateOnGraphicClick = false;
-        sketchViewModel.view.popup.autoOpenEnabled = true;
+        if(sketchViewModel.view) {
+            sketchViewModel.view.popup.autoOpenEnabled = true;
+        }
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         sketchingEnhancedModel.editEnabled = false;
         sketchingEnhancedModel.editSymbol = undefined;

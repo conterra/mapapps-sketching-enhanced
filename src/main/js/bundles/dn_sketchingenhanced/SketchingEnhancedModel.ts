@@ -18,26 +18,7 @@ import {Mutable, properties} from "apprt-core/Mutable";
 import type {Mutable as MutableType} from "@conterra/ct-mapapps-typings/apprt-core/Mutable";
 import EsriSymbol from "esri/symbols/Symbol";
 
-function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
-    activeTool: undefined;
-    activeUi: undefined;
-    canUndo: boolean;
-    canRedo: boolean,
-    canDelete: boolean,
-    editEnabled: boolean;
-    snappingEnabled: boolean;
-    snappingFeatureEnabled: boolean;
-    snappingSelfEnabled: boolean;
-    snappingFeatureSources: object[];
-    pointSymbol: {},
-    polylineSymbol: {},
-    polygonSymbol: {},
-    textSymbol: {},
-    editSymbol: {},
-    lengthUnit: "meters",
-    areaUnit: "square-meters",
-    sketchViewModel: {},
-}): Impl & MutableType<P> {
+function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: P): Impl & MutableType<P> {
     properties(mutableDefinition, mutableProperties);
     return mutableDefinition;
 }
@@ -85,5 +66,5 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         editSymbol: undefined,
         lengthUnit: "meters",
         areaUnit: "square-meters",
-        sketchViewModel: {}
+        sketchViewModel: undefined
     });

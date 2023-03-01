@@ -50,12 +50,12 @@ export default class MeasurementController {
                 this.activateMeasuring();
             }
         } else {
-            const watcher = this._sketchingEnhancedModel.watch("sketchViewModel", (sketchViewModel: any)=>{
+            const watcher = this._sketchingEnhancedModel.watch("sketchViewModel", (evt)=>{
+                const sketchViewModel = this.sketchViewModel = evt.value;
                 watcher.remove();
-                this.sketchViewModel = sketchViewModel;
                 this.measurementGraphicsFactory = new MeasurementGraphicsFactory(this._measurementModel,
                     this.sketchViewModel, this.measurementCalculator);
-                this.graphicsLayer = sketchViewModel.graphicsLayer;
+                this.graphicsLayer = sketchViewModel.layer;
                 if(this._measurementModel.measurementEnabled) {
                     this.activateMeasuring();
                 }

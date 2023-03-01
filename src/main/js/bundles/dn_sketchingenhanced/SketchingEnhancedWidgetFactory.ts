@@ -63,6 +63,7 @@ export default class SketchingEnhancedWidgetFactory {
                 sketchViewModel = this.sketchViewModel =
                     createSketchViewModel(sketchingEnhancedModel, graphicsLayer, view);
             }
+            sketchingEnhancedModel.sketchViewModel = sketchViewModel;
 
             // create SketchingEnhancedController
             let controller = this.controller;

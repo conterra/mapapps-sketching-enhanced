@@ -182,7 +182,10 @@
                                     "title": "Welt",
                                     "type": "AGS_FEATURE",
                                     "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/FeatureServer/3",
-                                    "maxScale": 10000000
+                                    "maxScale": 10000000,
+                                    "sketchingEnhanced": {
+                                        "allowSnapping": false
+                                    }
                                 }
                             ]
                         }

@@ -18,6 +18,8 @@ To make the functions of this bundle available to the user, the following tool c
 
 ## Configuration Reference
 
+### Generals settings
+
 To configure the bundle in app.json, use the configurable properties shown in the following example and their default values:
 
 ```json
@@ -97,6 +99,23 @@ To configure the bundle in app.json, use the configurable properties shown in th
             "horizontalAlignment": "left",
             "verticalAlignment": "baseline"
         }
+    }
+}
+```
+
+### Disable snapping on specific layers
+
+To disable snapping on layers you need to set _allowSnapping_ to false.
+
+```json
+{
+    "id": "grenzen_3",
+    "title": "Welt",
+    "type": "AGS_FEATURE",
+    "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/FeatureServer/3",
+    "maxScale": 10000000,
+    "sketchingEnhanced": {
+        "allowSnapping": false
     }
 }
 ```

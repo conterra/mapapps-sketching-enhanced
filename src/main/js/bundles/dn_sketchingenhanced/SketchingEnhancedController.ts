@@ -350,8 +350,14 @@ export default class SketchingEnhancedController {
     }
 
     private isSnappableLayer(layer: __esri.Layer): boolean {
-        return (layer.type === "feature" || layer.type === "graphics"
-            || layer.type === "geojson" || layer.type === "wfs" || layer.type === "csv") && !layer.internal;
+        const hasSupportedLayerType = layer.type === "feature" || layer.type === "graphics"
+            || layer.type === "geojson" || layer.type === "wfs" || layer.type === "csv";
+        const isNotInternalLayer = !layer.internal;
+        let snappingAllowed = true;
+        if(layer.sketchingEnhanced) {
+            snappingAllowed = layer.sketchingEnhanced.allowSnapping;
+        }
+        return hasSupportedLayerType && isNotInternalLayer && snappingAllowed;
     }
 
     private isVisibleAtScale(layer: __esri.Layer): boolean {

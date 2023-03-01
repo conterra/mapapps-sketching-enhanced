@@ -27,6 +27,7 @@
             "scalebar",
             "coordinateviewer",
             "toc",
+            "printing",
             "dn_sketchingenhanced",
             "dn_sketchingenhanced-measurement",
             "sdi_appstatemanagement"
@@ -245,12 +246,7 @@
                         "cssClass": "ct-main-app-menu",
                         "tools": [
                             "sdi_stateManagementTool",
-                            "tocToggleTool",
-                            "printingToggleTool",
-                            "sharelinkTool",
-                            "sketchingEnhancedWidgetToggleTool",
-                            "IMPRINT_Imprint_CustomInfoTool",
-                            "IMPRINT_Imprint_CustomInfoTool_mobile"
+                            "sketchingEnhancedWidgetToggleTool"
                         ],
                         "registerWidget": {
                             "widgetRole": "drawer_button"

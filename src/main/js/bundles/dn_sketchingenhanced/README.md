@@ -32,7 +32,7 @@ To configure the bundle in app.json, use the configurable properties shown in th
         "pointSymbol": {
             "type": "simple-marker",
             "style": "circle",
-            "size": 6,
+            "size": 10,
             "color": {
                 "r": 255,
                 "g": 255,

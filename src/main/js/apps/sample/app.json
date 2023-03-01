@@ -43,7 +43,7 @@
                 "pointSymbol": {
                     "type": "simple-marker",
                     "style": "circle",
-                    "size": 6,
+                    "size": 10,
                     "color": {
                         "r": 255,
                         "g": 255,

@@ -14,7 +14,7 @@
 /// limitations under the License.
 ///
 
-import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
+import SketchingEnhancedModel from "./SketchingEnhancedModel";
 import Binding, { Bindable, WatchHandle } from "apprt-binding/Binding";
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import { createObservers } from "apprt-core/Observers";

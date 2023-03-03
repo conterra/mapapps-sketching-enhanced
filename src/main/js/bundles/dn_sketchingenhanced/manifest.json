@@ -1,6 +1,6 @@
 {
     "name": "dn_sketchingenhanced",
-    "version": "3.1.2-SNAPSHOT",
+    "version": "3.2.1-SNAPSHOT",
     "title": "${bundleName}",
     "description": "${bundleDescription}",
     "vendor": "con terra GmbH",
@@ -66,7 +66,7 @@
                 "pointSymbol": {
                     "type": "simple-marker",
                     "style": "circle",
-                    "size": 6,
+                    "size": 10,
                     "color": {
                         "r": 255,
                         "g": 255,

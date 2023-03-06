@@ -17,103 +17,128 @@
 -->
 <template>
     <v-container class="pa-1 fullHeight">
-        <v-switch
-            v-model="measurementEnabled"
-            :label="i18n.measurementEnabled"
-            color="primary"
-            class="mt-1"
-            hide-details
-        />
-        <v-switch
-            v-if="activeTool ==='polyline'"
-            v-model="lineMeasurementForPolylinesEnabled"
-            :disabled="!measurementEnabled"
-            :label="i18n.lineMeasurementForPolylinesEnabled"
-            color="primary"
-            class="mt-1"
-            hide-details
-        />
-        <v-switch
-            v-if="activeTool ==='polyline'"
-            v-model="angleMeasurementForPolylinesEnabled"
-            :disabled="!measurementEnabled"
-            :label="i18n.angleMeasurementForPolylinesEnabled"
-            color="primary"
-            class="mt-1"
-            hide-details
-        />
-        <v-switch
-            v-if="activeUi ==='polyline'"
-            v-model="totalLengthMeasurementForPolylinesEnabled"
-            :disabled="!measurementEnabled"
-            :label="i18n.totalLengthMeasurementForPolylinesEnabled"
-            color="primary"
-            class="mt-1"
-            hide-details
-        />
-        <v-switch
-            v-if="activeTool ==='polygon' || activeTool ==='rectangle'"
-            v-model="lineMeasurementForPolygonsEnabled"
-            :disabled="!measurementEnabled"
-            :label="i18n.lineMeasurementForPolygonsEnabled"
-            color="primary"
-            class="mt-1"
-            hide-details
-        />
-        <v-switch
-            v-if="activeTool ==='polygon' || activeTool ==='rectangle'"
-            v-model="angleMeasurementForPolygonsEnabled"
-            :disabled="!measurementEnabled"
-            :label="i18n.angleMeasurementForPolygonsEnabled"
-            color="primary"
-            class="mt-1"
-            hide-details
-        />
-        <v-switch
-            v-if="activeUi ==='polygon'"
-            v-model="areaMeasurementForPolygonsEnabled"
-            :disabled="!measurementEnabled"
-            :label="i18n.areaMeasurementForPolygonsEnabled"
-            color="primary"
-            class="mt-1"
-            hide-details
-        />
-        <v-switch
-            v-if="activeUi ==='polygon'"
-            v-model="circumferenceMeasurementForPolygonsEnabled"
-            :disabled="!measurementEnabled"
-            :label="i18n.circumferenceMeasurementForPolygonsEnabled"
-            color="primary"
-            class="mt-1"
-            hide-details
-        />
-        <v-select
-            v-if="activeUi ==='polyline' || activeUi ==='polygon'"
-            v-model="lengthUnit"
-            :items="lengthUnits"
-            :label="i18n.lengthUnit"
-            item-value="name"
-            item-text="title"
-            hide-details
-        />
-        <v-select
-            v-if="activeUi ==='polygon'"
-            v-model="areaUnit"
-            :items="areaUnits"
-            :label="i18n.areaUnit"
-            item-value="name"
-            item-text="title"
-            hide-details
-        />
-        <v-select
-            v-if="activeUi ==='polyline' || activeUi ==='polygon'"
-            v-model="angleUnit"
-            :items="angleUnits"
-            :label="i18n.angleUnit"
-            item-value="name"
-            item-text="title"
-            hide-details
-        />
+        <div class="ct-flex-container ct-flex-container--row">
+            <v-switch
+                v-model="measurementEnabled"
+                :label="i18n.measurementEnabled"
+                color="primary"
+                class="mt-2"
+            />
+            <v-menu
+                v-if="activeTool === 'polyline' || activeTool === 'polygon'"
+                offset-x
+                :close-on-content-click="false"
+            >
+                <template #activator="{ on }">
+                    <v-btn
+                        flat
+                        icon
+                        color="secondary"
+                        class="ct-flex-item"
+                        v-on="on"
+                    >
+                        <v-icon>
+                            settings
+                        </v-icon>
+                    </v-btn>
+                </template>
+                <v-card class="pa-2 dn_sketchingenhanced--settings-menu">
+                    <div class="title mb-2">
+                        {{ i18n.settings }}
+                    </div>
+                    <v-switch
+                        v-if="activeTool ==='polyline'"
+                        v-model="lineMeasurementForPolylinesEnabled"
+                        :disabled="!measurementEnabled"
+                        :label="i18n.lineMeasurementForPolylinesEnabled"
+                        color="primary"
+                        class="mt-1"
+                        hide-details
+                    />
+                    <v-switch
+                        v-if="activeTool ==='polyline'"
+                        v-model="angleMeasurementForPolylinesEnabled"
+                        :disabled="!measurementEnabled"
+                        :label="i18n.angleMeasurementForPolylinesEnabled"
+                        color="primary"
+                        class="mt-1"
+                        hide-details
+                    />
+                    <v-switch
+                        v-if="activeUi ==='polyline'"
+                        v-model="totalLengthMeasurementForPolylinesEnabled"
+                        :disabled="!measurementEnabled"
+                        :label="i18n.totalLengthMeasurementForPolylinesEnabled"
+                        color="primary"
+                        class="mt-1"
+                        hide-details
+                    />
+                    <v-switch
+                        v-if="activeTool ==='polygon' || activeTool ==='rectangle'"
+                        v-model="lineMeasurementForPolygonsEnabled"
+                        :disabled="!measurementEnabled"
+                        :label="i18n.lineMeasurementForPolygonsEnabled"
+                        color="primary"
+                        class="mt-1"
+                        hide-details
+                    />
+                    <v-switch
+                        v-if="activeTool ==='polygon' || activeTool ==='rectangle'"
+                        v-model="angleMeasurementForPolygonsEnabled"
+                        :disabled="!measurementEnabled"
+                        :label="i18n.angleMeasurementForPolygonsEnabled"
+                        color="primary"
+                        class="mt-1"
+                        hide-details
+                    />
+                    <v-switch
+                        v-if="activeUi ==='polygon'"
+                        v-model="areaMeasurementForPolygonsEnabled"
+                        :disabled="!measurementEnabled"
+                        :label="i18n.areaMeasurementForPolygonsEnabled"
+                        color="primary"
+                        class="mt-1"
+                        hide-details
+                    />
+                    <v-switch
+                        v-if="activeUi ==='polygon'"
+                        v-model="circumferenceMeasurementForPolygonsEnabled"
+                        :disabled="!measurementEnabled"
+                        :label="i18n.circumferenceMeasurementForPolygonsEnabled"
+                        color="primary"
+                        class="mt-1"
+                        hide-details
+                    />
+                    <v-select
+                        v-if="activeUi ==='polyline' || activeUi ==='polygon'"
+                        v-model="lengthUnit"
+                        :items="lengthUnits"
+                        :label="i18n.lengthUnit"
+                        item-value="name"
+                        item-text="title"
+                        hide-details
+                    />
+                    <v-select
+                        v-if="activeUi ==='polygon'"
+                        v-model="areaUnit"
+                        :items="areaUnits"
+                        :label="i18n.areaUnit"
+                        item-value="name"
+                        item-text="title"
+                        hide-details
+                    />
+                    <v-select
+                        v-if="activeUi ==='polyline' || activeUi ==='polygon'"
+                        v-model="angleUnit"
+                        :items="angleUnits"
+                        :label="i18n.angleUnit"
+                        item-value="name"
+                        item-text="title"
+                        hide-details
+                    />
+                </v-card>
+            </v-menu>
+        </div>
         <measurement-text
             v-if="activeUi ==='point'"
             :disabled="!measurementEnabled"

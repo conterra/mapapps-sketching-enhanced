@@ -18,6 +18,7 @@ export default {
     bundleDescription: "Dieses Bundle fügt der erweiterten Zeichenfunktionalität Messfunktionen hinzu.",
     ui: {
         measurementEnabled: "Messen aktivieren",
+        settings: "Einstellungen",
         lineMeasurementForPolylinesEnabled: "Länge der Linienelemente anzeigen",
         angleMeasurementForPolylinesEnabled: "Winkel anzeigen",
         totalLengthMeasurementForPolylinesEnabled: "Gesamtlänge der Polylinie anzeigen",

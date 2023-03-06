@@ -138,14 +138,17 @@ export default class MeasurementController {
         if (graphic?.geometry?.type === "polyline") {
             const polyline = graphic.geometry as __esri.Polyline;
             const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
-            measurementModel.length = length;
+            const lengthText = measurementCalculator.formatNumber(length, 2);
+            measurementModel.length = lengthText;
         }
         if (graphic?.geometry?.type === "polygon") {
             const polygon = graphic.geometry as __esri.Polygon;
             const area = measurementCalculator.getArea(polygon, measurementModel.areaUnit);
-            measurementModel.area = area;
+            const areaText = measurementCalculator.formatNumber(area, 2);
+            measurementModel.area = areaText;
             const circumference = measurementCalculator.getLength(polygon, measurementModel.lengthUnit);
-            measurementModel.circumference = circumference;
+            const circumferenceText = measurementCalculator.formatNumber(circumference, 2);
+            measurementModel.circumference = circumferenceText;
         }
 
         if (event.state === "cancel") {

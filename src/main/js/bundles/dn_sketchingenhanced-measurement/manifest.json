@@ -100,7 +100,7 @@
                     },
                     {
                         "name": "gon",
-                        "abbreviation": "km²",
+                        "abbreviation": "gon",
                         "title": "${ui.units.gon}"
                     }
                 ]

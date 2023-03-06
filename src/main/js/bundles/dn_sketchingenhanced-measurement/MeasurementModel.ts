@@ -87,7 +87,7 @@ interface SketchingEnhancedModelProps {
     areaUnit: __esri.ArealUnits,
     areaUnitAbbreviation: string,
     areaUnits: Array<any>,
-    angleUnit: __esri.AngleUnit,
+    angleUnit: string,
     angleUnitAbbreviation: string,
     angleUnits: Array<any>,
     circumference: string,

@@ -17,7 +17,6 @@
 import type CoordinateTransformer from "@conterra/ct-mapapps-typings/coordinatetransformer/CoordinateTransformer";
 import * as geometryEngine from 'esri/geometry/geometryEngine';
 import * as intl from "esri/intl";
-import type { Polyline } from "esri/geometry";
 import MeasurementModel from "./MeasurementModel";
 
 export default class MeasurementCalculator {
@@ -62,18 +61,18 @@ export default class MeasurementCalculator {
      *
      * @param geometry Geometry
      * @param unit Unit of measurement
-     * @returns string
+     * @returns number
      *
      * @public
      */
     public getLength(geometry: __esri.Polygon | __esri.Polyline,
-        unit: __esri.LinearUnits | 'auto' = this.measurementModel?.lengthUnit): string {
+        unit: __esri.LinearUnits | 'auto' = this.measurementModel?.lengthUnit): number {
         const unitForCalculation = unit === 'auto' ? 'meters' : unit;
         const length = this.calculateGeometryLength(geometry, unitForCalculation);
         if(!length) {
             return;
         }
-        return this.formatNumber(length, 2);
+        return length;
     }
 
     /**
@@ -100,18 +99,18 @@ export default class MeasurementCalculator {
      *
      * @param polygon Polygon
      * @param unit Unit of measurement
-     * @returns string
+     * @returns number
      *
      * @public
      */
     public getArea(geometry: __esri.Polygon,
-        unit: __esri.ArealUnits | 'auto' = this.measurementModel?.areaUnit): string {
+        unit: __esri.ArealUnits | 'auto' = this.measurementModel?.areaUnit): number {
         const unitForCalculation = unit === 'auto' ? 'square-meters' : unit;
         const area = this.calculateGeometryArea(geometry, unitForCalculation);
         if(!area) {
             return;
         }
-        return this.formatNumber(area, 2);
+        return area;
     }
 
     /**
@@ -161,7 +160,7 @@ export default class MeasurementCalculator {
      * @public
      */
     public getAngleBetweenThreePoints(centerPoint: __esri.Point, nextPoint: __esri.Point,
-        previousPoint: __esri.Point): string {
+        previousPoint: __esri.Point): number {
         const p2Quadrant = this.getQuadrant(nextPoint, centerPoint);
         const p3Quadrant = this.getQuadrant(previousPoint, centerPoint);
         const quadrant = [p2Quadrant, p3Quadrant].join(' ');
@@ -169,7 +168,21 @@ export default class MeasurementCalculator {
         if(isNaN(angle)) {
             return;
         }
-        return this.formatNumber(angle, 0);
+        return angle;
+    }
+
+    /**
+     * Helper function used to convert angles.
+     *
+     * @param angle angle
+     * @param angleUnit angle unit
+     * @returns angle
+     */
+    public convertAngle(angle: number, angleUnit: string): number {
+        if(angleUnit === "gon") {
+            return angle * (200/180);
+        }
+        return angle;
     }
 
     /**
@@ -335,7 +348,7 @@ export default class MeasurementCalculator {
         return (spatialReference.isWebMercator || spatialReference.wkid === 4326);
     }
 
-    private formatNumber(area: number, places: number): string {
+    public formatNumber(area: number, places: number): string {
         const numberFormatIntlOptions = intl.convertNumberFormatToIntlOptions({
             places: places,
             digitSeparator: true

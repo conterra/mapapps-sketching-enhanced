@@ -31,6 +31,18 @@ export default {
         area: "Fläche",
         circumference: "Umring",
         noMeasurement: "Es liegt noch keine Messung vor",
-        copyToClipboard: 'Copy to Clipboard'
+        copyToClipboard: "In die Zwischenablage kopieren",
+        lengthUnit: "Längeneinheit",
+        areaUnit: "Flächeneinheit",
+        angleUnit: "Winkeleinheit",
+        units: {
+            "meters": "Meter",
+            "kilometers": "Kilometer",
+            "square-meters": "Quadratmeter",
+            "square-kilometers": "Quadratkilometer",
+            "hectares": "Hektar",
+            "degrees": "Grad",
+            "gon": "Gon"
+        }
     }
 };

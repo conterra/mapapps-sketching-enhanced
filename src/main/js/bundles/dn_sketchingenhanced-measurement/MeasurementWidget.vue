@@ -87,6 +87,33 @@
             class="mt-1"
             hide-details
         />
+        <v-select
+            v-if="activeUi ==='polyline' || activeUi ==='polygon'"
+            v-model="lengthUnit"
+            :items="lengthUnits"
+            :label="i18n.lengthUnit"
+            item-value="name"
+            item-text="title"
+            hide-details
+        />
+        <v-select
+            v-if="activeUi ==='polygon'"
+            v-model="areaUnit"
+            :items="areaUnits"
+            :label="i18n.areaUnit"
+            item-value="name"
+            item-text="title"
+            hide-details
+        />
+        <v-select
+            v-if="activeUi ==='polyline' || activeUi ==='polygon'"
+            v-model="angleUnit"
+            :items="angleUnits"
+            :label="i18n.angleUnit"
+            item-value="name"
+            item-text="title"
+            hide-details
+        />
         <measurement-text
             v-if="activeUi ==='point'"
             :disabled="!measurementEnabled"
@@ -168,8 +195,12 @@
                 circumferenceMeasurementForPolygonsEnabled: true,
                 lengthUnit: "meters",
                 lengthUnitAbbreviation: "m",
+                lengthUnits: [],
                 areaUnit: "square-meters",
                 areaUnitAbbreviation: "m²",
+                areaUnits: [],
+                angleUnit: "degrees",
+                angleUnits: [],
                 pointCoordUnitSymbolX: "X",
                 pointCoordUnitSymbolY: "Y",
                 x: undefined,

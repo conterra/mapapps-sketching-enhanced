@@ -32,7 +32,19 @@ export default {
             area: "Area",
             circumference: "Circumference",
             noMeasurement: "There is no measurement yet",
-            copyToClipboard: 'Copy to Clipboard'
+            copyToClipboard: "Copy to Clipboard",
+            lengthUnit: "Length unit",
+            areaUnit: "Area unit",
+            angleUnit: "Angle unit",
+            units: {
+                "meters": "Meter",
+                "kilometers": "Kilometer",
+                "square-meters": "Square Meter",
+                "square-kilometers": "Square Kilometer",
+                "hectares": "Hectares",
+                "degrees": "Degrees",
+                "gon": "Gon"
+            }
         }
     },
     de: true

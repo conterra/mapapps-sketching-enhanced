@@ -72,9 +72,10 @@ export default class MeasurementController {
         });
         polyline.addPath([point1, point2]);
         const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
+        const lengthText = measurementCalculator.formatNumber(length, 2);
         const center = polyline.extent.center;
         const suffix = measurementModel.lengthUnitAbbreviation;
-        return this.getMeasurementTextGraphic(center, angle, length, suffix, false);
+        return this.getMeasurementTextGraphic(center, angle, lengthText, suffix, false);
     }
 
     /**
@@ -91,9 +92,11 @@ export default class MeasurementController {
         const measurementCalculator = this.measurementCalculator;
         const angle = measurementCalculator.getAngleBetweenThreePoints(centerPoint, nextPoint, previousPoint);
         const angleUnit = this.getAngleUnit();
+        const convertedAngle = measurementCalculator.convertAngle(angle, angleUnit.name);
+        const convertedAngleText = measurementCalculator.formatNumber(convertedAngle, 0);
         const suffix = angleUnit.abbreviation;
         const center = centerPoint;
-        return this.getMeasurementTextGraphic(center, 0, angle, suffix, false);
+        return this.getMeasurementTextGraphic(center, 0, convertedAngleText, suffix, false);
     }
 
     /**
@@ -107,10 +110,11 @@ export default class MeasurementController {
         const measurementCalculator = this.measurementCalculator;
         const measurementModel = this.measurementModel;
         const length = measurementCalculator.getLength(line, measurementModel.lengthUnit);
+        const lengthText = measurementCalculator.formatNumber(length, 2);
         const center = line.extent.center;
         const suffix = measurementModel.lengthUnitAbbreviation;
 
-        return this.getMeasurementTextGraphic(center, 0, length, suffix, line.type === "polygon");
+        return this.getMeasurementTextGraphic(center, 0, lengthText, suffix, line.type === "polygon");
     }
 
     /**
@@ -124,10 +128,11 @@ export default class MeasurementController {
         const measurementCalculator = this.measurementCalculator;
         const measurementModel = this.measurementModel;
         const area = measurementCalculator.getArea(polygon, measurementModel.areaUnit);
+        const areaText = measurementCalculator.formatNumber(area, 2);
         const center = polygon.extent.center;
         const suffix = measurementModel.areaUnitAbbreviation;
 
-        return this.getMeasurementTextGraphic(center, 0, area, suffix, false);
+        return this.getMeasurementTextGraphic(center, 0, areaText, suffix, false);
     }
 
     /**

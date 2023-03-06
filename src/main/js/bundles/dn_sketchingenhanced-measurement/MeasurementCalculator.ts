@@ -19,6 +19,11 @@ import * as geometryEngine from 'esri/geometry/geometryEngine';
 import * as intl from "esri/intl";
 import MeasurementModel from "./MeasurementModel";
 
+export interface Coordinates {
+    x: string,
+    y: string
+}
+
 export default class MeasurementCalculator {
     measurementModel: typeof MeasurementModel;
     coordinateTransformer: CoordinateTransformer;
@@ -35,7 +40,7 @@ export default class MeasurementCalculator {
     * @return corrdinate string
     * @private
     */
-    public async getPointCoordinates(point: __esri.Point): Promise<object> {
+    public async getPointCoordinates(point: __esri.Point): Promise<Coordinates> {
         if (!point) {
             return null;
         }

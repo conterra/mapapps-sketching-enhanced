@@ -523,7 +523,7 @@
             },
             pointSymbolOutlineWidth: {
                 get: function () {
-                    return this.pointSymbol.outline.width;
+                    return this.pointSymbol.outline?.width;
                 },
                 set: function (width) {
                     const pointSymbol = this.cloneSymbol(this.pointSymbol);
@@ -533,7 +533,7 @@
             },
             pointSymbolOutlineColor: {
                 get: function () {
-                    return this.pointSymbol.outline.color;
+                    return this.pointSymbol.outline?.color;
                 },
                 set: function (color) {
                     const rgba = color.rgba;

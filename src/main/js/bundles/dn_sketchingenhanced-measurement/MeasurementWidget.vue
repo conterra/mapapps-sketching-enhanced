@@ -25,7 +25,7 @@
                 class="mt-2"
             />
             <v-menu
-                v-if="activeTool === 'polyline' || activeTool === 'polygon'"
+                v-if="activeUi === 'polyline' || activeUi === 'polygon'"
                 offset-x
                 :close-on-content-click="false"
             >

@@ -44,7 +44,8 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     pointCoordSpatialReference: __esri.SpatialReference
     pointCoordPlaces: number,
     pointCoordUnitSymbolX: string,
-    pointCoordUnitSymbolY: string
+    pointCoordUnitSymbolY: string,
+    deleteClicked: boolean
 }): Impl & MutableType<P> {
     properties(mutableDefinition, mutableProperties);
     return mutableDefinition;
@@ -96,7 +97,8 @@ interface SketchingEnhancedModelProps {
     pointCoordSpatialReference: __esri.SpatialReference
     pointCoordPlaces: number,
     pointCoordUnitSymbolX: string,
-    pointCoordUnitSymbolY: string
+    pointCoordUnitSymbolY: string,
+    deleteClicked: boolean
 }
 
 export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
@@ -127,5 +129,6 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         pointCoordSpatialReference: undefined,
         pointCoordPlaces: 3,
         pointCoordUnitSymbolX: "X",
-        pointCoordUnitSymbolY: "Y"
+        pointCoordUnitSymbolY: "Y",
+        deleteClicked: false
     });

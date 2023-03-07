@@ -23,7 +23,6 @@ import MeasurementModel from "./MeasurementModel";
 import MeasurementCalculator from "./MeasurementCalculator";
 import MeasurementGraphicsFactory from "./MeasurementGraphicsFactory";
 import { CoordinateTransformer } from "@conterra/ct-mapapps-typings/coordinatetransformer/CoordinateTransformer";
-import async from "apprt-core/async";
 
 export default class MeasurementController {
 
@@ -98,12 +97,11 @@ export default class MeasurementController {
         }));
 
         sketchViewModelObservers.add(sketchViewModel.on("delete", (event) => {
-            async(() => {
-                event.graphics.forEach((graphic) => {
-                    const uid = graphic.attributes?.uid;
-                    uid && this.deleteMeasurementGraphics(uid);
-                });
-            }, 100);
+            event.graphics.forEach((graphic) => {
+                const uid = graphic.attributes?.uid;
+                uid && this.deleteMeasurementGraphics(uid);
+            });
+            this.clearTempGraphics();
         }));
 
         sketchViewModelObservers.add(sketchViewModel.on("update", (event) => {
@@ -111,8 +109,10 @@ export default class MeasurementController {
                 const uid = graphic.attributes?.uid;
                 uid && this.deleteMeasurementGraphics(uid);
             });
-            this.drawMeasurementGraphics(event);
-            this.getMeasurmentCalculations(event);
+            if(!this._sketchingEnhancedModel.deleteClicked) {
+                this.drawMeasurementGraphics(event);
+                this.getMeasurmentCalculations(event);
+            }
         }));
     }
 

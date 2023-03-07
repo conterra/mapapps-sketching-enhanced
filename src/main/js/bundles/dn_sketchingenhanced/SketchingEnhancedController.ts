@@ -20,6 +20,7 @@ import type { InjectedReference } from "apprt-core/InjectedReference";
 import { createObservers } from "apprt-core/Observers";
 import Collection from "esri/core/Collection";
 import MapWidgetModel from "@conterra/ct-mapapps-typings/map-widget/MapWidgetModel";
+import async from "apprt-core/async";
 
 export default class SketchingEnhancedController {
 
@@ -147,6 +148,7 @@ export default class SketchingEnhancedController {
     }
 
     deleteGraphic(): void {
+        this.sketchingEnhancedModel.deleteClicked = true;
         const sketchViewModel = this.sketchViewModel;
         sketchViewModel.delete();
     }
@@ -209,6 +211,9 @@ export default class SketchingEnhancedController {
 
         this.observers.add(sketchViewModel.on("delete", () => {
             this.refreshUndoRedo();
+            async(() => {
+                this.sketchingEnhancedModel.deleteClicked = false;
+            }, 100);
         }));
 
         this.observers.add(sketchViewModel.on("update", (evt) => {

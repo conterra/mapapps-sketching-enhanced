@@ -17,35 +17,64 @@
 -->
 <template>
     <v-container class="pa-1 fullHeight">
-        <div class="ct-flex-container ct-flex-container--row">
-            <v-switch
-                v-model="measurementEnabled"
-                :label="i18n.measurementEnabled"
-                color="primary"
-                class="mt-2"
-            />
-            <v-menu
-                v-if="activeUi === 'polyline' || activeUi === 'polygon'"
-                offset-x
-                :close-on-content-click="false"
-            >
-                <template #activator="{ on }">
-                    <v-btn
-                        flat
-                        icon
-                        color="secondary"
-                        class="ct-flex-item"
-                        v-on="on"
-                    >
-                        <v-icon>
-                            settings
-                        </v-icon>
-                    </v-btn>
+        <v-switch
+            v-model="measurementEnabled"
+            :label="i18n.measurementEnabled"
+            color="primary"
+            class="mt-2 mb-2"
+            hide-details
+        />
+        <measurement-text
+            v-if="activeUi ==='point'"
+            :disabled="!measurementEnabled"
+            :i18n="i18n"
+            :value="x"
+            :label="i18n.x"
+            :prefix="pointCoordUnitSymbolX"
+            :placeholder="i18n.hint"
+        />
+        <measurement-text
+            v-if="activeUi ==='point'"
+            :disabled="!measurementEnabled"
+            :i18n="i18n"
+            :value="y"
+            :label="i18n.y"
+            :prefix="pointCoordUnitSymbolY"
+        />
+        <measurement-text
+            v-if="activeUi ==='polyline'"
+            :disabled="!measurementEnabled"
+            :i18n="i18n"
+            :value="length"
+            :label="i18n.length"
+            :suffix="lengthUnitAbbreviation"
+        />
+        <measurement-text
+            v-if="activeUi ==='polygon'"
+            :disabled="!measurementEnabled"
+            :i18n="i18n"
+            :value="circumference"
+            :label="i18n.circumference"
+            :suffix="lengthUnitAbbreviation"
+        />
+        <measurement-text
+            v-if="activeUi ==='polygon'"
+            :disabled="!measurementEnabled"
+            :i18n="i18n"
+            :value="area"
+            :label="i18n.area"
+            :suffix="areaUnitAbbreviation"
+        />
+        <v-expansion-panel
+            v-if="activeUi === 'polyline' || activeUi === 'polygon'"
+            :disabled="!measurementEnabled"
+            class="mt-2"
+        >
+            <v-expansion-panel-content expand-icon="settings">
+                <template #header>
+                    <div>{{ i18n.settings }}</div>
                 </template>
                 <v-card class="pa-2 dn_sketchingenhanced--settings-menu">
-                    <div class="title mb-2">
-                        {{ i18n.settings }}
-                    </div>
                     <v-switch
                         v-if="activeTool ==='polyline'"
                         v-model="lineMeasurementForPolylinesEnabled"
@@ -137,49 +166,8 @@
                         hide-details
                     />
                 </v-card>
-            </v-menu>
-        </div>
-        <measurement-text
-            v-if="activeUi ==='point'"
-            :disabled="!measurementEnabled"
-            :i18n="i18n"
-            :value="x"
-            :label="i18n.x"
-            :prefix="pointCoordUnitSymbolX"
-            :placeholder="i18n.hint"
-        />
-        <measurement-text
-            v-if="activeUi ==='point'"
-            :disabled="!measurementEnabled"
-            :i18n="i18n"
-            :value="y"
-            :label="i18n.y"
-            :prefix="pointCoordUnitSymbolY"
-        />
-        <measurement-text
-            v-if="activeUi ==='polyline'"
-            :disabled="!measurementEnabled"
-            :i18n="i18n"
-            :value="length"
-            :label="i18n.length"
-            :suffix="lengthUnitAbbreviation"
-        />
-        <measurement-text
-            v-if="activeUi ==='polygon'"
-            :disabled="!measurementEnabled"
-            :i18n="i18n"
-            :value="circumference"
-            :label="i18n.circumference"
-            :suffix="lengthUnitAbbreviation"
-        />
-        <measurement-text
-            v-if="activeUi ==='polygon'"
-            :disabled="!measurementEnabled"
-            :i18n="i18n"
-            :value="area"
-            :label="i18n.area"
-            :suffix="areaUnitAbbreviation"
-        />
+            </v-expansion-panel-content>
+        </v-expansion-panel>
     </v-container>
 </template>
 

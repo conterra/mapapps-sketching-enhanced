@@ -229,7 +229,7 @@ export default class MeasurementController {
                         tempGraphics.push(graphicsFactory.getLengthGraphic(polygon));
                     }
                     if(measurementModel.angleMeasurementForPolygonsEnabled
-                        && activeTool !== "polygon_freehand" && activeTool !== "circle") {
+                        && activeTool !== "polygon_freehand" && activeTool !== "circle" && activeTool !== "rectangle") {
                         for (let i = 1; i < rings.length; i++) {
                             const centerPoint = polygon.getPoint(0, i);
                             // switch next and previous point to calculate inner angles

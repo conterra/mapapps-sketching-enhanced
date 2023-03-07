@@ -163,6 +163,7 @@ export default class MeasurementController {
     private drawMeasurementGraphics(event: any): void {
         const measurementModel = this._measurementModel;
         const sketchingEnhancedModel = this._sketchingEnhancedModel;
+        const activeUi = sketchingEnhancedModel.activeUi;
         const activeTool = sketchingEnhancedModel.activeTool;
         const graphicsFactory = this.measurementGraphicsFactory;
         setTimeout(async () => {
@@ -172,14 +173,14 @@ export default class MeasurementController {
                 return;
             }
 
-            if (graphic?.geometry?.type === "point" && !graphic.symbol.text) {
+            if (activeUi === "point") {
                 const point = graphic.geometry as __esri.Point;
 
                 const textGraphic = await graphicsFactory.getPointCoordinatesGraphic(point);
                 tempGraphics.push(textGraphic);
                 this.addTempGraphics(tempGraphics);
             }
-            if (graphic?.geometry?.type === "polyline") {
+            if (activeUi === "polyline") {
                 const polyline = graphic.geometry as __esri.Polyline;
 
                 const paths = polyline.paths[0];
@@ -207,7 +208,7 @@ export default class MeasurementController {
                 }
                 this.addTempGraphics(tempGraphics);
             }
-            if (graphic?.geometry?.type === "polygon") {
+            if (activeUi === "polygon") {
                 const polygon = graphic.geometry as __esri.Polygon;
 
                 const rings = polygon.rings[0];

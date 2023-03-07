@@ -109,7 +109,7 @@
                         Zeichnen
                     </v-tab>
                     <v-tab
-                        v-if="measurementWidget"
+                        v-if="measurementWidget && activeUi !== 'text'"
                         ripple
                     >
                         Messen
@@ -152,7 +152,7 @@
                             />
                         </div>
                     </v-tab-item>
-                    <v-tab-item v-if="measurementWidget">
+                    <v-tab-item v-if="measurementWidget && activeUi !== 'text'">
                         <component
                             :is="measurementWidgetInstance.view"
                             :active-ui="activeUi"

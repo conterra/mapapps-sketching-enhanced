@@ -67,41 +67,48 @@
                     {
                         "name": "meters",
                         "abbreviation": "m",
-                        "title": "${ui.units.meters}"
+                        "title": "${ui.units.meters}",
+                        "decimalPlaces": 2
                     },
                     {
                         "name": "kilometers",
                         "abbreviation": "km",
-                        "title": "${ui.units.kilometers}"
+                        "title": "${ui.units.kilometers}",
+                        "decimalPlaces": 2
                     }
                 ],
                 "areaUnits": [
                     {
                         "name": "square-meters",
                         "abbreviation": "m²",
-                        "title": "${ui.units.square-meters}"
+                        "title": "${ui.units.square-meters}",
+                        "decimalPlaces": 2
                     },
                     {
                         "name": "square-kilometers",
                         "abbreviation": "km²",
-                        "title": "${ui.units.square-kilometers}"
+                        "title": "${ui.units.square-kilometers}",
+                        "decimalPlaces": 3
                     },
                     {
                         "name": "hectares",
                         "abbreviation": "ha",
-                        "title": "${ui.units.hectares}"
+                        "title": "${ui.units.hectares}",
+                        "decimalPlaces": 2
                     }
                 ],
                 "angleUnits": [
                     {
                         "name": "degrees",
                         "abbreviation": "°",
-                        "title": "${ui.units.degrees}"
+                        "title": "${ui.units.degrees}",
+                        "decimalPlaces": 0
                     },
                     {
                         "name": "gon",
                         "abbreviation": "gon",
-                        "title": "${ui.units.gon}"
+                        "title": "${ui.units.gon}",
+                        "decimalPlaces": 0
                     }
                 ]
             }

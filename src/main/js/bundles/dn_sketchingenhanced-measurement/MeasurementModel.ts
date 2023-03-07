@@ -30,13 +30,16 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     length: string,
     lengthUnit: __esri.LinearUnits,
     lengthUnitAbbreviation: string,
+    lengthUnitDecimalPlaces: number,
     lengthUnits: Array<any>,
     area: string,
     areaUnit: __esri.ArealUnits,
     areaUnitAbbreviation: string,
+    areaUnitDecimalPlaces: number,
     areaUnits: Array<any>,
-    angleUnit: __esri.AngleUnit,
+    angleUnit: string,
     angleUnitAbbreviation: string,
+    angleUnitDecimalPlaces: number,
     angleUnits: Array<any>,
     circumference: string,
     x: string,
@@ -58,6 +61,7 @@ class SketchingEnhancedModel extends Mutable {
                 unit.name === value);
             if(lengthUnitObj) {
                 this.lengthUnitAbbreviation = lengthUnitObj.abbreviation;
+                this.lengthUnitDecimalPlaces = lengthUnitObj.decimalPlaces;
             }
         });
         this.watch("areaUnit", ({value}) => {
@@ -65,6 +69,15 @@ class SketchingEnhancedModel extends Mutable {
                 unit.name === value);
             if(areaUnitObj) {
                 this.areaUnitAbbreviation = areaUnitObj.abbreviation;
+                this.areaUnitDecimalPlaces = areaUnitObj.decimalPlaces;
+            }
+        });
+        this.watch("angleUnit", ({value}) => {
+            const angleUnitObj = this.angleUnits.find((unit) =>
+                unit.name === value);
+            if(angleUnitObj) {
+                this.angleUnitAbbreviation = angleUnitObj.abbreviation;
+                this.angleUnitDecimalPlaces = angleUnitObj.decimalPlaces;
             }
         });
     }
@@ -83,13 +96,16 @@ interface SketchingEnhancedModelProps {
     length: string,
     lengthUnit: __esri.LinearUnits,
     lengthUnitAbbreviation: string,
+    lengthUnitDecimalPlaces: number,
     lengthUnits: Array<any>,
     area: string,
     areaUnit: __esri.ArealUnits,
     areaUnitAbbreviation: string,
+    areaUnitDecimalPlaces: number,
     areaUnits: Array<any>,
     angleUnit: string,
     angleUnitAbbreviation: string,
+    angleUnitDecimalPlaces: number,
     angleUnits: Array<any>,
     circumference: string,
     x: string,
@@ -115,20 +131,23 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         length: undefined,
         lengthUnit: "meters",
         lengthUnitAbbreviation: "m",
+        lengthUnitDecimalPlaces: 2,
         lengthUnits: [],
         area: undefined,
         areaUnit: "square-meters",
         areaUnitAbbreviation: "m²",
+        areaUnitDecimalPlaces: 2,
         areaUnits: [],
         angleUnit: "degrees",
         angleUnitAbbreviation: "°",
+        angleUnitDecimalPlaces: 0,
         angleUnits: [],
         circumference: undefined,
         x: undefined,
         y: undefined,
         pointCoordSpatialReference: undefined,
         pointCoordPlaces: 3,
-        pointCoordUnitSymbolX: "X",
-        pointCoordUnitSymbolY: "Y",
+        pointCoordUnitSymbolX: "",
+        pointCoordUnitSymbolY: "",
         deleteClicked: false
     });

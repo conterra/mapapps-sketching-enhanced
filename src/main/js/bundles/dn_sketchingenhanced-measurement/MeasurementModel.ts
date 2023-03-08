@@ -28,18 +28,15 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
     circumferenceMeasurementForPolygonsEnabled: boolean,
     textSymbol: __esri.TextSymbol,
     length: string,
-    lengthUnit: __esri.LinearUnits,
+    lengthUnit: string,
     lengthUnitAbbreviation: string,
-    lengthUnitDecimalPlaces: number,
     lengthUnits: Array<any>,
     area: string,
     areaUnit: __esri.ArealUnits,
     areaUnitAbbreviation: string,
-    areaUnitDecimalPlaces: number,
     areaUnits: Array<any>,
     angleUnit: string,
     angleUnitAbbreviation: string,
-    angleUnitDecimalPlaces: number,
     angleUnits: Array<any>,
     circumference: string,
     x: string,
@@ -56,22 +53,6 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
 
 class SketchingEnhancedModel extends Mutable {
     activate() {
-        this.watch("lengthUnit", ({value}) => {
-            const lengthUnitObj = this.lengthUnits.find((unit) =>
-                unit.name === value);
-            if(lengthUnitObj) {
-                this.lengthUnitAbbreviation = lengthUnitObj.abbreviation;
-                this.lengthUnitDecimalPlaces = lengthUnitObj.decimalPlaces;
-            }
-        });
-        this.watch("areaUnit", ({value}) => {
-            const areaUnitObj = this.areaUnits.find((unit) =>
-                unit.name === value);
-            if(areaUnitObj) {
-                this.areaUnitAbbreviation = areaUnitObj.abbreviation;
-                this.areaUnitDecimalPlaces = areaUnitObj.decimalPlaces;
-            }
-        });
         this.watch("angleUnit", ({value}) => {
             const angleUnitObj = this.angleUnits.find((unit) =>
                 unit.name === value);
@@ -96,16 +77,13 @@ interface SketchingEnhancedModelProps {
     length: string,
     lengthUnit: __esri.LinearUnits,
     lengthUnitAbbreviation: string,
-    lengthUnitDecimalPlaces: number,
     lengthUnits: Array<any>,
     area: string,
     areaUnit: __esri.ArealUnits,
     areaUnitAbbreviation: string,
-    areaUnitDecimalPlaces: number,
     areaUnits: Array<any>,
     angleUnit: string,
     angleUnitAbbreviation: string,
-    angleUnitDecimalPlaces: number,
     angleUnits: Array<any>,
     circumference: string,
     x: string,
@@ -129,18 +107,15 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         circumferenceMeasurementForPolygonsEnabled: true,
         textSymbol: undefined,
         length: undefined,
-        lengthUnit: "meters",
+        lengthUnit: "auto",
         lengthUnitAbbreviation: "m",
-        lengthUnitDecimalPlaces: 2,
         lengthUnits: [],
         area: undefined,
         areaUnit: "square-meters",
         areaUnitAbbreviation: "m²",
-        areaUnitDecimalPlaces: 2,
         areaUnits: [],
         angleUnit: "degrees",
         angleUnitAbbreviation: "°",
-        angleUnitDecimalPlaces: 0,
         angleUnits: [],
         circumference: undefined,
         x: undefined,

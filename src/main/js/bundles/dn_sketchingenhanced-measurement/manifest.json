@@ -60,10 +60,14 @@
                     "horizontalAlignment": "center",
                     "verticalAlignment": "baseline"
                 },
-                "lengthUnit": "meters",
-                "areaUnit": "square-meters",
+                "lengthUnit": "auto",
+                "areaUnit": "auto",
                 "angleUnit": "degrees",
                 "lengthUnits": [
+                    {
+                        "name": "auto",
+                        "title": "${ui.units.auto}"
+                    },
                     {
                         "name": "meters",
                         "abbreviation": "m",
@@ -78,6 +82,10 @@
                     }
                 ],
                 "areaUnits": [
+                    {
+                        "name": "auto",
+                        "title": "${ui.units.auto}"
+                    },
                     {
                         "name": "square-meters",
                         "abbreviation": "m²",

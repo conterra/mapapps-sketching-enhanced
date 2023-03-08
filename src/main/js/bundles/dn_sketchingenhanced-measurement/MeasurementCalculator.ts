@@ -66,18 +66,25 @@ export default class MeasurementCalculator {
      *
      * @param geometry Geometry
      * @param unit Unit of measurement
-     * @returns number
+     * @returns length and unit
      *
      * @public
      */
-    public getLength(geometry: __esri.Polygon | __esri.Polyline,
-        unit: __esri.LinearUnits | 'auto' = this.measurementModel?.lengthUnit): number {
+    public getLengthAndUnit(geometry: __esri.Polygon | __esri.Polyline,
+        unit: __esri.LinearUnits | 'auto' = this.measurementModel?.lengthUnit):
+        { length: number, unit: __esri.LinearUnits } {
         const unitForCalculation = unit === 'auto' ? 'meters' : unit;
         const length = this.calculateGeometryLength(geometry, unitForCalculation);
-        if(!length) {
-            return;
+        if (unit !== 'auto') {
+            // fixed unit
+            return { length, unit };
         }
-        return length;
+        // automatic recalculation of length
+        if (length > 1000) {
+            // calculate kilometers
+            return { length: length / 1000, unit: 'kilometers' };
+        }
+        return { length: length, unit: 'meters' };
     }
 
     /**
@@ -104,18 +111,25 @@ export default class MeasurementCalculator {
      *
      * @param polygon Polygon
      * @param unit Unit of measurement
-     * @returns number
+     * @returns area and unit
      *
      * @public
      */
-    public getArea(geometry: __esri.Polygon,
-        unit: __esri.ArealUnits | 'auto' = this.measurementModel?.areaUnit): number {
+    public getAreaAndUnit(geometry: __esri.Polygon,
+        unit: __esri.ArealUnits | 'auto' = this.measurementModel?.areaUnit):
+        { area: number, unit: __esri.ArealUnits } {
         const unitForCalculation = unit === 'auto' ? 'square-meters' : unit;
         const area = this.calculateGeometryArea(geometry, unitForCalculation);
-        if(!area) {
-            return;
+        if (unit !== 'auto') {
+            // fixed unit
+            return { area, unit };
         }
-        return area;
+        // automatic recalculation of area
+        if (area > 1000000) {
+            // calculate square-kilometers
+            return { area: area / 1000000, unit: 'square-kilometers' };
+        }
+        return { area: area, unit: 'square-meters' };
     }
 
     /**

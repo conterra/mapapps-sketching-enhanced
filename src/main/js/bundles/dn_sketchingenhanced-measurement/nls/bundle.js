@@ -38,6 +38,7 @@ export default {
             areaUnit: "Area unit",
             angleUnit: "Angle unit",
             units: {
+                "auto": "Auto",
                 "meters": "Meter",
                 "kilometers": "Kilometer",
                 "square-meters": "Square Meter",

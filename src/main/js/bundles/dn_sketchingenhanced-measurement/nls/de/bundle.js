@@ -37,6 +37,7 @@ export default {
         areaUnit: "Flächeneinheit",
         angleUnit: "Winkeleinheit",
         units: {
+            "auto": "Auto",
             "meters": "Meter",
             "kilometers": "Kilometer",
             "square-meters": "Quadratmeter",

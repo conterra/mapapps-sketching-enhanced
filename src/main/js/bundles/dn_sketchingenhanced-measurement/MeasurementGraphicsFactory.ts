@@ -71,10 +71,12 @@ export default class MeasurementController {
             }
         });
         polyline.addPath([point1, point2]);
-        const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
-        const lengthText = measurementCalculator.formatNumber(length, measurementModel.lengthUnitDecimalPlaces);
+        const {length, unit: lengthUnit} = measurementCalculator.getLengthAndUnit(polyline,
+            measurementModel.lengthUnit);
+        const lengthUnitObj = this.measurementModel.lengthUnits.find((u)=>u.name === lengthUnit);
+        const lengthText = measurementCalculator.formatNumber(length, lengthUnitObj.decimalPlaces);
         const center = polyline.extent.center;
-        const suffix = measurementModel.lengthUnitAbbreviation;
+        const suffix = lengthUnitObj.abbreviation;
         return this.getMeasurementTextGraphic(center, angle, lengthText, suffix, false);
     }
 
@@ -92,10 +94,10 @@ export default class MeasurementController {
         const measurementCalculator = this.measurementCalculator;
         const measurementModel = this.measurementModel;
         const angle = measurementCalculator.getAngleBetweenThreePoints(centerPoint, nextPoint, previousPoint);
-        const convertedAngle = measurementCalculator.convertAngle(angle, measurementModel.angleUnit);
-        const convertedAngleText = measurementCalculator.formatNumber(convertedAngle,
-            measurementModel.angleUnitDecimalPlaces);
-        const suffix = measurementModel.angleUnitAbbreviation;
+        const angleUnitObj = this.measurementModel.angleUnits.find((u)=>u.name === measurementModel.angleUnit);
+        const convertedAngle = measurementCalculator.convertAngle(angle, angleUnitObj.name);
+        const convertedAngleText = measurementCalculator.formatNumber(convertedAngle, angleUnitObj.decimalPlaces);
+        const suffix = angleUnitObj.abbreviation;
         const center = centerPoint;
         return this.getMeasurementTextGraphic(center, 0, convertedAngleText, suffix, false);
     }
@@ -110,10 +112,11 @@ export default class MeasurementController {
     getLengthGraphic(line: __esri.Polyline | __esri.Polygon): __esri.Graphic {
         const measurementCalculator = this.measurementCalculator;
         const measurementModel = this.measurementModel;
-        const length = measurementCalculator.getLength(line, measurementModel.lengthUnit);
-        const lengthText = measurementCalculator.formatNumber(length, measurementModel.lengthUnitDecimalPlaces);
+        const {length, unit: lengthUnit} = measurementCalculator.getLengthAndUnit(line, measurementModel.lengthUnit);
+        const lengthUnitObj = this.measurementModel.lengthUnits.find((u)=>u.name === lengthUnit);
+        const lengthText = measurementCalculator.formatNumber(length, lengthUnitObj.decimalPlaces);
         const center = line.extent.center;
-        const suffix = measurementModel.lengthUnitAbbreviation;
+        const suffix = lengthUnitObj.abbreviation;
 
         return this.getMeasurementTextGraphic(center, 0, lengthText, suffix, line.type === "polygon");
     }
@@ -128,10 +131,11 @@ export default class MeasurementController {
     getAreaGraphic(polygon: __esri.Polygon): __esri.Graphic {
         const measurementCalculator = this.measurementCalculator;
         const measurementModel = this.measurementModel;
-        const area = measurementCalculator.getArea(polygon, measurementModel.areaUnit);
-        const areaText = measurementCalculator.formatNumber(area, measurementModel.areaUnitDecimalPlaces);
+        const {area, unit: areaUnit} = measurementCalculator.getAreaAndUnit(polygon, measurementModel.areaUnit);
+        const areaUnitObj = this.measurementModel.areaUnits.find((u)=>u.name === areaUnit);
+        const areaText = measurementCalculator.formatNumber(area, areaUnitObj.decimalPlaces);
         const center = polygon.extent.center;
-        const suffix = measurementModel.areaUnitAbbreviation;
+        const suffix = areaUnitObj.abbreviation;
 
         return this.getMeasurementTextGraphic(center, 0, areaText, suffix, false);
     }

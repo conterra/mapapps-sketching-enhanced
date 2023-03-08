@@ -117,7 +117,7 @@ export default class MeasurementController {
     }
 
     private async getMeasurmentCalculations(event: any): Promise<void> {
-        const measurementCalculator = this.measurementCalculator;
+        const mc = this.measurementCalculator;
         const measurementModel = this._measurementModel;
         const graphic = event.graphics?.length ? event.graphics[0] : event.graphic;
         if(!graphic) {
@@ -131,24 +131,30 @@ export default class MeasurementController {
 
         if (graphic?.geometry?.type === "point") {
             const point = graphic.geometry as __esri.Point;
-            const coordinates = await measurementCalculator.getPointCoordinates(point);
+            const coordinates = await mc.getPointCoordinates(point);
             measurementModel.x = coordinates.x;
             measurementModel.y = coordinates.y;
         }
         if (graphic?.geometry?.type === "polyline") {
             const polyline = graphic.geometry as __esri.Polyline;
-            const length = measurementCalculator.getLength(polyline, measurementModel.lengthUnit);
-            const lengthText = measurementCalculator.formatNumber(length, 2);
+            const {length, unit: lengthUnit} = mc.getLengthAndUnit(polyline, measurementModel.lengthUnit);
+            const lengthUnitObj = this._measurementModel.lengthUnits.find((u)=>u.name === lengthUnit);
+            const lengthText = mc.formatNumber(length, lengthUnitObj.decimalPlaces);
             measurementModel.length = lengthText;
+            measurementModel.lengthUnitAbbreviation = lengthUnitObj.abbreviation;
         }
         if (graphic?.geometry?.type === "polygon") {
             const polygon = graphic.geometry as __esri.Polygon;
-            const area = measurementCalculator.getArea(polygon, measurementModel.areaUnit);
-            const areaText = measurementCalculator.formatNumber(area, 2);
+            const {area, unit: areaUnit}  = mc.getAreaAndUnit(polygon, measurementModel.areaUnit);
+            const areaUnitObj = this._measurementModel.areaUnits.find((u)=>u.name === areaUnit);
+            const areaText = mc.formatNumber(area, areaUnitObj.decimalPlaces);
             measurementModel.area = areaText;
-            const circumference = measurementCalculator.getLength(polygon, measurementModel.lengthUnit);
-            const circumferenceText = measurementCalculator.formatNumber(circumference, 2);
+            measurementModel.areaUnitAbbreviation = areaUnitObj.abbreviation;
+            const {length: circumference, unit: lengthUnit} = mc.getLengthAndUnit(polygon, measurementModel.lengthUnit);
+            const lengthUnitObj = this._measurementModel.lengthUnits.find((u)=>u.name === lengthUnit);
+            const circumferenceText = mc.formatNumber(circumference, lengthUnitObj.decimalPlaces);
             measurementModel.circumference = circumferenceText;
+            measurementModel.lengthUnitAbbreviation = lengthUnitObj.abbreviation;
         }
 
         if (event.state === "cancel") {

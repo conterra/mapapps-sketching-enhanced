@@ -16,7 +16,7 @@
 
 -->
 <template>
-    <div class="dn_sketchingenhanced--snapping-settings">
+    <div class="pa-2 dn_sketchingenhanced--snapping-settings">
         <div class="subheading my-2">
             {{ i18n.title }}
         </div>

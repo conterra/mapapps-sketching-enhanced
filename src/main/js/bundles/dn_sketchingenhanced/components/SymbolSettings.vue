@@ -16,7 +16,7 @@
 
 -->
 <template>
-    <v-container class="pa-1 symbol-settings fullHeight">
+    <v-container class="pa-2 symbol-settings fullHeight">
         <div
             v-if="activeUi === 'point'"
         >

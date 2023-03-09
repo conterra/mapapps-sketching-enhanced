@@ -21,16 +21,16 @@
     overflow: hidden;
 }
 
+.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--container {
+    height: calc(100% - 48px);
+}
+
 .ctAppRoot .sketching-enhanced-widget .v-toolbar .v-toolbar__content {
     padding-right: 0;
 }
 
 .ctAppRoot .sketching-enhanced-widget .left {
     width: 250px;
-}
-
-.ctAppRoot .sketching-enhanced-widget .ct-flex-container {
-    height: calc(100% - 48px);
 }
 
 .ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--symbol-settings .label {

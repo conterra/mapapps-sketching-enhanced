@@ -59,7 +59,7 @@
             <v-spacer />
             <!-- TODO: Add Delete-All button-->
         </v-toolbar>
-        <div class="ct-flex-container ct-flex-container--row">
+        <div class="ct-flex-container ct-flex-container--row dn_sketchingenhanced--container">
             <div class="left ct-flex-item ct-flex-item--no-grow ct-flex-item--no-shrink overflowAuto">
                 <navigation
                     class="dn_sketchingenhanced--navigation"

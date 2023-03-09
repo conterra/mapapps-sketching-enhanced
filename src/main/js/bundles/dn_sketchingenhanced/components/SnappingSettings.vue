@@ -17,9 +17,6 @@
 -->
 <template>
     <div class="pa-2 dn_sketchingenhanced--snapping-settings">
-        <div class="subheading my-2">
-            {{ i18n.title }}
-        </div>
         <v-switch
             v-model="enabled"
             :label="i18n.snappingEnabled"

@@ -43,7 +43,6 @@ export default {
                 measurement: "Measurement"
             },
             snappingSettings: {
-                title: "Snapping controls",
                 snappingEnabled: "Enable snapping",
                 snappingSelfEnabled: "Geometry guides",
                 snappingFeatureEnabled: "Enable map content snapping",

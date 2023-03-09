@@ -21,7 +21,7 @@
             v-model="measurementEnabled"
             :label="i18n.measurementEnabled"
             color="primary"
-            class="mt-2 mb-2"
+            class="mt-1 mb-2"
             hide-details
         />
         <measurement-text

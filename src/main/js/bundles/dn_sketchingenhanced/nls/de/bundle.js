@@ -42,7 +42,6 @@ export default {
             measurement: "Messen"
         },
         snappingSettings: {
-            title: "Fangen-Einstellungen",
             snappingEnabled: "Fangen aktivieren",
             snappingSelfEnabled: "Geometrieführungslinien",
             snappingFeatureEnabled: "Karteninhalte fangen",

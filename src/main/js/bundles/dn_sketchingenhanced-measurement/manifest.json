@@ -96,7 +96,7 @@
                         "name": "square-kilometers",
                         "abbreviation": "km²",
                         "title": "${ui.units.square-kilometers}",
-                        "decimalPlaces": 3
+                        "decimalPlaces": 2
                     },
                     {
                         "name": "hectares",

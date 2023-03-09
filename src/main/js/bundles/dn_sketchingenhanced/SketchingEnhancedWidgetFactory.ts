@@ -33,7 +33,7 @@ export default class SketchingEnhancedWidgetFactory {
     private readonly _i18n!: InjectedReference<any>;
     private readonly _mapWidgetModel!: InjectedReference<MapWidgetModel>;
     private readonly _sketchingEnhancedModel!: InjectedReference<typeof SketchingEnhancedModel>;
-    private readonly _measurementWidget!: InjectedReference<any>;
+    private _measurementWidget!: InjectedReference<any>;
     private vm: Vue;
     private controller: SketchingEnhancedController;
     private sketchViewModel: SketchViewModel;
@@ -127,6 +127,7 @@ export default class SketchingEnhancedWidgetFactory {
     }
 
     setMeasurementWidget(measurementWidget: any): void {
+        this._measurementWidget = measurementWidget;
         if(this.vm && !this.vm.measurementWidget) {
             this.vm.measurementWidget = () => measurementWidget;
         }

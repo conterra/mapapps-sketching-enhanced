@@ -16,7 +16,7 @@
         "apprt-vue": "^4.12.0",
         "apprt-vuetify": "^4.12.0"
     },
-    "cssThemesExtension": [
+    "CSS-Themes-Extension": [
         {
             "name": "*",
             "files": [

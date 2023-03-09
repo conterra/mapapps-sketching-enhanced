@@ -70,7 +70,22 @@
     overflow: auto;
 }
 
-.ctAppRoot .dn_sketchingenhanced--snapping-settings .feature-source .info-icon {
+.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--snapping-settings {
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--snapping-settings > div {
+    flex: 0 0 auto;
+}
+
+.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--snapping-settings .feature-sources {
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--snapping-settings .feature-source .info-icon {
     cursor: default;
     padding-top: 7px;
 }

@@ -17,36 +17,7 @@
 import {Mutable, properties} from "apprt-core/Mutable";
 import type {Mutable as MutableType} from "@conterra/ct-mapapps-typings/apprt-core/Mutable";
 
-function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: {
-    measurementEnabled: boolean,
-    totalLengthMeasurementForPolylinesEnabled: boolean,
-    lineMeasurementForPolylinesEnabled: boolean,
-    angleMeasurementForPolylinesEnabled: boolean,
-    lineMeasurementForPolygonsEnabled: boolean,
-    angleMeasurementForPolygonsEnabled: boolean,
-    areaMeasurementForPolygonsEnabled: boolean,
-    circumferenceMeasurementForPolygonsEnabled: boolean,
-    textSymbol: __esri.TextSymbol,
-    length: string,
-    lengthUnit: string,
-    lengthUnitAbbreviation: string,
-    lengthUnits: Array<any>,
-    area: string,
-    areaUnit: __esri.ArealUnits,
-    areaUnitAbbreviation: string,
-    areaUnits: Array<any>,
-    angleUnit: string,
-    angleUnitAbbreviation: string,
-    angleUnits: Array<any>,
-    circumference: string,
-    x: string,
-    y: string,
-    pointCoordSpatialReference: __esri.SpatialReference
-    pointCoordPlaces: number,
-    pointCoordUnitSymbolX: string,
-    pointCoordUnitSymbolY: string,
-    deleteClicked: boolean
-}): Impl & MutableType<P> {
+function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: P): Impl & MutableType<P> {
     properties(mutableDefinition, mutableProperties);
     return mutableDefinition;
 }
@@ -75,14 +46,14 @@ interface SketchingEnhancedModelProps {
     circumferenceMeasurementForPolygonsEnabled: boolean,
     textSymbol: __esri.TextSymbol,
     length: string,
-    lengthUnit: __esri.LinearUnits,
+    lengthUnit: __esri.LinearUnits | 'auto',
     lengthUnitAbbreviation: string,
     lengthUnits: Array<any>,
     area: string,
-    areaUnit: __esri.ArealUnits,
+    areaUnit: __esri.ArealUnits | 'auto',
     areaUnitAbbreviation: string,
     areaUnits: Array<any>,
-    angleUnit: string,
+    angleUnit: 'degrees' | 'auto',
     angleUnitAbbreviation: string,
     angleUnits: Array<any>,
     circumference: string,
@@ -111,7 +82,7 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         lengthUnitAbbreviation: "m",
         lengthUnits: [],
         area: undefined,
-        areaUnit: "square-meters",
+        areaUnit: "auto",
         areaUnitAbbreviation: "m²",
         areaUnits: [],
         angleUnit: "degrees",

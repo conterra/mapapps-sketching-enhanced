@@ -33,6 +33,7 @@ export default class SketchingEnhancedWidgetFactory {
     private readonly _i18n!: InjectedReference<any>;
     private readonly _mapWidgetModel!: InjectedReference<MapWidgetModel>;
     private readonly _sketchingEnhancedModel!: InjectedReference<typeof SketchingEnhancedModel>;
+    private readonly _measurementWidget!: InjectedReference<any>;
     private vm: Vue;
     private controller: SketchingEnhancedController;
     private sketchViewModel: SketchViewModel;
@@ -62,6 +63,7 @@ export default class SketchingEnhancedWidgetFactory {
                 sketchViewModel = this.sketchViewModel =
                     createSketchViewModel(sketchingEnhancedModel, graphicsLayer, view);
             }
+            sketchingEnhancedModel.sketchViewModel = sketchViewModel;
 
             // create SketchingEnhancedController
             let controller = this.controller;
@@ -117,6 +119,9 @@ export default class SketchingEnhancedWidgetFactory {
         vm.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
         vm.polygonSymbol = sketchingEnhancedModel.polygonSymbol;
         vm.textSymbol = sketchingEnhancedModel.textSymbol;
+        if(this._measurementWidget) {
+            vm.measurementWidget = () => this._measurementWidget;
+        }
 
         this.sketchViewModelBinding =this.createSketchViewModelBinding(vm, sketchingEnhancedModel);
     }

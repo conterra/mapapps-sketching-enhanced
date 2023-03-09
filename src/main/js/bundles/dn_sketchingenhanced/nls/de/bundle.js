@@ -36,6 +36,11 @@ export default {
         editHint: "Klicken Sie auf eine Grafik in der Karte, um diese zu editieren.",
         toolHint: "Wählen Sie ein Zeichentool aus, um mit dem Zeichnen zu beginnen.",
         settings: "Einstellungen",
+        tabs: {
+            sketching: "Zeichnen",
+            snapping: "Fangen",
+            measurement: "Messen"
+        },
         snappingSettings: {
             title: "Fangen-Einstellungen",
             snappingEnabled: "Fangen aktivieren",

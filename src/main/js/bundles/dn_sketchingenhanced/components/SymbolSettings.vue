@@ -16,7 +16,7 @@
 
 -->
 <template>
-    <v-container class="pa-1 symbol-settings fullHeight">
+    <v-container class="pa-2 symbol-settings fullHeight">
         <div
             v-if="activeUi === 'point'"
         >
@@ -523,7 +523,7 @@
             },
             pointSymbolOutlineWidth: {
                 get: function () {
-                    return this.pointSymbol.outline.width;
+                    return this.pointSymbol.outline?.width;
                 },
                 set: function (width) {
                     const pointSymbol = this.cloneSymbol(this.pointSymbol);
@@ -533,7 +533,7 @@
             },
             pointSymbolOutlineColor: {
                 get: function () {
-                    return this.pointSymbol.outline.color;
+                    return this.pointSymbol.outline?.color;
                 },
                 set: function (color) {
                     const rgba = color.rgba;
@@ -596,7 +596,7 @@
             },
             polygonSymbolOutlineStyle: {
                 get: function () {
-                    return this.polygonSymbol.outline.style;
+                    return this.polygonSymbol.outline?.style;
                 },
                 set: function (style) {
                     const polygonSymbol = this.cloneSymbol(this.polygonSymbol);
@@ -606,7 +606,7 @@
             },
             polygonSymbolOutlineWidth: {
                 get: function () {
-                    return this.polygonSymbol.outline.width;
+                    return this.polygonSymbol.outline?.width;
                 },
                 set: function (width) {
                     const polygonSymbol = this.cloneSymbol(this.polygonSymbol);
@@ -616,7 +616,7 @@
             },
             polygonSymbolOutlineColor: {
                 get: function () {
-                    return this.polygonSymbol.outline.color;
+                    return this.polygonSymbol.outline?.color;
                 },
                 set: function (color) {
                     const rgba = color.rgba;
@@ -637,7 +637,7 @@
             },
             textSymbolFontSize: {
                 get: function () {
-                    return this.textSymbol.font.size;
+                    return this.textSymbol.font?.size;
                 },
                 set: function (size) {
                     const textSymbol = this.cloneSymbol(this.textSymbol);
@@ -647,7 +647,7 @@
             },
             textSymbolFontWeight: {
                 get: function () {
-                    return this.textSymbol?.font?.weight || "normal";
+                    return this.textSymbol.font?.weight || "normal";
                 },
                 set: function (weight) {
                     const textSymbol = this.cloneSymbol(this.textSymbol);

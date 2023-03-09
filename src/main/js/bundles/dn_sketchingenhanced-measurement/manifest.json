@@ -1,0 +1,159 @@
+{
+    "name": "dn_sketchingenhanced-measurement",
+    "version": "3.1.2-SNAPSHOT",
+    "title": "${bundleName}",
+    "description": "${bundleDescription}",
+    "vendor": "con terra GmbH",
+    "main": "",
+    "icon": {},
+    "productName": "devnet-mapapps-sketching-enhanced",
+    "dependencies": {
+        "dn_vuecolor": "^2.0.0",
+        "esri": "^4.7.2",
+        "map-widget": "^4.12.0",
+        "apprt-core": "^4.12.0",
+        "apprt-binding": "^4.12.0",
+        "apprt-vue": "^4.12.0",
+        "apprt-vuetify": "^4.12.0"
+    },
+    "components": [
+        {
+            "name": "Config",
+            "impl": "./MeasurementModel",
+            "provides": "dn_sketchingenhanced-measurement.MeasurementModel",
+            "propertiesConstructor": true,
+            "properties": {
+                "measurementEnabled": true,
+                "lineMeasurementForPolylinesEnabled": true,
+                "angleMeasurementForPolylinesEnabled": true,
+                "totalLengthMeasurementForPolylinesEnabled": true,
+                "lineMeasurementForPolygonsEnabled": true,
+                "angleMeasurementForPolygonsEnabled": true,
+                "areaMeasurementForPolygonsEnabled": true,
+                "circumferenceMeasurementForPolygonsEnabled": true,
+                "pointCoordSpatialReference": {
+                    "wkid": 3857
+                },
+                "pointCoordPlaces": 3,
+                "pointCoordUnitSymbolX": "",
+                "pointCoordUnitSymbolY": "",
+                "textSymbol": {
+                    "type": "text",
+                    "color": {
+                        "r": 50,
+                        "g": 50,
+                        "b": 50,
+                        "a": 1
+                    },
+                    "font": {
+                        "size": 12,
+                        "family": "sans-serif",
+                        "weight": "normal"
+                    },
+                    "haloColor": {
+                        "r": 255,
+                        "g": 255,
+                        "b": 255,
+                        "a": 1
+                    },
+                    "haloSize": 2,
+                    "horizontalAlignment": "center",
+                    "verticalAlignment": "baseline"
+                },
+                "lengthUnit": "auto",
+                "areaUnit": "auto",
+                "angleUnit": "degrees",
+                "lengthUnits": [
+                    {
+                        "name": "auto",
+                        "title": "${ui.units.auto}"
+                    },
+                    {
+                        "name": "meters",
+                        "abbreviation": "m",
+                        "title": "${ui.units.meters}",
+                        "decimalPlaces": 2
+                    },
+                    {
+                        "name": "kilometers",
+                        "abbreviation": "km",
+                        "title": "${ui.units.kilometers}",
+                        "decimalPlaces": 2
+                    }
+                ],
+                "areaUnits": [
+                    {
+                        "name": "auto",
+                        "title": "${ui.units.auto}"
+                    },
+                    {
+                        "name": "square-meters",
+                        "abbreviation": "m²",
+                        "title": "${ui.units.square-meters}",
+                        "decimalPlaces": 2
+                    },
+                    {
+                        "name": "square-kilometers",
+                        "abbreviation": "km²",
+                        "title": "${ui.units.square-kilometers}",
+                        "decimalPlaces": 2
+                    },
+                    {
+                        "name": "hectares",
+                        "abbreviation": "ha",
+                        "title": "${ui.units.hectares}",
+                        "decimalPlaces": 2
+                    }
+                ],
+                "angleUnits": [
+                    {
+                        "name": "degrees",
+                        "abbreviation": "°",
+                        "title": "${ui.units.degrees}",
+                        "decimalPlaces": 0
+                    },
+                    {
+                        "name": "gon",
+                        "abbreviation": "gon",
+                        "title": "${ui.units.gon}",
+                        "decimalPlaces": 0
+                    }
+                ]
+            }
+        },
+        {
+            "name": "MeasurementController",
+            "references": [
+                {
+                    "name": "_measurementModel",
+                    "providing": "dn_sketchingenhanced-measurement.MeasurementModel"
+                },
+                {
+                    "name": "_sketchingEnhancedModel",
+                    "providing": "dn_sketchingenhanced.SketchingEnhancedModel"
+                },
+                {
+                    "name": "_coordinateTransformer",
+                    "providing": "ct.api.coordinatetransformer.CoordinateTransformer",
+                    "cardinality": "0..1"
+                },
+                {
+                    "name": "_mapWidgetModel",
+                    "providing": "map-widget.MapWidgetModel"
+                }
+            ]
+        },
+        {
+            "name": "MeasurementWidgetFactory",
+            "impl": "./MeasurementWidgetFactory",
+            "instanceFactory": true,
+            "provides": "dn_sketchingenhanced-measurement.MeasurementWidget",
+            "references": [
+                {
+                    "name": "_measurementModel",
+                    "providing": "dn_sketchingenhanced-measurement.MeasurementModel"
+                }
+            ]
+        }
+    ]
+}

@@ -16,7 +16,7 @@
 
 -->
 <template>
-    <div>
+    <div class="pa-2 dn_sketchingenhanced--snapping-settings">
         <div class="subheading my-2">
             {{ i18n.title }}
         </div>
@@ -46,36 +46,38 @@
         <div class="subheading my-2">
             {{ i18n.snappingFeatureSources }}
         </div>
-        <div
-            v-for="featureSource in featureSources"
-            :key="featureSource.id"
-            class="ct-flex-container feature-source"
-        >
-            <v-checkbox
-                v-model="featureSource.enabled"
-                :label="featureSource.title"
-                :disabled="!enabled || !featureEnabled
-                    || !featureSource.isVisibleInHierarchy || !featureSource.isVisibleAtScale"
-                color="primary"
-                hide-details
-                class="mt-1"
-                @change="changeFeatureSource(featureSource)"
-            />
-            <v-tooltip
-                v-if="!featureSource.isVisibleInHierarchy || !featureSource.isVisibleAtScale"
-                bottom
+        <div class="feature-sources">
+            <div
+                v-for="featureSource in featureSources"
+                :key="featureSource.id"
+                class="ct-flex-container feature-source"
             >
-                <template #activator="{ on }">
-                    <v-icon
-                        color="primary"
-                        class="info-icon"
-                        v-on="on"
-                    >
-                        info
-                    </v-icon>
-                </template>
-                <span>{{ getInfoText(featureSource) }}</span>
-            </v-tooltip>
+                <v-checkbox
+                    v-model="featureSource.enabled"
+                    :label="featureSource.title"
+                    :disabled="!enabled || !featureEnabled
+                        || !featureSource.isVisibleInHierarchy || !featureSource.isVisibleAtScale"
+                    color="primary"
+                    hide-details
+                    class="mt-1"
+                    @change="changeFeatureSource(featureSource)"
+                />
+                <v-tooltip
+                    v-if="!featureSource.isVisibleInHierarchy || !featureSource.isVisibleAtScale"
+                    bottom
+                >
+                    <template #activator="{ on }">
+                        <v-icon
+                            color="primary"
+                            class="info-icon"
+                            v-on="on"
+                        >
+                            info
+                        </v-icon>
+                    </template>
+                    <span>{{ getInfoText(featureSource) }}</span>
+                </v-tooltip>
+            </div>
         </div>
     </div>
 </template>

@@ -4,9 +4,6 @@
     "title": "${bundleName}",
     "description": "${bundleDescription}",
     "vendor": "con terra GmbH",
-    "keywords": [
-        "sample"
-    ],
     "main": "",
     "icon": {},
     "productName": "devnet-mapapps-sketching-enhanced",
@@ -154,6 +151,11 @@
                 {
                     "name": "_mapWidgetModel",
                     "providing": "map-widget.MapWidgetModel"
+                },
+                {
+                    "name": "_measurementWidget",
+                    "providing": "dn_sketchingenhanced-measurement.MeasurementWidget",
+                    "cardinality": "0..1"
                 }
             ]
         },
@@ -174,10 +176,12 @@
                 "activateHandler": "activateTool",
                 "deactivateHandler": "deactivateTool"
             },
-            "references":[{
-                "name": "handlerScope",
-                "providing": "dn_sketchingenhanced.Widget"
-            }]
+            "references": [
+                {
+                    "name": "handlerScope",
+                    "providing": "dn_sketchingenhanced.Widget"
+                }
+            ]
         }
     ]
 }

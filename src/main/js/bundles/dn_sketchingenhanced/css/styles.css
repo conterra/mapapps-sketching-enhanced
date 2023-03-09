@@ -17,16 +17,20 @@
     overflow: auto;
 }
 
+.ctAppRoot .sketching-enhanced-widget {
+    overflow: hidden;
+}
+
+.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--container {
+    height: calc(100% - 48px);
+}
+
 .ctAppRoot .sketching-enhanced-widget .v-toolbar .v-toolbar__content {
     padding-right: 0;
 }
 
 .ctAppRoot .sketching-enhanced-widget .left {
     width: 250px;
-}
-
-.ctAppRoot .sketching-enhanced-widget .ct-flex-container {
-    height: calc(100% - 48px);
 }
 
 .ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--symbol-settings .label {
@@ -49,7 +53,24 @@
     padding: 0 8px;
 }
 
-.ctAppRoot .dn_sketchingenhanced--settings-menu .feature-source .info-icon {
+.ctAppRoot .sketching-enhanced-widget .v-tabs {
+    height: 100%;
+}
+
+.ctAppRoot .sketching-enhanced-widget .v-tabs .v-window {
+    height: calc(100% - 50px);
+}
+
+.ctAppRoot .sketching-enhanced-widget .v-tabs .v-window .v-window__container {
+    height: 100%;
+}
+
+.ctAppRoot .sketching-enhanced-widget .v-tabs .v-window .v-window-item {
+    height: 100%;
+    overflow: auto;
+}
+
+.ctAppRoot .dn_sketchingenhanced--snapping-settings .feature-source .info-icon {
     cursor: default;
     padding-top: 7px;
 }

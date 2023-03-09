@@ -57,39 +57,9 @@
                 <v-icon>delete</v-icon>
             </v-btn>
             <v-spacer />
-            <v-menu
-                offset-x
-                :close-on-content-click="false"
-            >
-                <template #activator="{ on }">
-                    <v-btn
-                        flat
-                        color="secondary"
-                        class="ct-flex-item"
-                        v-on="on"
-                    >
-                        {{ i18n.settings }}
-                        <v-icon right>
-                            icon-drawing-settings
-                        </v-icon>
-                    </v-btn>
-                </template>
-                <v-card class="pa-2 dn_sketchingenhanced--settings-menu">
-                    <div class="title mb-2">
-                        {{ i18n.settings }}
-                    </div>
-                    <snapping-settings
-                        :i18n="i18n.snappingSettings"
-                        :snapping-enabled.sync="snappingEnabled"
-                        :snapping-feature-enabled.sync="snappingFeatureEnabled"
-                        :snapping-self-enabled.sync="snappingSelfEnabled"
-                        :snapping-feature-sources.sync="snappingFeatureSources"
-                        @feature-source-changed="$emit('feature-source-changed', $event)"
-                    />
-                </v-card>
-            </v-menu>
+            <!-- TODO: Add Delete-All button-->
         </v-toolbar>
-        <div class="ct-flex-container ct-flex-container--row">
+        <div class="ct-flex-container ct-flex-container--row dn_sketchingenhanced--container">
             <div class="left ct-flex-item ct-flex-item--no-grow ct-flex-item--no-shrink overflowAuto">
                 <navigation
                     class="dn_sketchingenhanced--navigation"
@@ -99,43 +69,85 @@
                     @activate-tool="$emit('activate-tool', $event)"
                 />
             </div>
-            <div class="center ct-flex-item overflowAuto px-3">
-                <div v-if="editEnabled">
-                    <v-alert
-                        :value="editEnabled"
-                        type="info"
+            <div class="center ct-flex-item px-3">
+                <v-tabs
+                    slider-color="primary"
+                    grow
+                >
+                    <v-tab
+                        ripple
                     >
-                        {{ i18n.editHint }}
-                    </v-alert>
-                    <symbol-settings
-                        v-if="editSymbol"
-                        :i18n="i18n.symbolSettings"
-                        :active-ui="activeUi"
-                        :point-symbol.sync="editSymbol"
-                        :polyline-symbol.sync="editSymbol"
-                        :polygon-symbol.sync="editSymbol"
-                        :text-symbol.sync="editSymbol"
-                    />
-                </div>
-                <div v-else-if="!activeTool">
-                    <v-alert
-                        :value="true"
-                        type="info"
+                        {{ i18n.tabs.sketching }}
+                    </v-tab>
+                    <v-tab
+                        ripple
                     >
-                        {{ i18n.toolHint }}
-                    </v-alert>
-                </div>
-                <div v-else>
-                    <symbol-settings
-                        class="dn_sketchingenhanced--symbol-settings"
-                        :i18n="i18n.symbolSettings"
-                        :active-ui="activeUi"
-                        :point-symbol.sync="pointSymbol"
-                        :polyline-symbol.sync="polylineSymbol"
-                        :polygon-symbol.sync="polygonSymbol"
-                        :text-symbol.sync="textSymbol"
-                    />
-                </div>
+                        {{ i18n.tabs.snapping }}
+                    </v-tab>
+                    <v-tab
+                        v-if="measurementWidget && activeUi !== 'text'"
+                        ripple
+                    >
+                        {{ i18n.tabs.measurement }}
+                    </v-tab>
+                    <v-tab-item>
+                        <div v-if="!editEnabled">
+                            <div v-if="!activeTool">
+                                <v-alert
+                                    :value="true"
+                                    type="info"
+                                >
+                                    {{ i18n.toolHint }}
+                                </v-alert>
+                            </div>
+                            <symbol-settings
+                                class="dn_sketchingenhanced--symbol-settings"
+                                :i18n="i18n.symbolSettings"
+                                :active-ui="activeUi"
+                                :point-symbol.sync="pointSymbol"
+                                :polyline-symbol.sync="polylineSymbol"
+                                :polygon-symbol.sync="polygonSymbol"
+                                :text-symbol.sync="textSymbol"
+                            />
+                        </div>
+                        <div v-else>
+                            <v-alert
+                                :value="true"
+                                type="info"
+                            >
+                                {{ i18n.editHint }}
+                            </v-alert>
+                            <symbol-settings
+                                v-if="editSymbol"
+                                :i18n="i18n.symbolSettings"
+                                :active-ui="activeUi"
+                                :point-symbol.sync="editSymbol"
+                                :polyline-symbol.sync="editSymbol"
+                                :polygon-symbol.sync="editSymbol"
+                                :text-symbol.sync="editSymbol"
+                            />
+                        </div>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <snapping-settings
+                            :i18n="i18n.snappingSettings"
+                            :snapping-enabled.sync="snappingEnabled"
+                            :snapping-feature-enabled.sync="snappingFeatureEnabled"
+                            :snapping-self-enabled.sync="snappingSelfEnabled"
+                            :snapping-feature-sources.sync="snappingFeatureSources"
+                            @feature-source-changed="$emit('feature-source-changed', $event)"
+                        />
+                    </v-tab-item>
+                    <v-tab-item v-if="measurementWidget && activeUi !== 'text'">
+                        <component
+                            :is="measurementWidgetInstance.view"
+                            :active-ui="activeUi"
+                            :active-tool="activeTool"
+                            v-bind="{ ...measurementWidgetInstance.props }"
+                            v-on="measurementWidgetInstance.events"
+                        />
+                    </v-tab-item>
+                </v-tabs>
             </div>
         </div>
     </div>
@@ -229,6 +241,17 @@
                 default: function () {
                     return undefined;
                 }
+            },
+            measurementWidget: {
+                type: Object,
+                default: function () {
+                    return undefined;
+                }
+            }
+        },
+        computed: {
+            measurementWidgetInstance() {
+                return this.measurementWidget();
             }
         }
     };

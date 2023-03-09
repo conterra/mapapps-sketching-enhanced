@@ -21,17 +21,23 @@
             "popups-default",
             "scalebar",
             "locateme",
-            "parameter-url",
             "search-ui",
             "locator-store",
             "scalebar",
             "coordinateviewer",
             "toc",
             "printing",
-            "dn_sketchingenhanced"
+            "dn_sketchingenhanced",
+            "dn_sketchingenhanced-measurement",
+            "sdi_appstatemanagement"
         ]
     },
     "bundles": {
+        "sdi_appstatestore": {
+            "AppStateStore": {
+                "stateManagementServiceUrl": "http://localhost:8080/savestate/resources/appstates"
+            }
+        },
         "dn_sketchingenhanced": {
             "Config": {
                 "initialActiveTool": "point",
@@ -241,7 +247,7 @@
                         "title": "Werkzeuge",
                         "cssClass": "ct-main-app-menu",
                         "tools": [
-                            "tocToggleTool",
+                            "sdi_stateManagementTool",
                             "sketchingEnhancedWidgetToggleTool"
                         ],
                         "registerWidget": {

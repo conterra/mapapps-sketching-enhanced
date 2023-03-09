@@ -77,9 +77,10 @@ export default class SketchingEnhancedWidgetFactory {
             controller.addSnappingFeatureSources();
             controller.createWatchers();
 
-            if(!this.snappingWatcher) {
-                this.snappingWatcher = controller.createSnappingFeatureSourcesWatcher();
+            if(this.snappingWatcher) {
+                this.snappingWatcher.remove();
             }
+            this.snappingWatcher = controller.createSnappingFeatureSourcesWatcher();
             let snappingBinding = this.snappingBinding;
             if(!snappingBinding) {
                 snappingBinding = this.snappingBinding = controller.createSnappingBinding();

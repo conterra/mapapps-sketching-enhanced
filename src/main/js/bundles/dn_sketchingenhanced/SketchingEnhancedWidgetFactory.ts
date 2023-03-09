@@ -126,6 +126,12 @@ export default class SketchingEnhancedWidgetFactory {
         this.sketchViewModelBinding =this.createSketchViewModelBinding(vm, sketchingEnhancedModel);
     }
 
+    setMeasurementWidget(measurementWidget: any): void {
+        if(this.vm && !this.vm.measurementWidget) {
+            this.vm.measurementWidget = () => measurementWidget;
+        }
+    }
+
     private createSketchViewModelBinding(vm: Vue, sketchingEnhancedModel: typeof SketchingEnhancedModel): Binding {
         return Binding.for(vm, sketchingEnhancedModel)
             .syncAll("activeTool", "activeUi", "canUndo", "canRedo", "canDelete")

@@ -155,6 +155,7 @@
                 {
                     "name": "_measurementWidget",
                     "providing": "dn_sketchingenhanced-measurement.MeasurementWidget",
+                    "bind": "setMeasurementWidget",
                     "cardinality": "0..1"
                 }
             ]

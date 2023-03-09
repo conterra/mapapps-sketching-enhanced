@@ -31,6 +31,7 @@ export default class SketchingEnhancedController {
     private scaleWatcher: WatchHandle;
     private observers = createObservers();
     private editObservers = createObservers();
+    private snappingSourceObservers = createObservers();
     private layerVisibilityObservers: any;
 
     constructor(sketchViewModel: __esri.SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
@@ -290,23 +291,31 @@ export default class SketchingEnhancedController {
     createSnappingBinding(): Binding {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         const sketchViewModel = this.sketchViewModel;
-        const snappingOptions = sketchViewModel.snappingOptions;
-
-        snappingOptions.featureSources.on("change", () => {
-            snappingOptions.featureSources.forEach((featureSource) => {
-                featureSource.watch("enabled", () => {
-                    sketchingEnhancedModel.snappingFeatureSources
-                        = this.getSnappingFeatureSources(snappingOptions.featureSources);
-                });
-            });
-            sketchingEnhancedModel.snappingFeatureSources =
-                this.getSnappingFeatureSources(snappingOptions.featureSources);
-        });
 
         return Binding.for(sketchViewModel.snappingOptions as Bindable, sketchingEnhancedModel)
             .sync("enabled", "snappingEnabled")
             .sync("featureEnabled", "snappingFeatureEnabled")
             .sync("selfEnabled", "snappingSelfEnabled");
+    }
+
+    createSnappingFeatureSourcesWatcher(): WatchHandle {
+        const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        const sketchViewModel = this.sketchViewModel;
+        const snappingOptions = sketchViewModel.snappingOptions;
+        sketchingEnhancedModel.snappingFeatureSources =
+            this.getSnappingFeatureSources(snappingOptions.featureSources);
+
+        return snappingOptions.featureSources.on("change", () => {
+            this.snappingSourceObservers.destroy();
+            snappingOptions.featureSources.forEach((featureSource) => {
+                this.snappingSourceObservers.add(featureSource.watch("enabled", () => {
+                    sketchingEnhancedModel.snappingFeatureSources
+                        = this.getSnappingFeatureSources(snappingOptions.featureSources);
+                }));
+            });
+            sketchingEnhancedModel.snappingFeatureSources =
+                this.getSnappingFeatureSources(snappingOptions.featureSources);
+        });
     }
 
     private getSnappingFeatureSources(featureSources: __esri.Collection): any {

@@ -39,6 +39,7 @@ export default class SketchingEnhancedWidgetFactory {
     private sketchViewModel: SketchViewModel;
     private sketchViewModelBinding: Bindable;
     private snappingBinding: Bindable;
+    private snappingWatcher: WatchHandle;
 
     activate(): void {
         this.initComponent();
@@ -76,6 +77,9 @@ export default class SketchingEnhancedWidgetFactory {
             controller.addSnappingFeatureSources();
             controller.createWatchers();
 
+            if(!this.snappingWatcher) {
+                this.snappingWatcher = controller.createSnappingFeatureSourcesWatcher();
+            }
             let snappingBinding = this.snappingBinding;
             if(!snappingBinding) {
                 snappingBinding = this.snappingBinding = controller.createSnappingBinding();
@@ -91,6 +95,7 @@ export default class SketchingEnhancedWidgetFactory {
             controller.removeWatchers();
             this.vm.$off();
             async(() => {
+                this.snappingWatcher.remove();
                 this.snappingBinding.disable();
                 sketchViewModelBinding.disable();
             }, 500);
@@ -123,7 +128,7 @@ export default class SketchingEnhancedWidgetFactory {
             vm.measurementWidget = () => this._measurementWidget;
         }
 
-        this.sketchViewModelBinding =this.createSketchViewModelBinding(vm, sketchingEnhancedModel);
+        this.sketchViewModelBinding = this.createSketchViewModelBinding(vm, sketchingEnhancedModel);
     }
 
     setMeasurementWidget(measurementWidget: any): void {

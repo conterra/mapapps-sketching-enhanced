@@ -22,7 +22,7 @@ function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: P)
     return mutableDefinition;
 }
 
-class SketchingEnhancedModel extends Mutable {
+class MeasurementModel extends Mutable {
     activate() {
         this.watch("angleUnit", ({value}) => {
             const angleUnitObj = this.angleUnits.find((unit) =>
@@ -35,7 +35,7 @@ class SketchingEnhancedModel extends Mutable {
     }
 }
 
-interface SketchingEnhancedModelProps {
+interface MeasurementdModelProps {
     measurementEnabled: boolean,
     totalLengthMeasurementForPolylinesEnabled: boolean,
     lineMeasurementForPolylinesEnabled: boolean,
@@ -66,7 +66,7 @@ interface SketchingEnhancedModelProps {
     deleteClicked: boolean
 }
 
-export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
+export default defineProperties<MeasurementModel, MeasurementdModelProps>(MeasurementModel,
     {
         measurementEnabled: true,
         totalLengthMeasurementForPolylinesEnabled: true,

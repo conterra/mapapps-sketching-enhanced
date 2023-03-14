@@ -101,7 +101,53 @@
                 <span>{{ i18n.delete }}</span>
             </v-tooltip>
             <v-spacer />
-            <!-- TODO: Add Delete-All button-->
+            <v-dialog
+                v-model="deleteAllDialog"
+                width="500"
+            >
+                <template #activator="{ on }">
+                    <v-btn
+                        flat
+                        outline
+                        color="error"
+                        v-on="on"
+                    >
+                        <v-icon left>
+                            delete
+                        </v-icon>
+                        {{ i18n.deleteAll.buttonLabel }}
+                    </v-btn>
+                </template>
+                <v-card>
+                    <v-card-title
+                        class="title"
+                        primary-title
+                    >
+                        {{ i18n.deleteAll.attention }}
+                    </v-card-title>
+                    <v-card-text>
+                        {{ i18n.deleteAll.hint }}
+                    </v-card-text>
+                    <v-divider />
+                    <v-card-actions>
+                        <v-spacer />
+                        <v-btn
+                            color="secondary"
+                            flat
+                            @click="deleteAllDialog = false"
+                        >
+                            {{ i18n.deleteAll.cancel }}
+                        </v-btn>
+                        <v-btn
+                            color="primary"
+                            flat
+                            @click="deleteAllDialog = false;$emit('delete-all')"
+                        >
+                            {{ i18n.deleteAll.continue }}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
         </v-toolbar>
         <div class="ct-flex-container ct-flex-container--row dn_sketchingenhanced--container">
             <div class="left ct-flex-item ct-flex-item--no-grow ct-flex-item--no-shrink overflowAuto">
@@ -292,6 +338,11 @@
                     return undefined;
                 }
             }
+        },
+        data: function() {
+            return {
+                deleteAllDialog: false
+            };
         },
         computed: {
             measurementWidgetInstance() {

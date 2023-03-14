@@ -21,13 +21,20 @@ export default {
         tooltip: "Erweitertes Zeichnen"
     },
     ui: {
+        windowTitle: "Erweitertes Zeichnen",
+        graphicsLayerTitle: "Zeichnungen",
         undo: "Den letzten Zeichenschritt rückgängig machen",
         redo: "Den letzten Zeichenschritt wiederholen",
         cancel: "Die aktuelle Zeichnung abbrechen",
         edit: "Eine Zeichnung zum Editieren auswählen",
         delete: "Die aktuell ausgewählte Zeichnung löschen",
-        windowTitle: "Erweitertes Zeichnen",
-        graphicsLayerTitle: "Zeichnungen",
+        deleteAll: {
+            buttonLabel: "Alle Zeichnungen löschen",
+            hint: "Dieser Vorgang löscht alle bisher erstellten Zeichungen. Dieser Vorgang kann nicht rückgängig gemacht werden.",
+            attention: "Achtung",
+            continue: "Alle Zeichnungen löschen",
+            cancel: "Abbrechen"
+        },
         pointTool: "Punkt",
         polylineTools: "Linienwerkzeuge",
         polylineTool: "Polylinie",

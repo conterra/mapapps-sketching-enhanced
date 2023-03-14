@@ -22,13 +22,20 @@ export default {
             tooltip: "Sketching Enhanced"
         },
         ui: {
+            windowTitle: "Sketching Enhanced",
+            graphicsLayerTitle: "Sketching",
             undo: "Undo last sketch step",
             redo: "Repeat last sketch step",
             cancel: "Cancel current sketch",
             edit: "Select a sketch for editing",
             delete: "Delete currently selected sketch",
-            windowTitle: "Sketching Enhanced",
-            graphicsLayerTitle: "Sketching",
+            deleteAll: {
+                buttonLabel: "Delete all sketches",
+                hint: "This operation deletes all the sketches created so far. This operation cannot be undone.",
+                attention: "Attention",
+                continue: "Delete all",
+                cancel: "Cancel"
+            },
             pointTool: "Point",
             polylineTools: "Polylines",
             polylineTool: "Polyline",

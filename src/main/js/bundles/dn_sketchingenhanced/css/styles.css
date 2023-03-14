@@ -26,7 +26,7 @@
 }
 
 .ctAppRoot .sketching-enhanced-widget .v-toolbar .v-toolbar__content {
-    padding-right: 0;
+    padding-right: 8px;
 }
 
 .ctAppRoot .sketching-enhanced-widget .left {

@@ -168,6 +168,9 @@ export default class SketchingEnhancedWidgetFactory {
         vm.$on("delete", () => {
             controller.deleteGraphic();
         });
+        vm.$on("delete-all", () => {
+            controller.deleteAllGraphics();
+        });
         vm.$on("cancel", () => {
             controller.cancelSketching();
             const activeTool = sketchingEnhancedModel.activeTool;

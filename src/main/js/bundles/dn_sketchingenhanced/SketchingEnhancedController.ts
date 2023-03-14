@@ -154,6 +154,11 @@ export default class SketchingEnhancedController {
         sketchViewModel.delete();
     }
 
+    deleteAllGraphics(): void {
+        const sketchViewModel = this.sketchViewModel;
+        sketchViewModel.layer.removeAll();
+    }
+
     cancelSketching(): void {
         const sketchViewModel = this.sketchViewModel;
         sketchViewModel.cancel();

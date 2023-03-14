@@ -35,49 +35,49 @@ describe(module.id, function(){
         assert.equal(y, "51.963");
     });
 
-    it("expect getLengthAndUnit calculation for Polylines < 1000m is correct", async function () {
+    it("expect getLengthAndUnit calculation for Polylines < 1000m is correct", function () {
         const polyline = createShortPolyline();
         const {length, unit} = measurementCalculator.getLengthAndUnit(polyline, "auto");
         assert.closeTo(length, 991.948, 0.001);
         assert.equal(unit, "meters");
     });
 
-    it("expect getLengthAndUnit calculation for Polylines > 1000m is correct", async function () {
+    it("expect getLengthAndUnit calculation for Polylines > 1000m is correct", function () {
         const polyline = createLongPolyline();
         const {length, unit} = measurementCalculator.getLengthAndUnit(polyline, "auto");
         assert.closeTo(length, 720.402, 0.001);
         assert.equal(unit, "kilometers");
     });
 
-    it("expect getLengthAndUnit calculation for Polygones < 1000m is correct", async function () {
+    it("expect getLengthAndUnit calculation for Polygones < 1000m is correct", function () {
         const polygon = createSmallPolygon();
         const {length, unit} = measurementCalculator.getLengthAndUnit(polygon);
         assert.closeTo(length, 825.919, 0.001);
         assert.equal(unit, "meters");
     });
 
-    it("expect getLengthAndUnit calculation for Polygones > 1000m is correct", async function () {
+    it("expect getLengthAndUnit calculation for Polygones > 1000m is correct", function () {
         const polygon = createLargePolygon();
         const {length, unit} = measurementCalculator.getLengthAndUnit(polygon);
         assert.closeTo(length, 59.659, 0.001);
         assert.equal(unit, "kilometers");
     });
 
-    it("expect getAreaAndUnit calculation for Polygones < 1000000m² is correct", async function () {
+    it("expect getAreaAndUnit calculation for Polygones < 1000000m² is correct", function () {
         const polygon = createSmallPolygon();
         const {area, unit} = measurementCalculator.getAreaAndUnit(polygon);
         assert.closeTo(area, 19224.443, 0.001);
         assert.equal(unit, "square-meters");
     });
 
-    it("expect getAngleBetweenTwoPoints calculation is correct", async function () {
+    it("expect getAngleBetweenTwoPoints calculation is correct", function () {
         const point1 = createPoint1();
         const point2 = createPoint2();
         const angle = measurementCalculator.getAngleBetweenTwoPoints(point1, point2);
         assert.closeTo(angle, 72.920, 0.001);
     });
 
-    it("expect getAngleBetweenThreePoints calculation is correct", async function () {
+    it("expect getAngleBetweenThreePoints calculation is correct", function () {
         const point1 = createPoint1();
         const point2 = createPoint2();
         const point3 = createPoint3();

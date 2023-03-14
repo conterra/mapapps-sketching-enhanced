@@ -13,7 +13,7 @@ This bundle adds an extended sketching functionality the map.
 To make the functions of this bundle available to the user, the following tool can be added to a toolset:
 
 | Tool ID                           | Component                         | Description              |
-|-----------------------------------|-----------------------------------|--------------------------|
+| --------------------------------- | --------------------------------- | ------------------------ |
 | sketchingEnhancedWidgetToggleTool | SketchingEnhancedWidgetToggleTool | Show or hide the widget. |
 
 ## Configuration Reference
@@ -102,6 +102,19 @@ To configure the bundle in app.json, use the configurable properties shown in th
     }
 }
 ```
+
+| Property                      | Type    | Possible Values                                                                                                                                                                  | Default       | Description                                                                                                                     |
+| ----------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| initialActiveTool             | String  | ```point``` &#124; ```polyline``` &#124; ```polyline_freehand``` &#124; ```polygon``` &#124; ```polygon_freehand``` &#124; ```circle``` &#124; ```rectangle``` &#124; ```text``` | ```point```   | Initial active tool.                                                                                                            |
+| initialGeometryEditMode       | String  | ```move``` &#124; ```transform```   &#124; ```reshape```                                                                                                                         | ```reshape``` | Name of the update tool.                                                                                                        |
+| toggleGeometryEditModeOnClick | Boolean | ```true``` &#124; ```false```                                                                                                                                                    | ```true```    | Indicates if the graphic being updated can be toggled between transform and reshape update options.                             |
+| snappingEnabled               | Boolean | ```true``` &#124; ```false```                                                                                                                                                    | ```true```    | Global configuration to turn snapping on or off.                                                                                |
+| snappingSelfEnabled           | Boolean | ```true``` &#124; ```false```                                                                                                                                                    | ```true```    | Global configuration option to turn self snapping (within one feature while either drawing or reshaping) on or off.             |
+| snappingFeatureEnabled        | Boolean | ```true``` &#124; ```false```                                                                                                                                                    | ```true```    | Global configuration option to turn feature snapping on or off.                                                                 |
+| pointSymbol                   | Object  |                                                                                                                                                                                  |               | A SimpleMarkerSymbol, PointSymbol3D, CIMSymbol, or WebStyleSymbol used for representing the point geometry that is being drawn. |
+| polylineSymbol                | Object  |                                                                                                                                                                                  |               | A SimpleLineSymbol, LineSymbol3D, or CIMSymbol used for representing the polyline geometry that is being drawn.                 |
+| polygonSymbol                 | Object  |                                                                                                                                                                                  |               | A SimpleFillSymbol, PolygonSymbol3D, or CIMSymbol used for representing the polygon geometry that is being drawn.               |
+| textSymbol                    | Object  |                                                                                                                                                                                  |               | A TextSymbol used for representing the text geometry that is being drawn.                                                       |
 
 ### Disable snapping on specific layers
 

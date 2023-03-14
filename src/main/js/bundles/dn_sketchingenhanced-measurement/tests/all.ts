@@ -14,4 +14,4 @@
 /// limitations under the License.
 ///
 
-import "dn_sketchingenhanced-measurement/tests/all";
+import "./MeasurementCalculatorTest";

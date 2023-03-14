@@ -132,3 +132,8 @@ To disable snapping on layers you need to set _allowSnapping_ to false.
     }
 }
 ```
+### Enable measurement functionality
+
+To add measurement functionalities add the dn_sketchingenhanced-measurement bundle to your app.
+
+[dn_sketchingenhanced-measurement Documentation](https://github.com/conterra/mapapps-sketching-enhanced/tree/master/src/main/js/bundles/dn_sketchingenhanced-measurement)

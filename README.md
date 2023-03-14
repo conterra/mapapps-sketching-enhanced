@@ -18,6 +18,7 @@ https://demos.conterra.de/mapapps/resources/apps/downloads_sketching_enhanced/in
 ## Installation Guide
 
 [dn_sketchingenhanced Documentation](https://github.com/conterra/mapapps-sketching-enhanced/tree/master/src/main/js/bundles/dn_sketchingenhanced)
+[dn_sketchingenhanced-measurement Documentation](https://github.com/conterra/mapapps-sketching-enhanced/tree/master/src/main/js/bundles/dn_sketchingenhanced-measurement)
 
 ## Development Guide
 ### Define the mapapps remote base

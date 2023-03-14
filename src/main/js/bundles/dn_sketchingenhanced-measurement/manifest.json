@@ -36,29 +36,6 @@
                 "pointCoordPlaces": 3,
                 "pointCoordUnitSymbolX": "",
                 "pointCoordUnitSymbolY": "",
-                "textSymbol": {
-                    "type": "text",
-                    "color": {
-                        "r": 50,
-                        "g": 50,
-                        "b": 50,
-                        "a": 1
-                    },
-                    "font": {
-                        "size": 12,
-                        "family": "sans-serif",
-                        "weight": "normal"
-                    },
-                    "haloColor": {
-                        "r": 255,
-                        "g": 255,
-                        "b": 255,
-                        "a": 1
-                    },
-                    "haloSize": 2,
-                    "horizontalAlignment": "center",
-                    "verticalAlignment": "baseline"
-                },
                 "lengthUnit": "auto",
                 "areaUnit": "auto",
                 "angleUnit": "degrees",
@@ -117,7 +94,30 @@
                         "title": "${ui.units.gon}",
                         "decimalPlaces": 0
                     }
-                ]
+                ],
+                "textSymbol": {
+                    "type": "text",
+                    "color": {
+                        "r": 50,
+                        "g": 50,
+                        "b": 50,
+                        "a": 1
+                    },
+                    "font": {
+                        "size": 12,
+                        "family": "sans-serif",
+                        "weight": "normal"
+                    },
+                    "haloColor": {
+                        "r": 255,
+                        "g": 255,
+                        "b": 255,
+                        "a": 1
+                    },
+                    "haloSize": 2,
+                    "horizontalAlignment": "center",
+                    "verticalAlignment": "baseline"
+                }
             }
         },
         {

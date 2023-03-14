@@ -100,7 +100,7 @@ function createMeasurementCalculator(): MeasurementCalculator {
 
 function createCoordinateTransformerMock() {
     return {
-        transform(geometry: __esri.Geometry, wkid: number) {
+        transform(geometry: __esri.Geometry) {
             return geometry;
         }
     };
@@ -199,7 +199,6 @@ function createSmallPolygon(): __esri.Polygon {
         }
     });
 }
-
 
 function createLargePolygon(): __esri.Polygon {
     return new Polygon({

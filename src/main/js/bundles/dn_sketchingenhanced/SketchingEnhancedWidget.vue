@@ -22,40 +22,84 @@
             dense
             pa-0
         >
-            <v-btn
-                icon
+            <v-tooltip
+                bottom
                 :disabled="!canUndo"
-                @click="$emit('undo')"
             >
-                <v-icon>undo</v-icon>
-            </v-btn>
-            <v-btn
-                icon
+                <template #activator="{ on }">
+                    <v-btn
+                        icon
+                        :disabled="!canUndo"
+                        @click="$emit('undo')"
+                        v-on="on"
+                    >
+                        <v-icon>undo</v-icon>
+                    </v-btn>
+                </template>
+                <span>{{ i18n.undo }}</span>
+            </v-tooltip>
+            <v-tooltip
+                bottom
                 :disabled="!canRedo"
-                @click="$emit('redo')"
             >
-                <v-icon>redo</v-icon>
-            </v-btn>
-            <v-btn
-                icon
-                @click="$emit('cancel')"
+                <template #activator="{ on }">
+                    <v-btn
+                        icon
+                        :disabled="!canRedo"
+                        @click="$emit('redo')"
+                        v-on="on"
+                    >
+                        <v-icon>redo</v-icon>
+                    </v-btn>
+                </template>
+                <span>{{ i18n.redo }}</span>
+            </v-tooltip>
+            <v-tooltip
+                bottom
             >
-                <v-icon>cancel</v-icon>
-            </v-btn>
-            <v-btn
-                :input-value="editEnabled"
-                icon
-                @click="$emit('edit')"
+                <template #activator="{ on }">
+                    <v-btn
+                        icon
+                        @click="$emit('cancel')"
+                        v-on="on"
+                    >
+                        <v-icon>cancel</v-icon>
+                    </v-btn>
+                </template>
+                <span>{{ i18n.cancel }}</span>
+            </v-tooltip>
+            <v-tooltip
+                bottom
+                :disabled="editEnabled"
             >
-                <v-icon>edit</v-icon>
-            </v-btn>
-            <v-btn
+                <template #activator="{ on }">
+                    <v-btn
+                        :input-value="editEnabled"
+                        icon
+                        @click="$emit('edit')"
+                        v-on="on"
+                    >
+                        <v-icon>edit</v-icon>
+                    </v-btn>
+                </template>
+                <span>{{ i18n.edit }}</span>
+            </v-tooltip>
+            <v-tooltip
+                bottom
                 :disabled="!canDelete"
-                icon
-                @click="$emit('delete')"
             >
-                <v-icon>delete</v-icon>
-            </v-btn>
+                <template #activator="{ on }">
+                    <v-btn
+                        :disabled="!canDelete"
+                        icon
+                        @click="$emit('delete')"
+                        v-on="on"
+                    >
+                        <v-icon>delete</v-icon>
+                    </v-btn>
+                </template>
+                <span>{{ i18n.delete }}</span>
+            </v-tooltip>
             <v-spacer />
             <!-- TODO: Add Delete-All button-->
         </v-toolbar>

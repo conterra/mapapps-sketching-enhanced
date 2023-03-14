@@ -21,6 +21,11 @@ export default {
         tooltip: "Erweitertes Zeichnen"
     },
     ui: {
+        undo: "Den letzten Zeichenschritt rückgängig machen",
+        redo: "Den letzten Zeichenschritt wiederholen",
+        cancel: "Die aktuelle Zeichnung abbrechen",
+        edit: "Eine Zeichnung zum Editieren auswählen",
+        delete: "Die aktuell ausgewählte Zeichnung löschen",
         windowTitle: "Erweitertes Zeichnen",
         graphicsLayerTitle: "Zeichnungen",
         pointTool: "Punkt",

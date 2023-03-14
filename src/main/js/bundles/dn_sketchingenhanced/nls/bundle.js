@@ -22,6 +22,11 @@ export default {
             tooltip: "Sketching Enhanced"
         },
         ui: {
+            undo: "Undo last sketch step",
+            redo: "Repeat last sketch step",
+            cancel: "Cancel current sketch",
+            edit: "Select a sketch for editing",
+            delete: "Delete currently selected sketch",
             windowTitle: "Sketching Enhanced",
             graphicsLayerTitle: "Sketching",
             pointTool: "Point",

@@ -27,6 +27,7 @@ class SketchingEnhancedModel extends Mutable {
 }
 
 interface SketchingEnhancedModelProps {
+    initialActiveTool: string,
     activeTool: string,
     activeUi: string,
     canUndo: boolean,
@@ -49,6 +50,7 @@ interface SketchingEnhancedModelProps {
 
 export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
     {
+        initialActiveTool: "point",
         activeTool: undefined,
         activeUi: undefined,
         canUndo: false,

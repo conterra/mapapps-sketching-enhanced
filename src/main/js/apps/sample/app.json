@@ -116,6 +116,104 @@
                 }
             }
         },
+        "dn_sketchingenhanced-measurement": {
+            "Config": {
+                "measurementEnabled": true,
+                "lineMeasurementForPolylinesEnabled": true,
+                "angleMeasurementForPolylinesEnabled": true,
+                "totalLengthMeasurementForPolylinesEnabled": true,
+                "lineMeasurementForPolygonsEnabled": true,
+                "angleMeasurementForPolygonsEnabled": true,
+                "areaMeasurementForPolygonsEnabled": true,
+                "circumferenceMeasurementForPolygonsEnabled": true,
+                "pointCoordSpatialReference": null,
+                "pointCoordPlaces": 3,
+                "pointCoordUnitSymbolX": "",
+                "pointCoordUnitSymbolY": "",
+                "lengthUnit": "auto",
+                "areaUnit": "auto",
+                "angleUnit": "degrees",
+                "lengthUnits": [
+                    {
+                        "name": "auto",
+                        "title": "${ui.units.auto}"
+                    },
+                    {
+                        "name": "meters",
+                        "abbreviation": "m",
+                        "title": "${ui.units.meters}",
+                        "decimalPlaces": 2
+                    },
+                    {
+                        "name": "kilometers",
+                        "abbreviation": "km",
+                        "title": "${ui.units.kilometers}",
+                        "decimalPlaces": 2
+                    }
+                ],
+                "areaUnits": [
+                    {
+                        "name": "auto",
+                        "title": "${ui.units.auto}"
+                    },
+                    {
+                        "name": "square-meters",
+                        "abbreviation": "m²",
+                        "title": "${ui.units.square-meters}",
+                        "decimalPlaces": 2
+                    },
+                    {
+                        "name": "square-kilometers",
+                        "abbreviation": "km²",
+                        "title": "${ui.units.square-kilometers}",
+                        "decimalPlaces": 2
+                    },
+                    {
+                        "name": "hectares",
+                        "abbreviation": "ha",
+                        "title": "${ui.units.hectares}",
+                        "decimalPlaces": 2
+                    }
+                ],
+                "angleUnits": [
+                    {
+                        "name": "degrees",
+                        "abbreviation": "°",
+                        "title": "${ui.units.degrees}",
+                        "decimalPlaces": 0
+                    },
+                    {
+                        "name": "gon",
+                        "abbreviation": "gon",
+                        "title": "${ui.units.gon}",
+                        "decimalPlaces": 0
+                    }
+                ],
+                "textSymbol": {
+                    "type": "text",
+                    "color": {
+                        "r": 50,
+                        "g": 50,
+                        "b": 50,
+                        "a": 1
+                    },
+                    "font": {
+                        "size": 12,
+                        "family": "sans-serif",
+                        "weight": "normal"
+                    },
+                    "haloColor": {
+                        "r": 255,
+                        "g": 255,
+                        "b": 255,
+                        "a": 1
+                    },
+                    "haloSize": 2,
+                    "horizontalAlignment": "center",
+                    "verticalAlignment": "baseline"
+                }
+            }
+        },
         "banner": {
             "BannerWidget": {
                 "label": "Developer Network",

@@ -30,9 +30,7 @@
                 "angleMeasurementForPolygonsEnabled": true,
                 "areaMeasurementForPolygonsEnabled": true,
                 "circumferenceMeasurementForPolygonsEnabled": true,
-                "pointCoordSpatialReference": {
-                    "wkid": 3857
-                },
+                "pointCoordSpatialReferenceWkid": null,
                 "pointCoordPlaces": 3,
                 "pointCoordUnitSymbolX": "",
                 "pointCoordUnitSymbolY": "",

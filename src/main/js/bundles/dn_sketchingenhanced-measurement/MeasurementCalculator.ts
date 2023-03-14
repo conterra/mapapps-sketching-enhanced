@@ -44,9 +44,9 @@ export default class MeasurementCalculator {
         if (!point) {
             return null;
         }
-
-        const spatialReference = point.spatialReference;
-        const targetSpatialReference = this.measurementModel.pointCoordSpatialReference || spatialReference;
+        const mapSpatialReference = point.spatialReference;
+        const measurementSpatialReference = this.measurementModel.pointCoordSpatialReference;
+        const targetSpatialReference = measurementSpatialReference || mapSpatialReference;
         const places = this.measurementModel.pointCoordPlaces;
         const transformedPoint = await this.transformGeometry(point, targetSpatialReference.wkid) as __esri.Point;
 

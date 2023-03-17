@@ -1,0 +1,67 @@
+{
+    "name": "dn_sketchingenhanced-construction",
+    "version": "3.3.1-SNAPSHOT",
+    "title": "${bundleName}",
+    "description": "${bundleDescription}",
+    "vendor": "con terra GmbH",
+    "main": "",
+    "icon": {},
+    "productName": "devnet-mapapps-sketching-enhanced",
+    "dependencies": {
+        "esri": "^4.7.2",
+        "map-widget": "^4.12.0",
+        "apprt-core": "^4.12.0",
+        "apprt-binding": "^4.12.0",
+        "apprt-vue": "^4.12.0",
+        "apprt-vuetify": "^4.12.0"
+    },
+    "CSS-Themes-Extension": [
+        {
+            "name": "*",
+            "files": [
+                "./css/styles.css"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "name": "Config",
+            "impl": "./ConstructionModel",
+            "provides": "dn_sketchingenhanced-construction.ConstructionModel",
+            "propertiesConstructor": true,
+            "properties": {
+                "radiusEnabled": false,
+                "radius": 10
+            }
+        },
+        {
+            "name": "ConstructionController",
+            "references": [
+                {
+                    "name": "_constructionModel",
+                    "providing": "dn_sketchingenhanced-construction.ConstructionModel"
+                },
+                {
+                    "name": "_sketchingEnhancedModel",
+                    "providing": "dn_sketchingenhanced.SketchingEnhancedModel"
+                },
+                {
+                    "name": "_mapWidgetModel",
+                    "providing": "map-widget.MapWidgetModel"
+                }
+            ]
+        },
+        {
+            "name": "ConstructionWidgetFactory",
+            "impl": "./ConstructionWidgetFactory",
+            "instanceFactory": true,
+            "provides": "dn_sketchingenhanced-construction.ConstructionWidget",
+            "references": [
+                {
+                    "name": "_constructionModel",
+                    "providing": "dn_sketchingenhanced-construction.ConstructionModel"
+                }
+            ]
+        }
+    ]
+}

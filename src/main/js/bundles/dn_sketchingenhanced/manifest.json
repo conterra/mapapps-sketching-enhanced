@@ -157,6 +157,12 @@
                     "providing": "dn_sketchingenhanced-measurement.MeasurementWidget",
                     "bind": "setMeasurementWidget",
                     "cardinality": "0..1"
+                },
+                {
+                    "name": "_constructionWidget",
+                    "providing": "dn_sketchingenhanced-construction.ConstructionWidget",
+                    "bind": "setConstructionWidget",
+                    "cardinality": "0..1"
                 }
             ]
         },

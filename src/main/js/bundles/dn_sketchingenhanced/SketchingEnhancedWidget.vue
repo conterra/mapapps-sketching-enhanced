@@ -170,6 +170,12 @@
                         {{ i18n.tabs.sketching }}
                     </v-tab>
                     <v-tab
+                        v-if="constructionWidget && activeUi !== 'text'"
+                        ripple
+                    >
+                        {{ i18n.tabs.construction }}
+                    </v-tab>
+                    <v-tab
                         ripple
                     >
                         {{ i18n.tabs.snapping }}
@@ -217,6 +223,15 @@
                                 :text-symbol.sync="editSymbol"
                             />
                         </div>
+                    </v-tab-item>
+                    <v-tab-item v-if="constructionWidget && activeUi !== 'text'">
+                        <component
+                            :is="constructionWidgetInstance.view"
+                            :active-ui="activeUi"
+                            :active-tool="activeTool"
+                            v-bind="{ ...constructionWidgetInstance.props }"
+                            v-on="constructionWidgetInstance.events"
+                        />
                     </v-tab-item>
                     <v-tab-item>
                         <snapping-settings
@@ -332,6 +347,12 @@
                     return undefined;
                 }
             },
+            constructionWidget: {
+                type: Object,
+                default: function () {
+                    return undefined;
+                }
+            },
             measurementWidget: {
                 type: Object,
                 default: function () {
@@ -345,6 +366,9 @@
             };
         },
         computed: {
+            constructionWidgetInstance() {
+                return this.constructionWidget();
+            },
             measurementWidgetInstance() {
                 return this.measurementWidget();
             }

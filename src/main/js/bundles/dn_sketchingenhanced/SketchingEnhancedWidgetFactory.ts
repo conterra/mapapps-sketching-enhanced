@@ -22,9 +22,9 @@ import Binding, {Bindable, WatchHandle} from "apprt-binding/Binding";
 import SketchViewModel from "esri/widgets/Sketch/SketchViewModel";
 import GraphicsLayer from "esri/layers/GraphicsLayer";
 import SketchingEnhancedWidget from "./SketchingEnhancedWidget.vue";
-import SketchingEnhancedController from "dn_sketchingenhanced/SketchingEnhancedController";
+import SketchingEnhancedController from "./SketchingEnhancedController";
 import SketchingEnhancedModel from "./SketchingEnhancedModel";
-import MapWidgetModel from "@conterra/ct-mapapps-typings/map-widget/MapWidgetModel";
+import MapWidgetModel from "map-widget/MapWidgetModel";
 
 const LAYER_ID = "sketch-graphics";
 

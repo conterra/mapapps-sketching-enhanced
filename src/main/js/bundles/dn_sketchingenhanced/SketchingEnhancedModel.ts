@@ -15,10 +15,9 @@
 ///
 
 import {Mutable, properties} from "apprt-core/Mutable";
-import type {Mutable as MutableType} from "@conterra/ct-mapapps-typings/apprt-core/Mutable";
 import EsriSymbol from "esri/symbols/Symbol";
 
-function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: P): Impl & MutableType<P> {
+function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: P): Impl & Mutable<P> {
     properties(mutableDefinition, mutableProperties);
     return mutableDefinition;
 }

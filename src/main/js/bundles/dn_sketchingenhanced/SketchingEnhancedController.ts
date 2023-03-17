@@ -19,7 +19,7 @@ import Binding, { Bindable, WatchHandle } from "apprt-binding/Binding";
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import { createObservers } from "apprt-core/Observers";
 import Collection from "esri/core/Collection";
-import MapWidgetModel from "@conterra/ct-mapapps-typings/map-widget/MapWidgetModel";
+import MapWidgetModel from "map-widget/MapWidgetModel";
 import async from "apprt-core/async";
 
 export default class SketchingEnhancedController {

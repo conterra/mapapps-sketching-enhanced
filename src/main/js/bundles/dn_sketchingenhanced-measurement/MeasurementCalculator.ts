@@ -14,7 +14,7 @@
 /// limitations under the License.
 ///
 
-import type CoordinateTransformer from "@conterra/ct-mapapps-typings/coordinatetransformer/CoordinateTransformer";
+import type CoordinateTransformer from "coordinatetransformer/CoordinateTransformer";
 import * as geometryEngine from 'esri/geometry/geometryEngine';
 import * as intl from "esri/intl";
 import MeasurementModel from "./MeasurementModel";

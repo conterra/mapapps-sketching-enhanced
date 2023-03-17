@@ -22,7 +22,7 @@ import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel"
 import MeasurementModel from "./MeasurementModel";
 import MeasurementCalculator from "./MeasurementCalculator";
 import MeasurementGraphicsFactory from "./MeasurementGraphicsFactory";
-import { CoordinateTransformer } from "@conterra/ct-mapapps-typings/coordinatetransformer/CoordinateTransformer";
+import { CoordinateTransformer } from "coordinatetransformer/CoordinateTransformer";
 
 export default class MeasurementController {
 

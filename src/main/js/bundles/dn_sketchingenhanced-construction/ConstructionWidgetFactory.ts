@@ -36,7 +36,8 @@ export default class MeasurementWidgetFactory {
                 }
 
                 this.binding = Binding.for(e, this._constructionModel)
-                    .syncAll("radiusEnabled", "radius")
+                    .syncAll("radiusEnabled", "lengthEnabled")
+                    .syncAll("radius", "length")
                     .syncToLeftNow()
                     .enable();
             }

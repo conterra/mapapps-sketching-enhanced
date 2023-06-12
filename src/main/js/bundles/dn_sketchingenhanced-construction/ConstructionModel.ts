@@ -27,11 +27,15 @@ class ConstructionModel extends Mutable {
 
 interface ConstructionModelProps {
     radiusEnabled: boolean,
+    lengthEnabled: boolean,
     radius: number
+    length: number
 }
 
 export default defineProperties<ConstructionModel, ConstructionModelProps>(ConstructionModel,
     {
         radiusEnabled: false,
-        radius: undefined
+        lengthEnabled: false,
+        radius: undefined,
+        length: undefined
     });

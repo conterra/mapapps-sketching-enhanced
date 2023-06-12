@@ -45,6 +45,34 @@
                 />
             </div>
         </div>
+        <div
+            v-if="activeTool === 'polyline'"
+            class="ct-flex-container ct-flex-container--row"
+        >
+            <div class="ct-flex-item ct-flex-item--no-grow">
+                <v-checkbox
+                    v-model="lengthEnabled"
+                    hide-details
+                    color="primary"
+                    class="ma-0"
+                />
+            </div>
+            <div class="ct-flex-item label">
+                {{ i18n.length }}
+            </div>
+            <div class="ct-flex-item">
+                <v-text-field
+                    v-model="length"
+                    :label="i18n.length"
+                    :disabled="!lengthEnabled"
+                    type="number"
+                    min="1"
+                    single-line
+                    hide-details
+                    class="pa-0"
+                />
+            </div>
+        </div>
     </v-container>
 </template>
 
@@ -72,7 +100,9 @@
         data() {
             return {
                 radiusEnabled: true,
-                radius: 10
+                lengthEnabled: true,
+                radius: undefined,
+                length: undefined
             };
         },
         created() {

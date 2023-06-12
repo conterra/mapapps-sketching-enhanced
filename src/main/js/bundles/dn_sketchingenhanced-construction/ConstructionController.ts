@@ -14,19 +14,22 @@
 /// limitations under the License.
 ///
 
-import { WatchHandle } from "apprt-binding/Binding";
-import { createObservers, Observers } from "apprt-core/Observers";
+import { createObservers } from "apprt-core/Observers";
 import type {InjectedReference} from "apprt-core/InjectedReference";
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
 import ConstructionModel from "./ConstructionModel";
 import ConstructionHistory from "./ConstructionHistory";
 import Circle from "esri/geometry/Circle";
+import { Polyline } from "esri/geometry";
+import { pointFromDistance } from "esri/geometry/support/geodesicUtils";
+import type CoordinateTransformer from "coordinatetransformer/CoordinateTransformer";
 
 export default class ConstructionController {
 
     private readonly _i18n: InjectedReference<any>;
     private readonly _constructionModel: InjectedReference<typeof ConstructionModel>;
     private readonly _sketchingEnhancedModel: InjectedReference<typeof SketchingEnhancedModel>;
+    private readonly _coordinateTransformer: InjectedReference<CoordinateTransformer>;
     private sketchViewModel: __esri.SketchViewModel;
     private sketchViewModelObservers = createObservers();
     private history = new ConstructionHistory();
@@ -37,7 +40,7 @@ export default class ConstructionController {
             this.createSketchViewModelObservers();
         } else {
             const watcher = this._sketchingEnhancedModel.watch("sketchViewModel", (evt)=>{
-                const sketchViewModel = this.sketchViewModel = evt.value;
+                this.sketchViewModel = evt.value;
                 watcher.remove();
                 this.createSketchViewModelObservers();
             });
@@ -46,6 +49,7 @@ export default class ConstructionController {
 
     deactivate(): void {
         this.sketchViewModelObservers.destroy();
+        this.sketchViewModel = undefined;
     }
 
     private createSketchViewModelObservers(): void {
@@ -57,6 +61,7 @@ export default class ConstructionController {
             const tool = event.tool;
             const state = event.state;
             const type = event.type;
+            const toolEventInfo = event.toolEventInfo;
             // add step to history
             this.history.add(type);
 
@@ -68,22 +73,18 @@ export default class ConstructionController {
                 if (tool === "circle" && constructionModel.radiusEnabled) {
                     this.createCircle(event.graphic, constructionModel.radius);
                 }
+                if (tool === "polyline" && constructionModel.lengthEnabled) {
+                    this.createPolyline(event.graphic, constructionModel.length);
+                }
             } else if (type === "create" && state === "active") {
-                // const angle = this._getOption("angle");
-                // const angleModulus = this._getOption("angleModulus");
-                // const angleTypeRelative = this._getOption("angleTypeRelative", false);
-                // const planarLength = this._getOption("planarLength");
-
-                // snappingManager && (snappingManager._mandatoryWithoutSnappingMode = !!(angle || angleModulus || planarLength));
-                // if (angle || angleModulus || planarLength) {
-                //     this._constructionHandler(angle, angleModulus, angleTypeRelative, planarLength, evt);
-                // }
+                if (tool === "polyline" && constructionModel.lengthEnabled) {
+                    this.createPolyline(event.graphic, constructionModel.length);
+                }
+            }
+            if(toolEventInfo?.type === "vertex-add") {
+                this.createPolyline(event.graphic, constructionModel.length);
             }
         }));
-
-        // sketchViewModelObservers.add(sketchViewModel.on("update", (event) => {
-
-        // }));
     }
 
     private createCircle(graphic: __esri.Graphic, radius: number): void {
@@ -101,6 +102,72 @@ export default class ConstructionController {
             radius: radius,
             radiusUnit: "meters"
         });
+    }
+
+    private async createPolyline(graphic: __esri.Graphic, length: number): Promise<void> {
+
+        const geometry = graphic.geometry as Polyline;
+        const path = geometry.paths[0];
+        const point1 = geometry.getPoint(0, path.length - 2);
+        const point2 = geometry.getPoint(0, path.length - 1);
+        const angle = this.getAngleBetweenTwoPoints(point1, point2);
+
+        // transform first point to 4326
+        const tPoint1 = await this._coordinateTransformer.transform(point1, "4326");
+        // calculate new point from distance and angle
+        const point = pointFromDistance(tPoint1, length, angle);
+        // transform new calculated endpoint back to map wkid
+        const tPoint = await this._coordinateTransformer.transform(point, geometry.spatialReference.wkid);
+
+        path.pop();
+        path.push([tPoint.x, tPoint.y]);
+        graphic.geometry = new Polyline({
+            paths: [path],
+            spatialReference: geometry.spatialReference
+        });
+
+
+        const sketchViewModel = this.sketchViewModel;
+        const drawOperation = sketchViewModel._operationHandle.activeComponent.drawOperation;
+        if(drawOperation) {
+            // const stagedVertex = drawOperation.stagedVertex;
+            // if(stagedVertex) {
+            //     stagedVertex.x = tPoint.x;
+            //     stagedVertex.y = tPoint.y;
+            // }
+            const stagedOrLastVertex = drawOperation.stagedOrLastVertex;
+            if(stagedOrLastVertex) {
+                stagedOrLastVertex.x = tPoint.x;
+                stagedOrLastVertex.y = tPoint.y;
+            }
+        }
+        const visualElementGraphics = sketchViewModel._operationHandle.activeComponent._visualElementGraphics;
+        if(visualElementGraphics) {
+            const activeVertex = visualElementGraphics.activeVertex;
+            if(activeVertex) {
+                activeVertex.x = tPoint.x;
+                activeVertex.y = tPoint.y;
+            }
+            visualElementGraphics.outline.visible=false;
+        }
+    }
+
+    /**
+     * Helper function used to calculate angle between two points.
+     *
+     * @param point1 Point 1
+     * @param point2 Point 2
+     * @returns number
+     *
+     * @private
+     */
+    private getAngleBetweenTwoPoints(point1: __esri.Point, point2: __esri.Point): number {
+        let angle = Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
+        angle = 360 - angle + 90;
+        if(angle > 360) {
+            angle = angle - 360;
+        }
+        return angle;
     }
 
 }

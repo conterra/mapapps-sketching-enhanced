@@ -170,7 +170,7 @@
                         {{ i18n.tabs.sketching }}
                     </v-tab>
                     <v-tab
-                        v-if="constructionWidget && activeUi !== 'text'"
+                        v-if="constructionWidget && (activeTool === 'circle' || activeTool === 'polyline')"
                         ripple
                     >
                         {{ i18n.tabs.construction }}
@@ -224,7 +224,7 @@
                             />
                         </div>
                     </v-tab-item>
-                    <v-tab-item v-if="constructionWidget && activeUi !== 'text'">
+                    <v-tab-item v-if="constructionWidget && (activeTool === 'circle' || activeTool === 'polyline')">
                         <component
                             :is="constructionWidgetInstance.view"
                             :active-ui="activeUi"

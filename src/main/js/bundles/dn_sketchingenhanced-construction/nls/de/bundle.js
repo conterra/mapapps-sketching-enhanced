@@ -17,6 +17,7 @@ export default {
     bundleName: "Erweitertes Zeichnen - Konstruktion",
     bundleDescription: "Dieses Bundle fügt der erweiterten Zeichenfunktionalität Konstruktionen hinzu.",
     ui: {
-        radius: "Radius"
+        radius: "Radius",
+        length: "Länge"
     }
 };

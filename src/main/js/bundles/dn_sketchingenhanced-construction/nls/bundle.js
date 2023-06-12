@@ -18,7 +18,8 @@ export default {
         bundleName: "Sketching Enhanced - Construction",
         bundleDescription: "This bundle adds construction to the extended sketching functionality.",
         ui: {
-            radius: "Radius"
+            radius: "Radius",
+            length: "Length"
         }
     },
     de: true

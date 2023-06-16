@@ -131,6 +131,11 @@
                                 name: "polyline_freehand",
                                 title: this.i18n.freehandPolylineTool,
                                 icon: "icon-polyline-freeform"
+                            },
+                            {
+                                name: "arrow",
+                                title: this.i18n.polylineTool,
+                                icon: "icon-polyline"
                             }
                         ]
                     },

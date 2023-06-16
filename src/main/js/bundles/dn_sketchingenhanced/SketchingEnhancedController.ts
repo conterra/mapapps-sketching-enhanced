@@ -88,6 +88,12 @@ export default class SketchingEnhancedController {
                 sketchingEnhancedModel.activeUi = "text";
                 sketchingEnhancedModel.activeTool = "text";
                 break;
+            case "arrow":
+                sketchViewModel.polylineSymbol = sketchingEnhancedModel.arrowSymbol;
+                sketchViewModel.create("polyline");
+                sketchingEnhancedModel.activeUi = "arrow";
+                sketchingEnhancedModel.activeTool = "arrow";
+                break;
             default:
                 sketchingEnhancedModel.activeUi = undefined;
                 sketchingEnhancedModel.activeTool = undefined;
@@ -124,7 +130,11 @@ export default class SketchingEnhancedController {
                         }
                         break;
                     case "polyline":
-                        sketchingEnhancedModel.activeUi = "polyline";
+                        if(graphic.symbol.arrow) {
+                            sketchingEnhancedModel.activeUi = "arrow";
+                        } else {
+                            sketchingEnhancedModel.activeUi = "polyline";
+                        }
                         break;
                     case "polygon":
                         sketchingEnhancedModel.activeUi = "polygon";

@@ -21,6 +21,8 @@ import { createObservers } from "apprt-core/Observers";
 import Collection from "esri/core/Collection";
 import MapWidgetModel from "map-widget/MapWidgetModel";
 import async from "apprt-core/async";
+import { CIMSymbol } from "esri/symbols/CIMSymbol";
+import Graphic from "esri/Graphic";
 
 export default class SketchingEnhancedController {
 

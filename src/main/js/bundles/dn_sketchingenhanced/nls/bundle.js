@@ -39,6 +39,7 @@ export default {
             pointTool: "Point",
             polylineTools: "Polylines",
             polylineTool: "Polyline",
+            arrowTool: "Arrow",
             freehandPolylineTool: "Freehand Polyline",
             polygonTools: "Polygons",
             polygonTool: "Polygon",

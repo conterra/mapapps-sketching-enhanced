@@ -38,6 +38,7 @@ export default {
         pointTool: "Punkt",
         polylineTools: "Linienwerkzeuge",
         polylineTool: "Polylinie",
+        arrowTool: "Pfeil",
         freehandPolylineTool: "Freihandlinie",
         polygonTools: "Polygonwerkzeuge",
         polygonTool: "Polygon",

@@ -130,6 +130,95 @@
                     },
                     "horizontalAlignment": "left",
                     "verticalAlignment": "baseline"
+                },
+                "arrowSymbol": {
+                    "type": "cim",
+                    "data": {
+                        "type": "CIMSymbolReference",
+                        "symbol": {
+                            "type": "CIMLineSymbol",
+                            "symbolLayers": [
+                                {
+                                    "type": "CIMSolidStroke",
+                                    "effects": [
+                                        {
+                                            "type": "CIMGeometricEffectArrow",
+                                            "geometricEffectArrowType": "Block",
+                                            "width": 10
+                                        }
+                                    ],
+                                    "enable": "true",
+                                    "color": [
+                                        255,
+                                        255,
+                                        255,
+                                        255
+                                    ]
+                                },
+                                {
+                                    "type": "CIMVectorMarker",
+                                    "enable": true,
+                                    "size": 10,
+                                    "colorLocked": true,
+                                    "anchorPointUnits": "Relative",
+                                    "frame": {
+                                        "xmin": -5,
+                                        "ymin": -5,
+                                        "xmax": 5,
+                                        "ymax": 5
+                                    },
+                                    "markerGraphics": [
+                                        {
+                                            "type": "CIMMarkerGraphic",
+                                            "geometry": {
+                                                "x": 0,
+                                                "y": 0
+                                            },
+                                            "symbol": {
+                                                "type": "CIMTextSymbol",
+                                                "fontFamilyName": "Arial",
+                                                "fontStyleName": "Bold",
+                                                "height": 10,
+                                                "horizontalAlignment": "Center",
+                                                "offsetX": 0,
+                                                "offsetY": 5.5,
+                                                "symbol": {
+                                                    "type": "CIMPolygonSymbol",
+                                                    "symbolLayers": [
+                                                        {
+                                                            "type": "CIMSolidFill",
+                                                            "enable": true,
+                                                            "color": [
+                                                                214,
+                                                                41,
+                                                                41,
+                                                                255
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                "verticalAlignment": "Top"
+                                            },
+                                            "textString": "text"
+                                        }
+                                    ],
+                                    "scaleSymbolsProportionally": true,
+                                    "respectFrame": true,
+                                    "markerPlacement": {
+                                        "type": "CIMMarkerPlacementAlongLineSameSize",
+                                        "angleToLine": false,
+                                        "offset": 0,
+                                        "customEndingOffset": 0,
+                                        "endings": "NoConstraint",
+                                        "placementTemplate": [
+                                            1000,
+                                            3000
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
                 }
             }
         },

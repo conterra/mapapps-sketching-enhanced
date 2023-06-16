@@ -134,8 +134,8 @@
                             },
                             {
                                 name: "arrow",
-                                title: this.i18n.polylineTool,
-                                icon: "icon-polyline"
+                                title: this.i18n.arrowTool,
+                                icon: "icon-pointer-right"
                             }
                         ]
                     },

@@ -55,11 +55,13 @@ export default class SketchingEnhancedController {
                 sketchingEnhancedModel.activeTool = "point";
                 break;
             case "polyline":
+                sketchViewModel.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
                 sketchViewModel.create("polyline", {mode: "click"});
                 sketchingEnhancedModel.activeUi = "polyline";
                 sketchingEnhancedModel.activeTool = "polyline";
                 break;
             case "polyline_freehand":
+                sketchViewModel.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
                 sketchViewModel.create("polyline", {mode: "freehand"});
                 sketchingEnhancedModel.activeUi = "polyline";
                 sketchingEnhancedModel.activeTool = "polyline_freehand";

@@ -134,7 +134,8 @@ export default class SketchingEnhancedController {
                         }
                         break;
                     case "polyline":
-                        if(graphic.symbol.arrow) {
+                        //graphic.symbol.arrow
+                        if(graphic.symbol.type == "cim") {
                             sketchingEnhancedModel.activeUi = "arrow";
                         } else {
                             sketchingEnhancedModel.activeUi = "polyline";
@@ -147,6 +148,7 @@ export default class SketchingEnhancedController {
                         sketchingEnhancedModel.activeUi = "point";
                 }
             }
+
         }));
     }
 

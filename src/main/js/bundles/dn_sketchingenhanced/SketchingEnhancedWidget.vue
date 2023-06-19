@@ -175,7 +175,7 @@
                         {{ i18n.tabs.snapping }}
                     </v-tab>
                     <v-tab
-                        v-if="measurementWidget && activeUi !== 'text'"
+                        v-if="measurementWidget && activeUi !== 'text' && activeUi !== 'arrow'"
                         ripple
                     >
                         {{ i18n.tabs.measurement }}
@@ -228,7 +228,7 @@
                             @feature-source-changed="$emit('feature-source-changed', $event)"
                         />
                     </v-tab-item>
-                    <v-tab-item v-if="measurementWidget && activeUi !== 'text'">
+                    <v-tab-item v-if="measurementWidget && activeUi !== 'text' && activeUi !== 'arrow'">
                         <component
                             :is="measurementWidgetInstance.view"
                             :active-ui="activeUi"

@@ -125,6 +125,7 @@ export default class SketchingEnhancedWidgetFactory {
         vm.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
         vm.polygonSymbol = sketchingEnhancedModel.polygonSymbol;
         vm.textSymbol = sketchingEnhancedModel.textSymbol;
+        vm.arrowSymbol = sketchingEnhancedModel.arrowSymbol;
         if(this._measurementWidget) {
             vm.measurementWidget = () => this._measurementWidget;
         }
@@ -144,7 +145,7 @@ export default class SketchingEnhancedWidgetFactory {
             .syncAll("activeTool", "activeUi", "canUndo", "canRedo", "canDelete")
             .syncAll("editEnabled", "snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
             .syncAllToLeft("snappingFeatureSources")
-            .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol")
+            .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol", "arrowSymbol")
             .syncAll("editSymbol");
     }
 

@@ -74,6 +74,8 @@ export default {
                     triangle: "Triangle",
                     x: "X"
                 },
+                arrowSymbolWidth: "Width",
+                arrowSymbolColor: "Color",
                 pointSymbolSize: "Size",
                 pointSymbolColor: "Color",
                 pointSymbolOutlineWidth: "Outline-Width",

@@ -319,6 +319,46 @@
                 </v-flex>
             </v-layout>
         </div>
+        <div
+            v-if="activeUi === 'arrow'"
+        >
+            <v-layout
+                row
+                wrap
+            >
+                <v-flex
+                    xs4
+                    class="label"
+                >
+                    {{ i18n.arrowSymbolWidth }}
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field
+                        v-model="arrowSymbolWidth"
+                        :label="i18n.arrowSymbolWidth"
+                        type="number"
+                        min="1"
+                        single-line
+                        hide-details
+                        class="pa-0"
+                    />
+                </v-flex>
+                <v-flex
+                    xs4
+                    class="label"
+                >
+                    {{ i18n.arrowSymbolColor }}
+                </v-flex>
+                <v-flex
+                    xs8
+                    pt-2
+                >
+                    <color-picker
+                        v-model="arrowSymbolColor"
+                    />
+                </v-flex>
+            </v-layout>
+        </div>
     </v-container>
 </template>
 
@@ -359,6 +399,12 @@
                 }
             },
             textSymbol: {
+                type: Object,
+                default: function () {
+                    return {};
+                }
+            },
+            arrowSymbol: {
                 type: Object,
                 default: function () {
                     return {};
@@ -540,6 +586,35 @@
                     const pointSymbol = this.cloneSymbol(this.pointSymbol);
                     pointSymbol.outline.color = rgba;
                     this.$emit("update:point-symbol", pointSymbol);
+                }
+            },
+            arrowSymbolWidth: {
+                get: function () {
+                    const test = this.arrowSymbol.data.symbol.symbolLayers[0].effects[0].width;
+                    return this.arrowSymbol.data.symbol.symbolLayers[0].effects[0].width;
+                },
+                set: function (width) {
+                    const arrowSymbol = this.cloneSymbol(this.arrowSymbol);
+                    arrowSymbol.data.symbol.symbolLayers[0].effects[0].width = width;
+                    this.$emit("update:arrow-symbol", arrowSymbol);
+                }
+            },
+            arrowSymbolColor: {
+                get: function () {
+                    const color = this.arrowSymbol.data.symbol.symbolLayers[0].color;
+                    //const color = this.arrowSymbol.color;
+                    return {
+                        r: color[0],
+                        g: color[1],
+                        b: color[2],
+                        a: color[3]
+                    };
+                },
+                set: function (color) {
+                    const rgba = color.rgba;
+                    const arrowSymbol = this.cloneSymbol(this.arrowSymbol);
+                    this.arrowSymbol.data.symbol.symbolLayers[0].color = [rgba.r, rgba.g, rgba.b, rgba.a];
+                    this.$emit("update:arrow-symbol", arrowSymbol);
                 }
             },
             polylineSymbolStyle: {

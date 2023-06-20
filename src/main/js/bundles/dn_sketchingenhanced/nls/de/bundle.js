@@ -73,6 +73,8 @@ export default {
                 triangle: "Dreieck",
                 x: "X"
             },
+            arrowSymbolWidth: "Breite",
+            arrowSymbolColor: "Farbe",
             pointSymbolSize: "Größe",
             pointSymbolColor: "Farbe",
             pointSymbolOutlineWidth: "Umriss-Breite",

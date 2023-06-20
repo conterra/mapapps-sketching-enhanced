@@ -216,6 +216,10 @@ export default class SketchingEnhancedController {
         this.observers.add(sketchingEnhancedModel.watch("textSymbol", (event) => {
             sketchViewModel.pointSymbol = event.value;
         }));
+
+        this.observers.add(sketchingEnhancedModel.watch("arrowSymbol", (event) => {
+            sketchViewModel.polylineSymbol = event.value;
+        }));
     }
 
     private watchForSketchViewModelEvents(): void {

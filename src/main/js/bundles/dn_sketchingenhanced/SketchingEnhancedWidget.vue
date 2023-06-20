@@ -198,6 +198,7 @@
                                 :polyline-symbol.sync="polylineSymbol"
                                 :polygon-symbol.sync="polygonSymbol"
                                 :text-symbol.sync="textSymbol"
+                                :arrow-symbol.sync="arrowSymbol"
                             />
                         </div>
                         <div v-else>
@@ -215,6 +216,7 @@
                                 :polyline-symbol.sync="editSymbol"
                                 :polygon-symbol.sync="editSymbol"
                                 :text-symbol.sync="editSymbol"
+                                :arrow-symbol.sync="editSymbol"
                             />
                         </div>
                     </v-tab-item>
@@ -321,6 +323,12 @@
                 }
             },
             textSymbol: {
+                type: Object,
+                default: function () {
+                    return {};
+                }
+            },
+            arrowSymbol: {
                 type: Object,
                 default: function () {
                     return {};

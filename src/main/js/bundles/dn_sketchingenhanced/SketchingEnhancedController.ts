@@ -46,6 +46,7 @@ export default class SketchingEnhancedController {
     activateTool(tool: string): void {
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        let arrowSymbol;
         this.deactivateEdit();
         switch (tool) {
             case "point":
@@ -56,23 +57,23 @@ export default class SketchingEnhancedController {
                 break;
             case "polyline":
                 sketchViewModel.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
-                sketchViewModel.create("polyline", {mode: "click"});
+                sketchViewModel.create("polyline", { mode: "click" });
                 sketchingEnhancedModel.activeUi = "polyline";
                 sketchingEnhancedModel.activeTool = "polyline";
                 break;
             case "polyline_freehand":
                 sketchViewModel.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
-                sketchViewModel.create("polyline", {mode: "freehand"});
+                sketchViewModel.create("polyline", { mode: "freehand" });
                 sketchingEnhancedModel.activeUi = "polyline";
                 sketchingEnhancedModel.activeTool = "polyline_freehand";
                 break;
             case "polygon":
-                sketchViewModel.create("polygon", {mode: "click"});
+                sketchViewModel.create("polygon", { mode: "click" });
                 sketchingEnhancedModel.activeUi = "polygon";
                 sketchingEnhancedModel.activeTool = "polygon";
                 break;
             case "polygon_freehand":
-                sketchViewModel.create("polygon", {mode: "freehand"});
+                sketchViewModel.create("polygon", { mode: "freehand" });
                 sketchingEnhancedModel.activeUi = "polygon";
                 sketchingEnhancedModel.activeTool = "polygon_freehand";
                 break;
@@ -93,7 +94,8 @@ export default class SketchingEnhancedController {
                 sketchingEnhancedModel.activeTool = "text";
                 break;
             case "arrow":
-                sketchViewModel.polylineSymbol = sketchingEnhancedModel.arrowSymbol;
+                arrowSymbol = sketchingEnhancedModel.arrowSymbol;
+                sketchViewModel.polylineSymbol = this.getArrowCimSymbol(arrowSymbol.color, arrowSymbol.width);
                 sketchViewModel.create("polyline");
                 sketchingEnhancedModel.activeUi = "arrow";
                 sketchingEnhancedModel.activeTool = "arrow";
@@ -115,19 +117,23 @@ export default class SketchingEnhancedController {
 
         this.editObservers.add(sketchingEnhancedModel.watch("editSymbol", ({ value: editSymbol }) => {
             sketchViewModel.updateGraphics.forEach((graphic) => {
-                if(graphic.symbol.type === editSymbol.type) {
-                    graphic.symbol = editSymbol;
+                if (graphic.symbol.type === editSymbol.type) {
+                    if (graphic.symbol.type === "cim") {
+                        graphic.symbol = this.getArrowCimSymbol(editSymbol.color, editSymbol.width);
+                    } else {
+                        graphic.symbol = editSymbol;
+                    }
                 }
             });
         }));
 
         this.editObservers.add(sketchViewModel.on("update", (event) => {
             const graphic = event.graphics.length ? event.graphics[0] : null;
-            if(graphic) {
-                sketchingEnhancedModel.editSymbol = graphic.symbol;
-                switch(graphic.geometry.type) {
+            if (graphic) {
+                sketchingEnhancedModel.editSymbol = this.getEasyArrowSymbol(graphic.symbol);
+                switch (graphic.geometry.type) {
                     case "point":
-                        if(graphic.symbol.text) {
+                        if (graphic.symbol.text) {
                             sketchingEnhancedModel.activeUi = "text";
                         } else {
                             sketchingEnhancedModel.activeUi = "point";
@@ -135,7 +141,7 @@ export default class SketchingEnhancedController {
                         break;
                     case "polyline":
                         //graphic.symbol.arrow
-                        if(graphic.symbol.type == "cim") {
+                        if (graphic.symbol.type == "cim") {
                             sketchingEnhancedModel.activeUi = "arrow";
                         } else {
                             sketchingEnhancedModel.activeUi = "polyline";
@@ -155,7 +161,7 @@ export default class SketchingEnhancedController {
     private deactivateEdit(): void {
         const sketchViewModel = this.sketchViewModel;
         sketchViewModel.updateOnGraphicClick = false;
-        if(sketchViewModel.view) {
+        if (sketchViewModel.view) {
             sketchViewModel.view.popup.autoOpenEnabled = true;
         }
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
@@ -218,7 +224,7 @@ export default class SketchingEnhancedController {
         }));
 
         this.observers.add(sketchingEnhancedModel.watch("arrowSymbol", (event) => {
-            sketchViewModel.polylineSymbol = event.value;
+            sketchViewModel.polylineSymbol = this.getArrowCimSymbol(event.value.color, event.value.width);
         }));
     }
 
@@ -268,7 +274,7 @@ export default class SketchingEnhancedController {
         const observers = createObservers();
         const sketchViewModel = this.sketchViewModel;
         const snappingOptions = sketchViewModel.snappingOptions;
-        layers.forEach((layer)=>{
+        layers.forEach((layer) => {
             observers.add(
                 layer.watch("visible", () => {
                     sketchingEnhancedModel.snappingFeatureSources
@@ -283,7 +289,7 @@ export default class SketchingEnhancedController {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
         const layers = map.allLayers;
-        return layers.on("change", ({added, removed}) => {
+        return layers.on("change", ({ added, removed }) => {
             this.changeSnappingFeatureSources(added, removed);
         });
     }
@@ -393,7 +399,7 @@ export default class SketchingEnhancedController {
             || layer.type === "geojson" || layer.type === "wfs" || layer.type === "csv";
         const isNotInternalLayer = !layer.internal;
         let snappingAllowed = true;
-        if(layer.sketchingEnhanced) {
+        if (layer.sketchingEnhanced) {
             snappingAllowed = layer.sketchingEnhanced.allowSnapping;
         }
         return hasSupportedLayerType && isNotInternalLayer && snappingAllowed;
@@ -424,6 +430,46 @@ export default class SketchingEnhancedController {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         sketchingEnhancedModel.canUndo = sketchViewModel.canUndo();
         sketchingEnhancedModel.canRedo = sketchViewModel.canRedo();
+    }
+
+    private getArrowCimSymbol(color, width): __esri.CIMSymbol {
+        return {
+            "type": "cim",
+            "data": {
+                "type": "CIMSymbolReference",
+                "symbol": {
+                    "type": "CIMLineSymbol",
+                    "symbolLayers": [
+                        {
+                            "type": "CIMSolidStroke",
+                            "effects": [
+                                {
+                                    "type": "CIMGeometricEffectArrow",
+                                    "geometricEffectArrowType": "Block",
+                                    "width": width
+                                }
+                            ],
+                            "width": 4,
+                            "color": [color.r, color.g, color.b, color.a * 255]
+                        }
+                    ]
+                }
+            }
+        };
+    }
+
+    private getEasyArrowSymbol(cimSymbol: __esri.Symbol): any {
+        const color = cimSymbol.data.symbol.symbolLayers[0].color;
+        return {
+            type: "cim",
+            color: {
+                r: color[0],
+                g: color[1],
+                b: color[2],
+                a: color[3] / 255
+            },
+            width: cimSymbol.data.symbol.symbolLayers[0].effects[0].width
+        };
     }
 
 }

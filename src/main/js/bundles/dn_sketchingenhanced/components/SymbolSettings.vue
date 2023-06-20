@@ -590,30 +590,22 @@
             },
             arrowSymbolWidth: {
                 get: function () {
-                    const test = this.arrowSymbol.data.symbol.symbolLayers[0].effects[0].width;
-                    return this.arrowSymbol.data.symbol.symbolLayers[0].effects[0].width;
+                    return this.arrowSymbol.width;
                 },
                 set: function (width) {
                     const arrowSymbol = this.cloneSymbol(this.arrowSymbol);
-                    arrowSymbol.data.symbol.symbolLayers[0].effects[0].width = width;
+                    arrowSymbol.width = width;
                     this.$emit("update:arrow-symbol", arrowSymbol);
                 }
             },
             arrowSymbolColor: {
                 get: function () {
-                    const color = this.arrowSymbol.data.symbol.symbolLayers[0].color;
-                    //const color = this.arrowSymbol.color;
-                    return {
-                        r: color[0],
-                        g: color[1],
-                        b: color[2],
-                        a: color[3]
-                    };
+                    return this.arrowSymbol.color;
                 },
                 set: function (color) {
                     const rgba = color.rgba;
                     const arrowSymbol = this.cloneSymbol(this.arrowSymbol);
-                    this.arrowSymbol.data.symbol.symbolLayers[0].color = [rgba.r, rgba.g, rgba.b, rgba.a];
+                    arrowSymbol.color = rgba;
                     this.$emit("update:arrow-symbol", arrowSymbol);
                 }
             },

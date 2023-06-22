@@ -21,8 +21,6 @@ import { createObservers } from "apprt-core/Observers";
 import Collection from "esri/core/Collection";
 import MapWidgetModel from "map-widget/MapWidgetModel";
 import async from "apprt-core/async";
-import { CIMSymbol } from "esri/symbols/CIMSymbol";
-import Graphic from "esri/Graphic";
 
 export default class SketchingEnhancedController {
 
@@ -95,7 +93,7 @@ export default class SketchingEnhancedController {
                 break;
             case "arrow":
                 arrowSymbol = sketchingEnhancedModel.arrowSymbol;
-                sketchViewModel.polylineSymbol = this.getArrowCimSymbol(arrowSymbol.color, arrowSymbol.width);
+                sketchViewModel.polylineSymbol = this.getArrowCimSymbol(arrowSymbol.color, arrowSymbol.width,arrowSymbol.boldWidth);
                 sketchViewModel.create("polyline");
                 sketchingEnhancedModel.activeUi = "arrow";
                 sketchingEnhancedModel.activeTool = "arrow";
@@ -119,7 +117,8 @@ export default class SketchingEnhancedController {
             sketchViewModel.updateGraphics.forEach((graphic) => {
                 if (graphic.symbol.type === editSymbol.type) {
                     if (graphic.symbol.type === "cim") {
-                        graphic.symbol = this.getArrowCimSymbol(editSymbol.color, editSymbol.width);
+                        graphic.symbol = this.getArrowCimSymbol(editSymbol.color, editSymbol.width, editSymbol.boldWidth);
+                        debugger
                     } else {
                         graphic.symbol = editSymbol;
                     }
@@ -224,7 +223,7 @@ export default class SketchingEnhancedController {
         }));
 
         this.observers.add(sketchingEnhancedModel.watch("arrowSymbol", (event) => {
-            sketchViewModel.polylineSymbol = this.getArrowCimSymbol(event.value.color, event.value.width);
+            sketchViewModel.polylineSymbol = this.getArrowCimSymbol(event.value.color, event.value.width, event.value.boldWidth);
         }));
     }
 
@@ -381,9 +380,12 @@ export default class SketchingEnhancedController {
 
         added.forEach((layer) => {
             if (this.isSnappableLayer(layer) && !contained(snappingOptions.featureSources, layer)) {
-                snappingOptions.featureSources.push({
-                    layer: layer, enabled: true
-                });
+                snappingOptions.featureSources.push(
+                    {
+                    layer: layer,
+                    enabled: true
+                }
+                );
             }
         });
         removed.forEach((layer: __esri.Layer) => {
@@ -431,12 +433,13 @@ export default class SketchingEnhancedController {
         sketchingEnhancedModel.canUndo = sketchViewModel.canUndo();
         sketchingEnhancedModel.canRedo = sketchViewModel.canRedo();
     }
-
-    private getArrowCimSymbol(color, width): __esri.CIMSymbol {
+//https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols.html
+    private getArrowCimSymbol(color:Array<Object>, width:number,boldWidth:number): __esri.CIMSymbol {
         return {
             "type": "cim",
             "data": {
                 "type": "CIMSymbolReference",
+                "enable":true,
                 "symbol": {
                     "type": "CIMLineSymbol",
                     "symbolLayers": [
@@ -449,7 +452,7 @@ export default class SketchingEnhancedController {
                                     "width": width
                                 }
                             ],
-                            "width": 4,
+                            "width":boldWidth,
                             "color": [color.r, color.g, color.b, color.a * 255]
                         }
                     ]
@@ -468,8 +471,8 @@ export default class SketchingEnhancedController {
                 b: color[2],
                 a: color[3] / 255
             },
-            width: cimSymbol.data.symbol.symbolLayers[0].effects[0].width
+            width: cimSymbol.data.symbol.symbolLayers[0].effects[0].width,
+            boldWidth: cimSymbol.data.symbol.symbolLayers[0].width
         };
     }
-
 }

@@ -347,6 +347,23 @@
                     xs4
                     class="label"
                 >
+                    {{ i18n.arrowSymbolBoldWidth }}
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field
+                        v-model="arrowSymbolBoldWidth"
+                        :label="i18n.arrowSymbolBoldWidth"
+                        type="number"
+                        min="1"
+                        single-line
+                        hide-details
+                        class="pa-0"
+                    />
+                </v-flex>
+                <v-flex
+                    xs4
+                    class="label"
+                >
                     {{ i18n.arrowSymbolColor }}
                 </v-flex>
                 <v-flex
@@ -596,6 +613,17 @@
                     const arrowSymbol = this.cloneSymbol(this.arrowSymbol);
                     arrowSymbol.width = width;
                     this.$emit("update:arrow-symbol", arrowSymbol);
+                }
+            },
+            arrowSymbolBoldWidth: {
+                get: function () {
+                    return this.arrowSymbol.boldWidth;
+                },
+                set: function (boldWidth) {
+                    const arrowSymbol = this.cloneSymbol(this.arrowSymbol);
+                    arrowSymbol.boldWidth = boldWidth;
+                    this.$emit("update:arrow-symbol", arrowSymbol);
+                    debugger
                 }
             },
             arrowSymbolColor: {

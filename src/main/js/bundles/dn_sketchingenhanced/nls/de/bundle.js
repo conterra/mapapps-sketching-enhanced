@@ -74,6 +74,7 @@ export default {
                 x: "X"
             },
             arrowSymbolWidth: "Breite",
+            arrowSymbolBoldWidth: "Linienbreite",
             arrowSymbolColor: "Farbe",
             pointSymbolSize: "Größe",
             pointSymbolColor: "Farbe",

@@ -623,7 +623,6 @@
                     const arrowSymbol = this.cloneSymbol(this.arrowSymbol);
                     arrowSymbol.boldWidth = boldWidth;
                     this.$emit("update:arrow-symbol", arrowSymbol);
-                    debugger
                 }
             },
             arrowSymbolColor: {

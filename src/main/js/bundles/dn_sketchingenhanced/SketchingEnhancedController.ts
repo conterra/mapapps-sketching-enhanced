@@ -93,7 +93,8 @@ export default class SketchingEnhancedController {
                 break;
             case "arrow":
                 arrowSymbol = sketchingEnhancedModel.arrowSymbol;
-                sketchViewModel.polylineSymbol = this.getArrowCimSymbol(arrowSymbol.color, arrowSymbol.width,arrowSymbol.boldWidth);
+                sketchViewModel.polylineSymbol = this.getArrowCimSymbol(arrowSymbol.color,
+                    arrowSymbol.width, arrowSymbol.boldWidth);
                 sketchViewModel.create("polyline");
                 sketchingEnhancedModel.activeUi = "arrow";
                 sketchingEnhancedModel.activeTool = "arrow";
@@ -117,8 +118,8 @@ export default class SketchingEnhancedController {
             sketchViewModel.updateGraphics.forEach((graphic) => {
                 if (graphic.symbol.type === editSymbol.type) {
                     if (graphic.symbol.type === "cim") {
-                        graphic.symbol = this.getArrowCimSymbol(editSymbol.color, editSymbol.width, editSymbol.boldWidth);
-                        debugger
+                        graphic.symbol = this.getArrowCimSymbol(editSymbol.color,
+                            editSymbol.width, editSymbol.boldWidth);
                     } else {
                         graphic.symbol = editSymbol;
                     }
@@ -223,7 +224,8 @@ export default class SketchingEnhancedController {
         }));
 
         this.observers.add(sketchingEnhancedModel.watch("arrowSymbol", (event) => {
-            sketchViewModel.polylineSymbol = this.getArrowCimSymbol(event.value.color, event.value.width, event.value.boldWidth);
+            sketchViewModel.polylineSymbol = this.getArrowCimSymbol(event.value.color,
+                event.value.width, event.value.boldWidth);
         }));
     }
 

@@ -15,7 +15,7 @@
 ///
 
 import { WatchHandle } from "apprt-binding/Binding";
-import { createObservers, Observers } from "apprt-core/Observers";
+import { createObservers } from "apprt-core/Observers";
 import type {InjectedReference} from "apprt-core/InjectedReference";
 import Collection from "esri/core/Collection";
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";

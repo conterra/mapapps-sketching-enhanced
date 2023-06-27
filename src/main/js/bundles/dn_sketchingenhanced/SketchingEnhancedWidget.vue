@@ -246,13 +246,13 @@
 </template>
 <script>
     import Bindable from "apprt-vue/mixins/Bindable";
-    import Navigation from "./components/Navigation.vue";
+    import NavigationPanel from "./components/NavigationPanel.vue";
     import SymbolSettings from "./components/SymbolSettings.vue";
     import SnappingSettings from "./components/SnappingSettings.vue";
 
     export default {
         components: {
-            "navigation": Navigation,
+            "navigation": NavigationPanel,
             "symbol-settings": SymbolSettings,
             "snapping-settings": SnappingSettings
         },

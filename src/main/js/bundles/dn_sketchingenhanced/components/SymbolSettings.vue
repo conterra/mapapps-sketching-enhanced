@@ -319,6 +319,63 @@
                 </v-flex>
             </v-layout>
         </div>
+        <div
+            v-if="activeUi === 'arrow'"
+        >
+            <v-layout
+                row
+                wrap
+            >
+                <v-flex
+                    xs4
+                    class="label"
+                >
+                    {{ i18n.arrowSymbolWidth }}
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field
+                        v-model="arrowSymbolWidth"
+                        :label="i18n.arrowSymbolWidth"
+                        type="number"
+                        min="1"
+                        single-line
+                        hide-details
+                        class="pa-0"
+                    />
+                </v-flex>
+                <v-flex
+                    xs4
+                    class="label"
+                >
+                    {{ i18n.arrowSymbolBoldWidth }}
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field
+                        v-model="arrowSymbolBoldWidth"
+                        :label="i18n.arrowSymbolBoldWidth"
+                        type="number"
+                        min="1"
+                        single-line
+                        hide-details
+                        class="pa-0"
+                    />
+                </v-flex>
+                <v-flex
+                    xs4
+                    class="label"
+                >
+                    {{ i18n.arrowSymbolColor }}
+                </v-flex>
+                <v-flex
+                    xs8
+                    pt-2
+                >
+                    <color-picker
+                        v-model="arrowSymbolColor"
+                    />
+                </v-flex>
+            </v-layout>
+        </div>
     </v-container>
 </template>
 
@@ -359,6 +416,12 @@
                 }
             },
             textSymbol: {
+                type: Object,
+                default: function () {
+                    return {};
+                }
+            },
+            arrowSymbol: {
                 type: Object,
                 default: function () {
                     return {};
@@ -540,6 +603,37 @@
                     const pointSymbol = this.cloneSymbol(this.pointSymbol);
                     pointSymbol.outline.color = rgba;
                     this.$emit("update:point-symbol", pointSymbol);
+                }
+            },
+            arrowSymbolWidth: {
+                get: function () {
+                    return this.arrowSymbol.width;
+                },
+                set: function (width) {
+                    const arrowSymbol = this.cloneSymbol(this.arrowSymbol);
+                    arrowSymbol.width = width;
+                    this.$emit("update:arrow-symbol", arrowSymbol);
+                }
+            },
+            arrowSymbolBoldWidth: {
+                get: function () {
+                    return this.arrowSymbol.boldWidth;
+                },
+                set: function (boldWidth) {
+                    const arrowSymbol = this.cloneSymbol(this.arrowSymbol);
+                    arrowSymbol.boldWidth = boldWidth;
+                    this.$emit("update:arrow-symbol", arrowSymbol);
+                }
+            },
+            arrowSymbolColor: {
+                get: function () {
+                    return this.arrowSymbol.color;
+                },
+                set: function (color) {
+                    const rgba = color.rgba;
+                    const arrowSymbol = this.cloneSymbol(this.arrowSymbol);
+                    arrowSymbol.color = rgba;
+                    this.$emit("update:arrow-symbol", arrowSymbol);
                 }
             },
             polylineSymbolStyle: {

@@ -39,6 +39,7 @@ export default {
             pointTool: "Point",
             polylineTools: "Polylines",
             polylineTool: "Polyline",
+            arrowTool: "Arrow",
             freehandPolylineTool: "Freehand Polyline",
             polygonTools: "Polygons",
             polygonTool: "Polygon",
@@ -73,6 +74,9 @@ export default {
                     triangle: "Triangle",
                     x: "X"
                 },
+                arrowSymbolWidth: "Width",
+                arrowSymbolBoldWidth: "Line width",
+                arrowSymbolColor: "Color",
                 pointSymbolSize: "Size",
                 pointSymbolColor: "Color",
                 pointSymbolOutlineWidth: "Outline-Width",

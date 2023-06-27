@@ -384,9 +384,9 @@ export default class SketchingEnhancedController {
             if (this.isSnappableLayer(layer) && !contained(snappingOptions.featureSources, layer)) {
                 snappingOptions.featureSources.push(
                     {
-                    layer: layer,
-                    enabled: true
-                }
+                        layer: layer,
+                        enabled: true
+                    }
                 );
             }
         });
@@ -435,8 +435,8 @@ export default class SketchingEnhancedController {
         sketchingEnhancedModel.canUndo = sketchViewModel.canUndo();
         sketchingEnhancedModel.canRedo = sketchViewModel.canRedo();
     }
-//https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols.html
-    private getArrowCimSymbol(color:Array<Object>, width:number,boldWidth:number): __esri.CIMSymbol {
+    //https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols.html
+    private getArrowCimSymbol(color:Array<Object>, width:number, boldWidth:number): __esri.CIMSymbol {
         return {
             "type": "cim",
             "data": {

@@ -20,17 +20,11 @@
         <div
             v-if="activeUi === 'point'"
         >
-            <v-layout
-                row
-                wrap
-            >
-                <v-flex
-                    xs4
-                    class="label"
-                >
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.pointSymbolStyle }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-select
                         v-model="pointSymbolStyle"
                         :items="pointSymbolStyles"
@@ -39,14 +33,13 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.pointSymbolSize }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-text-field
                         v-model="pointSymbolSize"
                         :label="i18n.pointSymbolSize"
@@ -56,28 +49,23 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.pointSymbolColor }}
-                </v-flex>
-                <v-flex
-                    xs8
-                    pt-2
-                >
+                </div>
+                <div class="ct-flex-item">
                     <color-picker
                         v-model="pointSymbolColor"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.pointSymbolOutlineWidth }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-text-field
                         v-model="pointSymbolOutlineWidth"
                         :label="i18n.pointSymbolOutlineWidth"
@@ -87,37 +75,27 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.pointSymbolOutlineColor }}
-                </v-flex>
-                <v-flex
-                    xs8
-                    pt-2
-                >
+                </div>
+                <div class="ct-flex-item">
                     <color-picker
                         v-model="pointSymbolOutlineColor"
                     />
-                </v-flex>
-            </v-layout>
+                </div>
+            </div>
         </div>
         <div
             v-if="activeUi === 'polyline'"
         >
-            <v-layout
-                row
-                wrap
-            >
-                <v-flex
-                    xs4
-                    class="label"
-                >
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.polylineSymbolStyle }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-select
                         v-model="polylineSymbolStyle"
                         :items="polylineSymbolStyles"
@@ -126,14 +104,13 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.polylineSymbolWidth }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-text-field
                         v-model="polylineSymbolWidth"
                         :label="i18n.polylineSymbolWidth"
@@ -143,37 +120,27 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.polylineSymbolColor }}
-                </v-flex>
-                <v-flex
-                    xs8
-                    pt-2
-                >
+                </div>
+                <div class="ct-flex-item">
                     <color-picker
                         v-model="polylineSymbolColor"
                     />
-                </v-flex>
-            </v-layout>
+                </div>
+            </div>
         </div>
         <div
             v-if="activeUi === 'polygon'"
         >
-            <v-layout
-                row
-                wrap
-            >
-                <v-flex
-                    xs4
-                    class="label"
-                >
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.polygonSymbolStyle }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-select
                         v-model="polygonSymbolStyle"
                         :items="polygonSymbolStyles"
@@ -182,28 +149,23 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.polygonSymbolColor }}
-                </v-flex>
-                <v-flex
-                    xs8
-                    pt-2
-                >
+                </div>
+                <div class="ct-flex-item">
                     <color-picker
                         v-model="polygonSymbolColor"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.polygonSymbolOutlineStyle }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-select
                         v-model="polygonSymbolOutlineStyle"
                         :items="polylineSymbolStyles"
@@ -212,14 +174,13 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.pointSymbolOutlineWidth }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-text-field
                         v-model="polygonSymbolOutlineWidth"
                         :label="i18n.polygonSymbolOutlineWidth"
@@ -229,22 +190,18 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.polygonSymbolOutlineColor }}
-                </v-flex>
-                <v-flex
-                    xs8
-                    pt-2
-                >
+                </div>
+                <div class="ct-flex-item">
                     <color-picker
                         v-model="polygonSymbolOutlineColor"
                     />
-                </v-flex>
-            </v-layout>
+                </div>
+            </div>
         </div>
         <div
             v-if="activeUi === 'text'"

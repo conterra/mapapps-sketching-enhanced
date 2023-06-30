@@ -100,16 +100,16 @@ To configure the bundle in app.json, use the configurable properties shown in th
             "verticalAlignment": "baseline"
         },
         "arrowSymbol": {
-                    "type": "cim",
-                    "width": 10,
-                    "boldWidth":4,
-                    "color": {
-                        "r": 0,
-                        "g": 0,
-                        "b": 0,
-                        "a": 1
-                    }
-                }
+            "type": "cim",
+            "width": 10,
+            "boldWidth":4,
+            "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+            }
+        }
     }
 }
 ```
@@ -125,8 +125,7 @@ To configure the bundle in app.json, use the configurable properties shown in th
 | pointSymbol                   | Object  |                                                                                                                                                                                  |               | A SimpleMarkerSymbol, PointSymbol3D, CIMSymbol, or WebStyleSymbol used for representing the point geometry that is being drawn. |
 | polylineSymbol                | Object  |                                                                                                                                                                                  |               | A SimpleLineSymbol, LineSymbol3D, or CIMSymbol used for representing the polyline geometry that is being drawn.                 |
 | polygonSymbol                 | Object  |                                                                                                                                                                                  |               | A SimpleFillSymbol, PolygonSymbol3D, or CIMSymbol used for representing the polygon geometry that is being drawn.               |
-
-| arrowSymbol                    | Object  |                                                                                                                                                                                  |               | A A CIMSymbol in the form of an arrow showing the drawn arrow                                                       |
+| arrowSymbol                   | Object  |                                                                                                                                                                                  |               | A A CIMSymbol in the form of an arrow showing the drawn arrow                                                                   |
 
 ### Disable snapping on specific layers
 

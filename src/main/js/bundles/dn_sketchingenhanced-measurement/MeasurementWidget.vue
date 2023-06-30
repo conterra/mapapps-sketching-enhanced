@@ -16,7 +16,7 @@
 
 -->
 <template>
-    <v-container class="pa-2 fullHeight">
+    <v-container class="pa-2 fullHeight ">
         <v-switch
             v-model="measurementEnabled"
             :label="i18n.measurementEnabled"

@@ -34,6 +34,7 @@ export default class SketchingEnhancedWidgetFactory {
     private readonly _mapWidgetModel!: InjectedReference<MapWidgetModel>;
     private readonly _sketchingEnhancedModel!: InjectedReference<typeof SketchingEnhancedModel>;
     private _measurementWidget!: InjectedReference<any>;
+    private _constructionWidget!: InjectedReference<any>;
     private vm: Vue;
     private controller: SketchingEnhancedController;
     private sketchViewModel: SketchViewModel;
@@ -129,6 +130,9 @@ export default class SketchingEnhancedWidgetFactory {
         if(this._measurementWidget) {
             vm.measurementWidget = () => this._measurementWidget;
         }
+        if(this._constructionWidget) {
+            vm.constructionWidget = () => this._constructionWidget;
+        }
 
         this.sketchViewModelBinding = this.createSketchViewModelBinding(vm, sketchingEnhancedModel);
     }
@@ -137,6 +141,13 @@ export default class SketchingEnhancedWidgetFactory {
         this._measurementWidget = measurementWidget;
         if(this.vm && !this.vm.measurementWidget) {
             this.vm.measurementWidget = () => measurementWidget;
+        }
+    }
+
+    setConstructionWidget(constructionWidget: any): void {
+        this._constructionWidget = constructionWidget;
+        if(this.vm && !this.vm.constructionWidget) {
+            this.vm.constructionWidget = () => constructionWidget;
         }
     }
 
@@ -189,7 +200,8 @@ export default class SketchingEnhancedWidgetFactory {
             if (mapWidgetModel.view) {
                 resolve(mapWidgetModel.view);
             } else {
-                mapWidgetModel.watch("view", ({value: view}) => {
+                const watcher = mapWidgetModel.watch("view", ({value: view}) => {
+                    watcher.remove();
                     resolve(view);
                 });
             }

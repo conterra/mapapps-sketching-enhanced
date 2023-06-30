@@ -52,6 +52,7 @@ export default {
         tabs: {
             sketching: "Zeichnen",
             snapping: "Fangen",
+            construction: "Konstruktion",
             measurement: "Messen"
         },
         snappingSettings: {

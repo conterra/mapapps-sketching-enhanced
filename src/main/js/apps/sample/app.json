@@ -29,6 +29,7 @@
             "printing",
             "dn_sketchingenhanced",
             "dn_sketchingenhanced-measurement",
+            "dn_sketchingenhanced-construction",
             "sdi_appstatemanagement"
         ]
     },
@@ -213,6 +214,10 @@
                     "verticalAlignment": "baseline"
                 }
             }
+        },
+        "dn_sketchingenhanced-construction": {
+            "radius": 100,
+            "length": 100
         },
         "banner": {
             "BannerWidget": {

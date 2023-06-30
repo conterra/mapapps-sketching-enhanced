@@ -32,8 +32,8 @@
             "properties": {
                 "radiusEnabled": false,
                 "lengthEnabled": false,
-                "radius": 10,
-                "length": 10
+                "radius": 100,
+                "length": 100
             }
         },
         {

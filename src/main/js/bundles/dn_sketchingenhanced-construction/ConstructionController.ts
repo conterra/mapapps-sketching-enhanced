@@ -137,7 +137,7 @@ export default class ConstructionController {
 
 
         const sketchViewModel = this.sketchViewModel;
-        const drawOperation = sketchViewModel._operationHandle.activeComponent.drawOperation;
+        const drawOperation = sketchViewModel._operationHandle?.activeComponent?.drawOperation;
         if (drawOperation) {
             const stagedVertex = drawOperation.stagedVertex || drawOperation.stagedOrLastVertex;
             if (stagedVertex) {
@@ -145,7 +145,7 @@ export default class ConstructionController {
                 stagedVertex.y = tPoint.y;
             }
         }
-        const visualElementGraphics = sketchViewModel._operationHandle.activeComponent._visualElementGraphics;
+        const visualElementGraphics = sketchViewModel._operationHandle?.activeComponent?._visualElementGraphics;
         if (visualElementGraphics) {
             const activeVertex = visualElementGraphics.activeVertex;
             if (activeVertex) {

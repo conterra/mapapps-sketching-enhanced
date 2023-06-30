@@ -16,7 +16,7 @@
 export default {
     root: {
         bundleName: "Sketching Enhanced - Construction",
-        bundleDescription: "This bundle adds construction to the extended sketching functionality.",
+        bundleDescription: "This bundle adds a construction functionality to the dn_sketchingenhanced bundle.",
         ui: {
             radius: "Radius",
             length: "Length"

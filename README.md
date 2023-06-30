@@ -21,6 +21,8 @@ https://demos.conterra.de/mapapps/resources/apps/downloads_sketching_enhanced/in
 
 [dn_sketchingenhanced-measurement Documentation](https://github.com/conterra/mapapps-sketching-enhanced/tree/master/src/main/js/bundles/dn_sketchingenhanced-measurement)
 
+[dn_sketchingenhanced-construction Documentation](https://github.com/conterra/mapapps-sketching-enhanced/tree/master/src/main/js/bundles/dn_sketchingenhanced-construction)
+
 ## Development Guide
 ### Define the mapapps remote base
 Before you can run the project you have to define the mapapps.remote.base property in the pom.xml-file:

@@ -15,7 +15,7 @@
 ///
 
 import { createObservers } from "apprt-core/Observers";
-import type {InjectedReference} from "apprt-core/InjectedReference";
+import type { InjectedReference } from "apprt-core/InjectedReference";
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
 import ConstructionModel from "./ConstructionModel";
 import ConstructionHistory from "./ConstructionHistory";
@@ -35,11 +35,11 @@ export default class ConstructionController {
     private history = new ConstructionHistory();
 
     activate(): void {
-        if(this._sketchingEnhancedModel.sketchViewModel) {
+        if (this._sketchingEnhancedModel.sketchViewModel) {
             this.sketchViewModel = this._sketchingEnhancedModel.sketchViewModel;
             this.createSketchViewModelObservers();
         } else {
-            const watcher = this._sketchingEnhancedModel.watch("sketchViewModel", (evt)=>{
+            const watcher = this._sketchingEnhancedModel.watch("sketchViewModel", (evt) => {
                 this.sketchViewModel = evt.value;
                 watcher.remove();
                 this.createSketchViewModelObservers();
@@ -81,14 +81,18 @@ export default class ConstructionController {
                     this.createPolyline(event.graphic, constructionModel.length);
                 }
             }
-            if(toolEventInfo?.type === "vertex-add") {
+            if (toolEventInfo?.type === "vertex-add" && tool === "polyline") {
                 this.createPolyline(event.graphic, constructionModel.length);
             }
         }));
     }
 
     private createCircle(graphic: __esri.Graphic, radius: number): void {
-        const center = graphic.geometry.centroid;
+        if (!graphic) {
+            return;
+        }
+        const geometry = graphic.geometry as Circle;
+        const center = geometry.centroid;
         let geodesic = false;
         if (center.spatialReference.wkid === 3857
             || center.spatialReference.wkid === 4326
@@ -105,11 +109,16 @@ export default class ConstructionController {
     }
 
     private async createPolyline(graphic: __esri.Graphic, length: number): Promise<void> {
-
+        if (!graphic) {
+            return;
+        }
         const geometry = graphic.geometry as Polyline;
         const path = geometry.paths[0];
         const point1 = geometry.getPoint(0, path.length - 2);
         const point2 = geometry.getPoint(0, path.length - 1);
+        if (!point1 || !point2) {
+            return;
+        }
         const angle = this.getAngleBetweenTwoPoints(point1, point2);
 
         // transform first point to 4326
@@ -129,26 +138,21 @@ export default class ConstructionController {
 
         const sketchViewModel = this.sketchViewModel;
         const drawOperation = sketchViewModel._operationHandle.activeComponent.drawOperation;
-        if(drawOperation) {
-            // const stagedVertex = drawOperation.stagedVertex;
-            // if(stagedVertex) {
-            //     stagedVertex.x = tPoint.x;
-            //     stagedVertex.y = tPoint.y;
-            // }
-            const stagedOrLastVertex = drawOperation.stagedOrLastVertex;
-            if(stagedOrLastVertex) {
-                stagedOrLastVertex.x = tPoint.x;
-                stagedOrLastVertex.y = tPoint.y;
+        if (drawOperation) {
+            const stagedVertex = drawOperation.stagedVertex || drawOperation.stagedOrLastVertex;
+            if (stagedVertex) {
+                stagedVertex.x = tPoint.x;
+                stagedVertex.y = tPoint.y;
             }
         }
         const visualElementGraphics = sketchViewModel._operationHandle.activeComponent._visualElementGraphics;
-        if(visualElementGraphics) {
+        if (visualElementGraphics) {
             const activeVertex = visualElementGraphics.activeVertex;
-            if(activeVertex) {
+            if (activeVertex) {
                 activeVertex.x = tPoint.x;
                 activeVertex.y = tPoint.y;
             }
-            visualElementGraphics.outline.visible=false;
+            visualElementGraphics.outline.visible = false;
         }
     }
 
@@ -162,12 +166,16 @@ export default class ConstructionController {
      * @private
      */
     private getAngleBetweenTwoPoints(point1: __esri.Point, point2: __esri.Point): number {
-        let angle = Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
-        angle = 360 - angle + 90;
-        if(angle > 360) {
-            angle = angle - 360;
+        if (point1 && point2) {
+            let angle = Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
+            angle = 360 - angle + 90;
+            if (angle > 360) {
+                angle = angle - 360;
+            }
+            return angle;
+        } else {
+            return 0;
         }
-        return angle;
     }
 
 }

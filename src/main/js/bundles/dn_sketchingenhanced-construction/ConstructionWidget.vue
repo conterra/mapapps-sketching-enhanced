@@ -37,6 +37,7 @@
                     v-model="radius"
                     :label="i18n.radius"
                     :disabled="!radiusEnabled"
+                    suffix="m"
                     type="number"
                     min="1"
                     single-line
@@ -65,6 +66,7 @@
                     v-model="length"
                     :label="i18n.length"
                     :disabled="!lengthEnabled"
+                    suffix="m"
                     type="number"
                     min="1"
                     single-line

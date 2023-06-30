@@ -100,16 +100,16 @@ To configure the bundle in app.json, use the configurable properties shown in th
             "verticalAlignment": "baseline"
         },
         "arrowSymbol": {
-                    "type": "cim",
-                    "width": 10,
-                    "boldWidth":4,
-                    "color": {
-                        "r": 0,
-                        "g": 0,
-                        "b": 0,
-                        "a": 1
-                    }
-                }
+            "type": "cim",
+            "width": 10,
+            "boldWidth":4,
+            "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+            }
+        }
     }
 }
 ```

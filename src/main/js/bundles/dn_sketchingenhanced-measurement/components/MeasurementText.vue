@@ -16,34 +16,42 @@
 
 -->
 <template>
-    <v-container class="pa-0 pt-3 measurement ct-flex-container ct-flex-container--row">
-        <v-text-field
-            v-model="value"
-            :disabled="disabled"
-            :label="label"
-            :prefix="prefix"
-            :suffix="suffix"
-            :placeholder="i18n.noMeasurement"
-            readonly
-            hide-details
-            class="pa-0"
-        />
-        <v-tooltip top>
-            <v-btn
-                slot="activator"
+    <v-container class="pa-0 pt-3 measurement-text ct-flex-container ct-flex-container--row">
+        <div class="label ct-flex-item ct-flex-item--no-grow">
+            {{ label }}:
+        </div>
+        <div class="ct-flex-item">
+            <v-text-field
+                v-model="value"
                 :disabled="disabled"
-                small
-                icon
-                flat
-                color="primary"
-                @click="copyTextToClipboard(value)"
-            >
-                <v-icon>
-                    content_copy
-                </v-icon>
-            </v-btn>
-            <span>{{ i18n.copyToClipboard }}</span>
-        </v-tooltip>
+                :label="label"
+                :prefix="prefix"
+                :suffix="suffix"
+                :placeholder="i18n.noMeasurement"
+                readonly
+                single-line
+                hide-details
+                class="pa-0"
+            />
+        </div>
+        <div class="ct-flex-item ct-flex-item--no-grow">
+            <v-tooltip top>
+                <v-btn
+                    slot="activator"
+                    :disabled="disabled"
+                    small
+                    icon
+                    flat
+                    color="primary"
+                    @click="copyTextToClipboard(value)"
+                >
+                    <v-icon>
+                        content_copy
+                    </v-icon>
+                </v-btn>
+                <span>{{ i18n.copyToClipboard }}</span>
+            </v-tooltip>
+        </div>
     </v-container>
 </template>
 

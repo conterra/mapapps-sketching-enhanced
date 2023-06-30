@@ -74,7 +74,7 @@
                 <template #header>
                     <div>{{ i18n.settings }}</div>
                 </template>
-                <v-card class="pa-2 dn_sketchingenhanced--settings-menu">
+                <v-card class="pa-2 sketching-enhanced--settings-menu">
                     <v-switch
                         v-if="activeTool ==='polyline'"
                         v-model="lineMeasurementForPolylinesEnabled"

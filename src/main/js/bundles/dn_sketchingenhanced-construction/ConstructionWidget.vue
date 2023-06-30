@@ -16,7 +16,7 @@
 
 -->
 <template>
-    <v-container class="pa-2 fullHeight dn_sketchingenhanced--construction">
+    <v-container class="pa-2 fullHeight sketching-enhanced--construction">
         <div
             v-if="activeTool === 'circle'"
             class="ct-flex-container ct-flex-container--row"
@@ -29,7 +29,7 @@
                     class="ma-0"
                 />
             </div>
-            <div class="ct-flex-item label">
+            <div class="ct-flex-item label ct-flex-item--no-grow">
                 {{ i18n.radius }}
             </div>
             <div class="ct-flex-item">

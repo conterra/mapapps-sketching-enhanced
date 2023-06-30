@@ -21,7 +21,7 @@
     overflow: hidden;
 }
 
-.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--container {
+.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--container {
     height: calc(100% - 48px);
 }
 
@@ -33,23 +33,23 @@
     width: 250px;
 }
 
-.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--symbol-settings .label {
+.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--symbol-settings .label {
     padding-top: 11px;
 }
 
-.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--navigation .v-list__tile__action {
+.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--navigation .v-list__tile__action {
     min-width: 40px;
 }
 
-.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--navigation .v-list__tile {
+.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--navigation .v-list__tile {
     padding-right: 0;
 }
 
-.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--navigation .subtool .v-list__tile {
+.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--navigation .subtool .v-list__tile {
     padding-left: 56px;
 }
 
-.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--navigation .v-list__group__header__append-icon {
+.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--navigation .v-list__group__header__append-icon {
     padding: 0 8px;
 }
 
@@ -70,22 +70,22 @@
     overflow: auto;
 }
 
-.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--snapping-settings {
+.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--snapping-settings {
     max-height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--snapping-settings > div {
+.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--snapping-settings > div {
     flex: 0 0 auto;
 }
 
-.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--snapping-settings .feature-sources {
+.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--snapping-settings .feature-sources {
     flex: 1 1 auto;
     overflow: auto;
 }
 
-.ctAppRoot .sketching-enhanced-widget .dn_sketchingenhanced--snapping-settings .feature-source .info-icon {
+.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--snapping-settings .feature-source .info-icon {
     cursor: default;
     padding-top: 7px;
 }

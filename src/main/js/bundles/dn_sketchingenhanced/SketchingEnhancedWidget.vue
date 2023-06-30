@@ -149,10 +149,10 @@
                 </v-card>
             </v-dialog>
         </v-toolbar>
-        <div class="ct-flex-container ct-flex-container--row dn_sketchingenhanced--container">
+        <div class="ct-flex-container ct-flex-container--row sketching-enhanced--container">
             <div class="left ct-flex-item ct-flex-item--no-grow ct-flex-item--no-shrink overflowAuto">
                 <navigation
-                    class="dn_sketchingenhanced--navigation"
+                    class="sketching-enhanced--navigation"
                     :i18n="i18n"
                     :active-ui="activeUi"
                     :active-tool.sync="activeTool"
@@ -197,7 +197,7 @@
                                 </v-alert>
                             </div>
                             <symbol-settings
-                                class="dn_sketchingenhanced--symbol-settings"
+                                class="sketching-enhanced--symbol-settings"
                                 :i18n="i18n.symbolSettings"
                                 :active-ui="activeUi"
                                 :point-symbol.sync="pointSymbol"

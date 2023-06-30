@@ -13,11 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--construction .v-input--checkbox {
-    padding-top: 8px;
-}
-
-.ctAppRoot .sketching-enhanced-widget .sketching-enhanced--construction .label {
+.ctAppRoot .sketching-enhanced-widget .measurement-text .label {
     padding-top: 11px;
     width: 100px;
 }

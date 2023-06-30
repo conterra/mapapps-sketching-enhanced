@@ -16,7 +16,7 @@
 
 -->
 <template>
-    <div class="pa-2 dn_sketchingenhanced--snapping-settings">
+    <div class="pa-2 sketching-enhanced--snapping-settings">
         <v-switch
             v-model="enabled"
             :label="i18n.snappingEnabled"

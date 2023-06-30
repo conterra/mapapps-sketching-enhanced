@@ -98,7 +98,18 @@ To configure the bundle in app.json, use the configurable properties shown in th
             },
             "horizontalAlignment": "left",
             "verticalAlignment": "baseline"
-        }
+        },
+        "arrowSymbol": {
+                    "type": "cim",
+                    "width": 10,
+                    "boldWidth":4,
+                    "color": {
+                        "r": 0,
+                        "g": 0,
+                        "b": 0,
+                        "a": 1
+                    }
+                }
     }
 }
 ```
@@ -114,7 +125,8 @@ To configure the bundle in app.json, use the configurable properties shown in th
 | pointSymbol                   | Object  |                                                                                                                                                                                  |               | A SimpleMarkerSymbol, PointSymbol3D, CIMSymbol, or WebStyleSymbol used for representing the point geometry that is being drawn. |
 | polylineSymbol                | Object  |                                                                                                                                                                                  |               | A SimpleLineSymbol, LineSymbol3D, or CIMSymbol used for representing the polyline geometry that is being drawn.                 |
 | polygonSymbol                 | Object  |                                                                                                                                                                                  |               | A SimpleFillSymbol, PolygonSymbol3D, or CIMSymbol used for representing the polygon geometry that is being drawn.               |
-| textSymbol                    | Object  |                                                                                                                                                                                  |               | A TextSymbol used for representing the text geometry that is being drawn.                                                       |
+
+| arrowSymbol                    | Object  |                                                                                                                                                                                  |               | A A CIMSymbol in the form of an arrow showing the drawn arrow                                                       |
 
 ### Disable snapping on specific layers
 
@@ -137,3 +149,6 @@ To disable snapping on layers you need to set _allowSnapping_ to false.
 To add measurement functionalities add the dn_sketchingenhanced-measurement bundle to your app.
 
 [dn_sketchingenhanced-measurement Documentation](https://github.com/conterra/mapapps-sketching-enhanced/tree/master/src/main/js/bundles/dn_sketchingenhanced-measurement)
+
+### Hint
+Self-generated CIMSymbols are not supported

@@ -181,7 +181,7 @@
                         {{ i18n.tabs.snapping }}
                     </v-tab>
                     <v-tab
-                        v-if="measurementWidget && activeUi !== 'text'"
+                        v-if="measurementWidget && activeUi !== 'text' && activeUi !== 'arrow'"
                         ripple
                     >
                         {{ i18n.tabs.measurement }}
@@ -204,6 +204,7 @@
                                 :polyline-symbol.sync="polylineSymbol"
                                 :polygon-symbol.sync="polygonSymbol"
                                 :text-symbol.sync="textSymbol"
+                                :arrow-symbol.sync="arrowSymbol"
                             />
                         </div>
                         <div v-else>
@@ -221,6 +222,7 @@
                                 :polyline-symbol.sync="editSymbol"
                                 :polygon-symbol.sync="editSymbol"
                                 :text-symbol.sync="editSymbol"
+                                :arrow-symbol.sync="editSymbol"
                             />
                         </div>
                     </v-tab-item>
@@ -243,7 +245,7 @@
                             @feature-source-changed="$emit('feature-source-changed', $event)"
                         />
                     </v-tab-item>
-                    <v-tab-item v-if="measurementWidget && activeUi !== 'text'">
+                    <v-tab-item v-if="measurementWidget && activeUi !== 'text' && activeUi !== 'arrow'">
                         <component
                             :is="measurementWidgetInstance.view"
                             :active-ui="activeUi"
@@ -336,6 +338,12 @@
                 }
             },
             textSymbol: {
+                type: Object,
+                default: function () {
+                    return {};
+                }
+            },
+            arrowSymbol: {
                 type: Object,
                 default: function () {
                     return {};

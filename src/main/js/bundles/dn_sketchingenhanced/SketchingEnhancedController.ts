@@ -129,32 +129,35 @@ export default class SketchingEnhancedController {
 
         this.editObservers.add(sketchViewModel.on("update", (event) => {
             const graphic = event.graphics.length ? event.graphics[0] : null;
-            if (graphic) {
+            if (!graphic) return;
+
+            if (graphic.symbol.type == "cim") {
                 sketchingEnhancedModel.editSymbol = this.getEasyArrowSymbol(graphic.symbol);
-                switch (graphic.geometry.type) {
-                    case "point":
-                        if (graphic.symbol.text) {
-                            sketchingEnhancedModel.activeUi = "text";
-                        } else {
-                            sketchingEnhancedModel.activeUi = "point";
-                        }
-                        break;
-                    case "polyline":
-                        //graphic.symbol.arrow
-                        if (graphic.symbol.type == "cim") {
-                            sketchingEnhancedModel.activeUi = "arrow";
-                        } else {
-                            sketchingEnhancedModel.activeUi = "polyline";
-                        }
-                        break;
-                    case "polygon":
-                        sketchingEnhancedModel.activeUi = "polygon";
-                        break;
-                    default:
-                        sketchingEnhancedModel.activeUi = "point";
-                }
+            } else {
+                sketchingEnhancedModel.editSymbol = graphic.symbol;
             }
 
+            switch (graphic.geometry.type) {
+                case "point":
+                    if (graphic.symbol.text) {
+                        sketchingEnhancedModel.activeUi = "text";
+                    } else {
+                        sketchingEnhancedModel.activeUi = "point";
+                    }
+                    break;
+                case "polyline":
+                    if (graphic.symbol.type == "cim") {
+                        sketchingEnhancedModel.activeUi = "arrow";
+                    } else {
+                        sketchingEnhancedModel.activeUi = "polyline";
+                    }
+                    break;
+                case "polygon":
+                    sketchingEnhancedModel.activeUi = "polygon";
+                    break;
+                default:
+                    sketchingEnhancedModel.activeUi = "point";
+            }
         }));
     }
 

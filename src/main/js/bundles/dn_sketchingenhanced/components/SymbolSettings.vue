@@ -206,17 +206,11 @@
         <div
             v-if="activeUi === 'text'"
         >
-            <v-layout
-                row
-                wrap
-            >
-                <v-flex
-                    xs4
-                    class="label"
-                >
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.textSymbolText }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-text-field
                         v-model="textSymbolText"
                         :label="i18n.textSymbolText"
@@ -226,14 +220,13 @@
                         clearable
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.textSymbolFontSize }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-text-field
                         v-model="textSymbolFontSize"
                         :label="i18n.textSymbolFontSize"
@@ -243,14 +236,13 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.textSymbolFontWeight }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-select
                         v-model="textSymbolFontWeight"
                         :items="textSymbolFontWeights"
@@ -259,37 +251,27 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.textSymbolColor }}
-                </v-flex>
-                <v-flex
-                    xs8
-                    pt-2
-                >
+                </div>
+                <div class="ct-flex-item">
                     <color-picker
                         v-model="textSymbolColor"
                     />
-                </v-flex>
-            </v-layout>
+                </div>
+            </div>
         </div>
         <div
             v-if="activeUi === 'arrow'"
         >
-            <v-layout
-                row
-                wrap
-            >
-                <v-flex
-                    xs4
-                    class="label"
-                >
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.arrowSymbolWidth }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-text-field
                         v-model="arrowSymbolWidth"
                         :label="i18n.arrowSymbolWidth"
@@ -299,14 +281,13 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.arrowSymbolBoldWidth }}
-                </v-flex>
-                <v-flex xs8>
+                </div>
+                <div class="ct-flex-item">
                     <v-text-field
                         v-model="arrowSymbolBoldWidth"
                         :label="i18n.arrowSymbolBoldWidth"
@@ -316,22 +297,18 @@
                         hide-details
                         class="pa-0"
                     />
-                </v-flex>
-                <v-flex
-                    xs4
-                    class="label"
-                >
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.arrowSymbolColor }}
-                </v-flex>
-                <v-flex
-                    xs8
-                    pt-2
-                >
+                </div>
+                <div class="ct-flex-item">
                     <color-picker
                         v-model="arrowSymbolColor"
                     />
-                </v-flex>
-            </v-layout>
+                </div>
+            </div>
         </div>
     </v-container>
 </template>

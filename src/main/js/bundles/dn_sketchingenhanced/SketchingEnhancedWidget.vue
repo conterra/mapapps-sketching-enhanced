@@ -216,6 +216,7 @@
                             </v-alert>
                             <symbol-settings
                                 v-if="editSymbol"
+                                class="sketching-enhanced--symbol-settings"
                                 :i18n="i18n.symbolSettings"
                                 :active-ui="activeUi"
                                 :point-symbol.sync="editSymbol"

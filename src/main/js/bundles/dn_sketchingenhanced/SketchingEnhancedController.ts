@@ -39,6 +39,10 @@ export default class SketchingEnhancedController {
         this.sketchViewModel = sketchViewModel;
         this.sketchingEnhancedModel = sketchingEnhancedModel;
         this.mapWidgetModel = mapWidgetModel;
+
+        if (sketchViewModel.duplicate) {
+            sketchingEnhancedModel.duplicateAvailable = true;
+        }
     }
 
     activateTool(tool: string): void {
@@ -184,6 +188,12 @@ export default class SketchingEnhancedController {
         sketchViewModel.layer.removeAll();
     }
 
+    duplicateGraphic(): void {
+        this.sketchingEnhancedModel.duplicateEnabled = true;
+        const sketchViewModel = this.sketchViewModel;
+        sketchViewModel.duplicate();
+    }
+
     cancelSketching(): void {
         const sketchViewModel = this.sketchViewModel;
         sketchViewModel.cancel();
@@ -255,8 +265,15 @@ export default class SketchingEnhancedController {
         this.observers.add(sketchViewModel.on("update", (evt) => {
             if (evt.state === "start") {
                 sketchingEnhancedModel.canDelete = true;
+                sketchingEnhancedModel.canDuplicate = true;
             } else if (evt.state === "complete") {
+                if (this.sketchingEnhancedModel.duplicateEnabled) {
+                    const graphic = evt.graphics[0];
+                    graphic.attributes.uid = Math.random()*10000;
+                    this.sketchingEnhancedModel.editEnabled = false;
+                }
                 sketchingEnhancedModel.canDelete = false;
+                sketchingEnhancedModel.canDuplicate = false;
             }
             this.refreshUndoRedo();
         }));
@@ -439,12 +456,12 @@ export default class SketchingEnhancedController {
         sketchingEnhancedModel.canRedo = sketchViewModel.canRedo();
     }
     //https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols.html
-    private getArrowCimSymbol(color:Array<Object>, width:number, boldWidth:number): __esri.CIMSymbol {
+    private getArrowCimSymbol(color: Array<Object>, width: number, boldWidth: number): __esri.CIMSymbol {
         return {
             "type": "cim",
             "data": {
                 "type": "CIMSymbolReference",
-                "enable":true,
+                "enable": true,
                 "symbol": {
                     "type": "CIMLineSymbol",
                     "symbolLayers": [
@@ -457,7 +474,7 @@ export default class SketchingEnhancedController {
                                     "width": width
                                 }
                             ],
-                            "width":boldWidth,
+                            "width": boldWidth,
                             "color": [color.r, color.g, color.b, color.a * 255]
                         }
                     ]

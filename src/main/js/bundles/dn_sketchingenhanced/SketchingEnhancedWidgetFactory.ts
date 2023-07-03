@@ -153,9 +153,9 @@ export default class SketchingEnhancedWidgetFactory {
 
     private createSketchViewModelBinding(vm: Vue, sketchingEnhancedModel: typeof SketchingEnhancedModel): Binding {
         return Binding.for(vm, sketchingEnhancedModel)
-            .syncAll("activeTool", "activeUi", "canUndo", "canRedo", "canDelete")
+            .syncAll("activeTool", "activeUi", "canUndo", "canRedo", "canDelete", "canDuplicate")
             .syncAll("editEnabled", "snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
-            .syncAllToLeft("snappingFeatureSources")
+            .syncAllToLeft("snappingFeatureSources", "duplicateAvailable")
             .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol", "arrowSymbol")
             .syncAll("editSymbol");
     }
@@ -187,6 +187,9 @@ export default class SketchingEnhancedWidgetFactory {
             controller.cancelSketching();
             const activeTool = sketchingEnhancedModel.activeTool;
             controller.activateTool(activeTool);
+        });
+        vm.$on("duplicate", () => {
+            controller.duplicateGraphic();
         });
 
         vm.$on("feature-source-changed", (featureSource) => {

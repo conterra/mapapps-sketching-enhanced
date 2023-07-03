@@ -32,11 +32,13 @@ interface SketchingEnhancedModelProps {
     canUndo: boolean,
     canRedo: boolean,
     canDelete: boolean,
-    editEnabled: boolean;
-    snappingEnabled: boolean;
-    snappingFeatureEnabled: boolean;
-    snappingSelfEnabled: boolean;
-    snappingFeatureSources: object[];
+    canDuplicate: boolean,
+    editEnabled: boolean,
+    duplicateEnabled: boolean,
+    snappingEnabled: boolean,
+    snappingFeatureEnabled: boolean,
+    snappingSelfEnabled: boolean,
+    snappingFeatureSources: object[],
     pointSymbol: EsriSymbol,
     polylineSymbol: EsriSymbol,
     polygonSymbol: EsriSymbol,
@@ -45,7 +47,8 @@ interface SketchingEnhancedModelProps {
     editSymbol: EsriSymbol,
     lengthUnit: string,
     areaUnit: string,
-    sketchViewModel: __esri.SketchViewModel
+    sketchViewModel: __esri.SketchViewModel,
+    duplicateAvailable: boolean
 }
 
 export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
@@ -56,7 +59,9 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         canUndo: false,
         canRedo: false,
         canDelete: false,
+        canDuplicate: false,
         editEnabled: false,
+        duplicateEnabled: false,
         snappingEnabled: true,
         snappingFeatureEnabled: true,
         snappingSelfEnabled: true,
@@ -69,5 +74,6 @@ export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelPr
         editSymbol: undefined,
         lengthUnit: "meters",
         areaUnit: "square-meters",
-        sketchViewModel: undefined
+        sketchViewModel: undefined,
+        duplicateAvailable: false
     });

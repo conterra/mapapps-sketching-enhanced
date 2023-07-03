@@ -85,6 +85,23 @@
                 <span>{{ i18n.edit }}</span>
             </v-tooltip>
             <v-tooltip
+                v-if="duplicateAvailable"
+                :disabled="!canDuplicate"
+                bottom
+            >
+                <template #activator="{ on }">
+                    <v-btn
+                        :disabled="!canDuplicate"
+                        icon
+                        @click="$emit('duplicate')"
+                        v-on="on"
+                    >
+                        <v-icon>content_copy</v-icon>
+                    </v-btn>
+                </template>
+                <span>{{ i18n.duplicate }}</span>
+            </v-tooltip>
+            <v-tooltip
                 bottom
                 :disabled="!canDelete"
             >
@@ -300,6 +317,10 @@
                 type: Boolean,
                 default: false
             },
+            canDuplicate: {
+                type: Boolean,
+                default: false
+            },
             editEnabled: {
                 type: Boolean,
                 default: false
@@ -313,6 +334,10 @@
                 default: false
             },
             snappingSelfEnabled: {
+                type: Boolean,
+                default: false
+            },
+            duplicateAvailable: {
                 type: Boolean,
                 default: false
             },

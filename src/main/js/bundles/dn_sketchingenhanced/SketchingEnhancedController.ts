@@ -121,7 +121,7 @@ export default class SketchingEnhancedController {
         this.editObservers.add(sketchingEnhancedModel.watch("editSymbol", ({ value: editSymbol }) => {
             sketchViewModel.updateGraphics.forEach((graphic) => {
                 if (graphic.symbol.type === editSymbol.type) {
-                    if (graphic.symbol.type === "cim") {
+                    if (graphic.attributes.type === "arrow") {
                         graphic.symbol = this.getArrowCimSymbol(editSymbol.color,
                             editSymbol.width, editSymbol.boldWidth);
                     } else {
@@ -135,7 +135,7 @@ export default class SketchingEnhancedController {
             const graphic = event.graphics.length ? event.graphics[0] : null;
             if (!graphic) return;
 
-            if (graphic.symbol.type == "cim") {
+            if (graphic.attributes.type == "arrow") {
                 sketchingEnhancedModel.editSymbol = this.getEasyArrowSymbol(graphic.symbol);
             } else {
                 sketchingEnhancedModel.editSymbol = graphic.symbol;
@@ -150,7 +150,7 @@ export default class SketchingEnhancedController {
                     }
                     break;
                 case "polyline":
-                    if (graphic.symbol.type == "cim") {
+                    if (graphic.attributes.type == "arrow") {
                         sketchingEnhancedModel.activeUi = "arrow";
                     } else {
                         sketchingEnhancedModel.activeUi = "polyline";
@@ -251,6 +251,10 @@ export default class SketchingEnhancedController {
             // enable sketching tool again after complete
             if (event.state === "complete") {
                 const activeTool = sketchingEnhancedModel.activeTool;
+                const graphic = event.graphic;
+                if (activeTool === "arrow") {
+                    graphic.attributes = { type: "arrow" };
+                }
                 this.activateTool(activeTool);
             }
         }));
@@ -269,7 +273,7 @@ export default class SketchingEnhancedController {
             } else if (evt.state === "complete") {
                 if (this.sketchingEnhancedModel.duplicateEnabled) {
                     const graphic = evt.graphics[0];
-                    graphic.attributes.uid = Math.random()*10000;
+                    graphic.attributes.uid = Math.random() * 10000;
                     this.sketchingEnhancedModel.editEnabled = false;
                 }
                 sketchingEnhancedModel.canDelete = false;

@@ -16,7 +16,7 @@
 
 import { WatchHandle } from "apprt-binding/Binding";
 import { createObservers } from "apprt-core/Observers";
-import type {InjectedReference} from "apprt-core/InjectedReference";
+import type { InjectedReference } from "apprt-core/InjectedReference";
 import Collection from "esri/core/Collection";
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
 import MeasurementModel from "./MeasurementModel";
@@ -40,22 +40,22 @@ export default class MeasurementController {
 
     activate(): void {
         this.measurementCalculator = new MeasurementCalculator(this._measurementModel, this._coordinateTransformer);
-        if(this._sketchingEnhancedModel.sketchViewModel) {
+        if (this._sketchingEnhancedModel.sketchViewModel) {
             this.sketchViewModel = this._sketchingEnhancedModel.sketchViewModel;
             this.measurementGraphicsFactory = new MeasurementGraphicsFactory(this._measurementModel,
                 this.sketchViewModel, this.measurementCalculator);
             this.graphicsLayer = this.sketchViewModel.layer;
-            if(this._measurementModel.measurementEnabled) {
+            if (this._measurementModel.measurementEnabled) {
                 this.activateMeasuring();
             }
         } else {
-            const watcher = this._sketchingEnhancedModel.watch("sketchViewModel", (evt)=>{
+            const watcher = this._sketchingEnhancedModel.watch("sketchViewModel", (evt) => {
                 const sketchViewModel = this.sketchViewModel = evt.value;
                 watcher.remove();
                 this.measurementGraphicsFactory = new MeasurementGraphicsFactory(this._measurementModel,
                     this.sketchViewModel, this.measurementCalculator);
                 this.graphicsLayer = sketchViewModel.layer;
-                if(this._measurementModel.measurementEnabled) {
+                if (this._measurementModel.measurementEnabled) {
                     this.activateMeasuring();
                 }
             });
@@ -68,8 +68,8 @@ export default class MeasurementController {
     }
 
     watchForMeasurementEnabled(): WatchHandle {
-        return this._measurementModel.watch("measurementEnabled", ({value}) => {
-            if(value) {
+        return this._measurementModel.watch("measurementEnabled", ({ value }) => {
+            if (value) {
                 this.activateMeasuring();
             } else {
                 this.deactivateMeasuring();
@@ -109,7 +109,7 @@ export default class MeasurementController {
                 const uid = graphic.attributes?.uid;
                 uid && this.deleteMeasurementGraphics(uid);
             });
-            if(!this._sketchingEnhancedModel.deleteClicked) {
+            if (!this._sketchingEnhancedModel.deleteClicked) {
                 this.drawMeasurementGraphics(event);
                 this.getMeasurmentCalculations(event);
             }
@@ -120,7 +120,7 @@ export default class MeasurementController {
         const mc = this.measurementCalculator;
         const measurementModel = this._measurementModel;
         const graphic = event.graphics?.length ? event.graphics[0] : event.graphic;
-        if(!graphic) {
+        if (!graphic) {
             return;
         }
         measurementModel.x = undefined;
@@ -137,21 +137,21 @@ export default class MeasurementController {
         }
         if (graphic?.geometry?.type === "polyline") {
             const polyline = graphic.geometry as __esri.Polyline;
-            const {length, unit: lengthUnit} = mc.getLengthAndUnit(polyline, measurementModel.lengthUnit);
-            const lengthUnitObj = this._measurementModel.lengthUnits.find((u)=>u.name === lengthUnit);
+            const { length, unit: lengthUnit } = mc.getLengthAndUnit(polyline, measurementModel.lengthUnit);
+            const lengthUnitObj = this._measurementModel.lengthUnits.find((u) => u.name === lengthUnit);
             const lengthText = mc.formatNumber(length, lengthUnitObj.decimalPlaces);
             measurementModel.length = lengthText;
             measurementModel.lengthUnitAbbreviation = lengthUnitObj.abbreviation;
         }
         if (graphic?.geometry?.type === "polygon") {
             const polygon = graphic.geometry as __esri.Polygon;
-            const {area, unit: areaUnit}  = mc.getAreaAndUnit(polygon, measurementModel.areaUnit);
-            const areaUnitObj = this._measurementModel.areaUnits.find((u)=>u.name === areaUnit);
+            const { area, unit: areaUnit } = mc.getAreaAndUnit(polygon, measurementModel.areaUnit);
+            const areaUnitObj = this._measurementModel.areaUnits.find((u) => u.name === areaUnit);
             const areaText = mc.formatNumber(area, areaUnitObj.decimalPlaces);
             measurementModel.area = areaText;
             measurementModel.areaUnitAbbreviation = areaUnitObj.abbreviation;
-            const {length: circumference, unit: lengthUnit} = mc.getLengthAndUnit(polygon, measurementModel.lengthUnit);
-            const lengthUnitObj = this._measurementModel.lengthUnits.find((u)=>u.name === lengthUnit);
+            const { length: circumference, unit: lengthUnit } = mc.getLengthAndUnit(polygon, measurementModel.lengthUnit);
+            const lengthUnitObj = this._measurementModel.lengthUnits.find((u) => u.name === lengthUnit);
             const circumferenceText = mc.formatNumber(circumference, lengthUnitObj.decimalPlaces);
             measurementModel.circumference = circumferenceText;
             measurementModel.lengthUnitAbbreviation = lengthUnitObj.abbreviation;
@@ -175,7 +175,7 @@ export default class MeasurementController {
         setTimeout(async () => {
             const tempGraphics: Array<__esri.Graphic> = [];
             const graphic = event.graphics?.length ? event.graphics[0] : event.graphic;
-            if(!graphic) {
+            if (!graphic) {
                 return;
             }
 
@@ -189,28 +189,28 @@ export default class MeasurementController {
             if (activeUi === "polyline") {
                 const polyline = graphic.geometry as __esri.Polyline;
 
-                if(!polyline.paths?.length) {
+                if (!polyline.paths?.length) {
                     return;
                 }
                 const paths = polyline.paths[0];
-                if(measurementModel.lineMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
+                if (measurementModel.lineMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
                     for (let i = 0; i < paths.length - 1; i++) {
                         const point1 = polyline.getPoint(0, i);
-                        const point2 = polyline.getPoint(0, i+1);
+                        const point2 = polyline.getPoint(0, i + 1);
                         tempGraphics.push(graphicsFactory.getDistanceLabelBetweenPointsGraphic(point1, point2));
                     }
                 }
-                if(paths.length > 2) {
-                    if(measurementModel.totalLengthMeasurementForPolylinesEnabled) {
+                if (paths.length > 2) {
+                    if (measurementModel.totalLengthMeasurementForPolylinesEnabled) {
                         tempGraphics.push(graphicsFactory.getLengthGraphic(polyline));
                     }
-                    if(measurementModel.angleMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
+                    if (measurementModel.angleMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
                         for (let i = 1; i < paths.length - 1; i++) {
                             const centerPoint = polyline.getPoint(0, i);
-                            const nextPoint = polyline.getPoint(0, i+1);
-                            const previousPoint = polyline.getPoint(0, i-1);
+                            const nextPoint = polyline.getPoint(0, i + 1);
+                            const previousPoint = polyline.getPoint(0, i - 1);
                             const angleGraphic =
-                            graphicsFactory.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
+                                graphicsFactory.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
                             tempGraphics.push(angleGraphic);
                         }
                     }
@@ -220,41 +220,41 @@ export default class MeasurementController {
             if (activeUi === "polygon") {
                 const polygon = graphic.geometry as __esri.Polygon;
 
-                if(!polygon.rings?.length) {
+                if (!polygon.rings?.length) {
                     return;
                 }
                 const rings = polygon.rings[0];
-                if(measurementModel.lineMeasurementForPolygonsEnabled
+                if (measurementModel.lineMeasurementForPolygonsEnabled
                     && activeTool !== "polygon_freehand" && activeTool !== "circle") {
                     for (let i = 0; i < rings.length - 1; i++) {
                         const point1 = polygon.getPoint(0, i);
-                        const point2 = polygon.getPoint(0, i+1);
+                        const point2 = polygon.getPoint(0, i + 1);
                         tempGraphics.push(graphicsFactory.getDistanceLabelBetweenPointsGraphic(point1, point2));
 
                     }
                 }
-                if(rings.length > 3) {
-                    if(measurementModel.areaMeasurementForPolygonsEnabled) {
+                if (rings.length > 3) {
+                    if (measurementModel.areaMeasurementForPolygonsEnabled) {
                         tempGraphics.push(graphicsFactory.getAreaGraphic(polygon));
                     }
-                    if(measurementModel.circumferenceMeasurementForPolygonsEnabled) {
+                    if (measurementModel.circumferenceMeasurementForPolygonsEnabled) {
                         tempGraphics.push(graphicsFactory.getLengthGraphic(polygon));
                     }
-                    if(measurementModel.angleMeasurementForPolygonsEnabled
+                    if (measurementModel.angleMeasurementForPolygonsEnabled
                         && activeTool !== "polygon_freehand" && activeTool !== "circle" && activeTool !== "rectangle") {
                         for (let i = 1; i < rings.length; i++) {
                             const centerPoint = polygon.getPoint(0, i);
                             // switch next and previous point to calculate inner angles
-                            const nextPoint = polygon.getPoint(0, i-1);
+                            const nextPoint = polygon.getPoint(0, i - 1);
                             let previousPoint;
                             // use first point to calculate last angle
-                            if(i === rings.length-1) {
+                            if (i === rings.length - 1) {
                                 previousPoint = polygon.getPoint(0, 1);
                             } else {
-                                previousPoint = polygon.getPoint(0, i+1);
+                                previousPoint = polygon.getPoint(0, i + 1);
                             }
                             const angleGraphic =
-                            graphicsFactory.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
+                                graphicsFactory.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
                             tempGraphics.push(angleGraphic);
                         }
                     }
@@ -264,7 +264,7 @@ export default class MeasurementController {
 
             if (event.state === "complete") {
                 // add uid to drawn graphic
-                if(!graphic.attributes?.uid) {
+                if (!graphic.attributes?.uid) {
                     graphic.setAttribute("uid", graphic.uid);
                 }
                 this.addTempGraphicsToLayer(graphic);
@@ -279,8 +279,8 @@ export default class MeasurementController {
 
     private addTempGraphicsToLayer(graphic: __esri.Graphic): void {
         const graphics = this.tempGraphics;
-        if(graphic.attributes.uid) {
-            graphics.forEach((g)=>{
+        if (graphic.attributes.uid) {
+            graphics.forEach((g) => {
                 g.setAttribute("parentUid", graphic.attributes.uid);
             });
         }
@@ -288,7 +288,7 @@ export default class MeasurementController {
     }
 
     private addTempGraphics(graphics: Array<__esri.Graphic>): void {
-        graphics = graphics.filter((graphic)=>graphic);
+        graphics = graphics.filter((graphic) => graphic);
         this.clearTempGraphics();
         const view = this.sketchViewModel.view;
         view.graphics.addMany(graphics);
@@ -305,7 +305,7 @@ export default class MeasurementController {
     private deleteMeasurementGraphics(uid: number): void {
         const sketchViewModel = this.sketchViewModel;
         const graphics = sketchViewModel.layer.graphics;
-        const graphicsToRemove = graphics.filter((g)=>g.attributes.parentUid === uid);
+        const graphicsToRemove = graphics.filter((g) => g.attributes.parentUid === uid);
         graphics.removeMany(graphicsToRemove);
     }
 }

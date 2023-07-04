@@ -52,56 +52,56 @@ export default class SketchingEnhancedController {
         this.deactivateEdit();
         switch (tool) {
             case "point":
-                sketchViewModel.pointSymbol = sketchingEnhancedModel.pointSymbol;
-                sketchViewModel.create("point");
                 sketchingEnhancedModel.activeUi = "point";
                 sketchingEnhancedModel.activeTool = "point";
+                sketchViewModel.pointSymbol = sketchingEnhancedModel.pointSymbol;
+                sketchViewModel.create("point");
                 break;
             case "polyline":
-                sketchViewModel.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
-                sketchViewModel.create("polyline", { mode: "click" });
                 sketchingEnhancedModel.activeUi = "polyline";
                 sketchingEnhancedModel.activeTool = "polyline";
+                sketchViewModel.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
+                sketchViewModel.create("polyline", { mode: "click" });
                 break;
             case "polyline_freehand":
-                sketchViewModel.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
-                sketchViewModel.create("polyline", { mode: "freehand" });
                 sketchingEnhancedModel.activeUi = "polyline";
                 sketchingEnhancedModel.activeTool = "polyline_freehand";
+                sketchViewModel.polylineSymbol = sketchingEnhancedModel.polylineSymbol;
+                sketchViewModel.create("polyline", { mode: "freehand" });
                 break;
             case "polygon":
-                sketchViewModel.create("polygon", { mode: "click" });
                 sketchingEnhancedModel.activeUi = "polygon";
                 sketchingEnhancedModel.activeTool = "polygon";
+                sketchViewModel.create("polygon", { mode: "click" });
                 break;
             case "polygon_freehand":
-                sketchViewModel.create("polygon", { mode: "freehand" });
                 sketchingEnhancedModel.activeUi = "polygon";
                 sketchingEnhancedModel.activeTool = "polygon_freehand";
+                sketchViewModel.create("polygon", { mode: "freehand" });
                 break;
             case "circle":
-                sketchViewModel.create("circle");
                 sketchingEnhancedModel.activeUi = "polygon";
                 sketchingEnhancedModel.activeTool = "circle";
+                sketchViewModel.create("circle");
                 break;
             case "rectangle":
-                sketchViewModel.create("rectangle");
                 sketchingEnhancedModel.activeUi = "polygon";
                 sketchingEnhancedModel.activeTool = "rectangle";
+                sketchViewModel.create("rectangle");
                 break;
             case "text":
-                sketchViewModel.pointSymbol = sketchingEnhancedModel.textSymbol;
-                sketchViewModel.create("point");
                 sketchingEnhancedModel.activeUi = "text";
                 sketchingEnhancedModel.activeTool = "text";
+                sketchViewModel.pointSymbol = sketchingEnhancedModel.textSymbol;
+                sketchViewModel.create("point");
                 break;
             case "arrow":
+                sketchingEnhancedModel.activeUi = "arrow";
+                sketchingEnhancedModel.activeTool = "arrow";
                 arrowSymbol = sketchingEnhancedModel.arrowSymbol;
                 sketchViewModel.polylineSymbol = this.getArrowCimSymbol(arrowSymbol.color,
                     arrowSymbol.width, arrowSymbol.boldWidth);
                 sketchViewModel.create("polyline");
-                sketchingEnhancedModel.activeUi = "arrow";
-                sketchingEnhancedModel.activeTool = "arrow";
                 break;
             default:
                 sketchingEnhancedModel.activeUi = undefined;

@@ -54,6 +54,7 @@ export default class ConstructionController {
 
     private createSketchViewModelObservers(): void {
         const sketchViewModel = this.sketchViewModel;
+        const sketchingEnhancedModel = this._sketchingEnhancedModel;
         const constructionModel = this._constructionModel;
         const sketchViewModelObservers = this.sketchViewModelObservers;
 
@@ -62,27 +63,28 @@ export default class ConstructionController {
             const state = event.state;
             const type = event.type;
             const toolEventInfo = event.toolEventInfo;
+            const graphic = event.graphic;
             // add step to history
             this.history.add(type);
 
             if (state === "cancel" || state === "complete") {
                 if (this.history.wasDoubleClick()) {
                     // remove last added vertex when sketching was completed by a double click
-                    event.graphic.geometry.paths[0].pop();
+                    graphic.geometry.paths[0].pop();
                 }
                 if (tool === "circle" && constructionModel.radiusEnabled) {
-                    this.createCircle(event.graphic, constructionModel.radius);
+                    this.createCircle(graphic, constructionModel.radius);
                 }
-                if (tool === "polyline" && constructionModel.lengthEnabled) {
-                    this.createPolyline(event.graphic, constructionModel.length);
+                if (tool === "polyline" && sketchingEnhancedModel.activeTool === "polyline" && constructionModel.lengthEnabled) {
+                    this.createPolyline(graphic, constructionModel.length);
                 }
             } else if (type === "create" && state === "active") {
-                if (tool === "polyline" && constructionModel.lengthEnabled) {
-                    this.createPolyline(event.graphic, constructionModel.length);
+                if (tool === "polyline" && sketchingEnhancedModel.activeTool === "polyline" && constructionModel.lengthEnabled) {
+                    this.createPolyline(graphic, constructionModel.length);
                 }
             }
-            if (toolEventInfo?.type === "vertex-add" && tool === "polyline") {
-                this.createPolyline(event.graphic, constructionModel.length);
+            if (toolEventInfo?.type === "vertex-add" && sketchingEnhancedModel.activeTool === "polyline" && tool === "polyline") {
+                this.createPolyline(graphic, constructionModel.length);
             }
         }));
     }

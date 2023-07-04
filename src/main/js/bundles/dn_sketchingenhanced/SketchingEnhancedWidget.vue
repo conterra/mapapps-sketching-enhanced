@@ -187,7 +187,8 @@
                         {{ i18n.tabs.sketching }}
                     </v-tab>
                     <v-tab
-                        v-if="constructionWidget && (activeTool === 'circle' || activeTool === 'polyline')"
+                        v-if="constructionWidget"
+                        :disabled="activeTool !== 'circle' && activeTool !== 'polyline'"
                         ripple
                     >
                         {{ i18n.tabs.construction }}
@@ -198,7 +199,8 @@
                         {{ i18n.tabs.snapping }}
                     </v-tab>
                     <v-tab
-                        v-if="measurementWidget && activeUi !== 'text' && activeUi !== 'arrow'"
+                        v-if="measurementWidget"
+                        :disabled="activeUi === 'text' || activeUi === 'arrow'"
                         ripple
                     >
                         {{ i18n.tabs.measurement }}
@@ -244,7 +246,7 @@
                             />
                         </div>
                     </v-tab-item>
-                    <v-tab-item v-if="constructionWidget && (activeTool === 'circle' || activeTool === 'polyline')">
+                    <v-tab-item v-if="constructionWidget">
                         <component
                             :is="constructionWidgetInstance.view"
                             :active-ui="activeUi"
@@ -263,7 +265,7 @@
                             @feature-source-changed="$emit('feature-source-changed', $event)"
                         />
                     </v-tab-item>
-                    <v-tab-item v-if="measurementWidget && activeUi !== 'text' && activeUi !== 'arrow'">
+                    <v-tab-item v-if="measurementWidget">
                         <component
                             :is="measurementWidgetInstance.view"
                             :active-ui="activeUi"

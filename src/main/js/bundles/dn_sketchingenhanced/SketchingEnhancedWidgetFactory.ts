@@ -153,7 +153,7 @@ export default class SketchingEnhancedWidgetFactory {
 
     private createSketchViewModelBinding(vm: Vue, sketchingEnhancedModel: typeof SketchingEnhancedModel): Binding {
         return Binding.for(vm, sketchingEnhancedModel)
-            .syncAll("activeTool", "activeUi", "canUndo", "canRedo", "canDelete", "canDuplicate")
+            .syncAll("activeTab", "activeTool", "activeUi", "canUndo", "canRedo", "canDelete", "canDuplicate")
             .syncAll("editEnabled", "snappingEnabled", "snappingFeatureEnabled", "snappingSelfEnabled")
             .syncAllToLeft("snappingFeatureSources", "duplicateAvailable")
             .syncAllToRight("pointSymbol", "polylineSymbol", "polygonSymbol", "textSymbol", "arrowSymbol")

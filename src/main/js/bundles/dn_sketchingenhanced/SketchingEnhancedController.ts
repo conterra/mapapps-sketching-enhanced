@@ -48,6 +48,8 @@ export default class SketchingEnhancedController {
     activateTool(tool: string): void {
         const sketchViewModel = this.sketchViewModel;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        // reset tab to first
+        sketchingEnhancedModel.activeTab = 0;
         let arrowSymbol;
         this.deactivateEdit();
         switch (tool) {

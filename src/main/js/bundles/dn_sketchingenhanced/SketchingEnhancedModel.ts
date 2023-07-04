@@ -14,7 +14,7 @@
 /// limitations under the License.
 ///
 
-import {Mutable, properties} from "apprt-core/Mutable";
+import { Mutable, properties } from "apprt-core/Mutable";
 import EsriSymbol from "esri/symbols/Symbol";
 
 function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: P): Impl & Mutable<P> {
@@ -27,6 +27,7 @@ class SketchingEnhancedModel extends Mutable {
 
 interface SketchingEnhancedModelProps {
     initialActiveTool: string,
+    activeTab: number,
     activeTool: string,
     activeUi: string,
     canUndo: boolean,
@@ -54,6 +55,7 @@ interface SketchingEnhancedModelProps {
 export default defineProperties<SketchingEnhancedModel, SketchingEnhancedModelProps>(SketchingEnhancedModel,
     {
         initialActiveTool: "point",
+        activeTab: 0,
         activeTool: undefined,
         activeUi: undefined,
         canUndo: false,

@@ -178,6 +178,7 @@
             </div>
             <div class="center ct-flex-item px-3">
                 <v-tabs
+                    v-model="activeTab"
                     slider-color="primary"
                     grow
                 >
@@ -298,6 +299,10 @@
                 default: function () {
                     return {};
                 }
+            },
+            activeTab: {
+                type: Number,
+                default: undefined
             },
             activeTool: {
                 type: String,

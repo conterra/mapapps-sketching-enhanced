@@ -189,6 +189,9 @@ export default class MeasurementController {
             if (activeUi === "polyline") {
                 const polyline = graphic.geometry as __esri.Polyline;
 
+                if(!polyline.paths?.length) {
+                    return;
+                }
                 const paths = polyline.paths[0];
                 if(measurementModel.lineMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
                     for (let i = 0; i < paths.length - 1; i++) {
@@ -217,6 +220,9 @@ export default class MeasurementController {
             if (activeUi === "polygon") {
                 const polygon = graphic.geometry as __esri.Polygon;
 
+                if(!polygon.rings?.length) {
+                    return;
+                }
                 const rings = polygon.rings[0];
                 if(measurementModel.lineMeasurementForPolygonsEnabled
                     && activeTool !== "polygon_freehand" && activeTool !== "circle") {

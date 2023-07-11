@@ -85,6 +85,7 @@ To configure the bundle in app.json, use the configurable properties shown in th
         },
         "textSymbol": {
             "type": "text",
+            "angle": 0,
             "color": {
                 "r": 50,
                 "g": 50,

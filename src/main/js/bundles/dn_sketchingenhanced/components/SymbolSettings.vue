@@ -224,6 +224,22 @@
             </div>
             <div class="ct-flex-container ct-flex-container--row">
                 <div class="label ct-flex-item ct-flex-item--no-grow">
+                    {{ i18n.textSymbolAngle }}
+                </div>
+                <div class="ct-flex-item">
+                    <v-text-field
+                        v-model="textSymbolAngle"
+                        :label="i18n.textSymbolAngle"
+                        type="number"
+                        min="1"
+                        single-line
+                        hide-details
+                        class="pa-0"
+                    />
+                </div>
+            </div>
+            <div class="ct-flex-container ct-flex-container--row">
+                <div class="label ct-flex-item ct-flex-item--no-grow">
                     {{ i18n.textSymbolFontSize }}
                 </div>
                 <div class="ct-flex-item">
@@ -660,6 +676,16 @@
                 set: function (text) {
                     const textSymbol = this.cloneSymbol(this.textSymbol);
                     textSymbol.text = text;
+                    this.$emit("update:text-symbol", textSymbol);
+                }
+            },
+            textSymbolAngle: {
+                get: function () {
+                    return this.textSymbol.angle;
+                },
+                set: function (angle) {
+                    const textSymbol = this.cloneSymbol(this.textSymbol);
+                    textSymbol.angle = angle;
                     this.$emit("update:text-symbol", textSymbol);
                 }
             },

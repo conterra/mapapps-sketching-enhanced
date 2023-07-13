@@ -123,7 +123,7 @@ export default class SketchingEnhancedController {
         this.editObservers.add(sketchingEnhancedModel.watch("editSymbol", ({ value: editSymbol }) => {
             sketchViewModel.updateGraphics.forEach((graphic) => {
                 if (graphic.symbol.type === editSymbol.type) {
-                    if (graphic.attributes.type === "arrow") {
+                    if (graphic?.attributes?.type === "arrow") {
                         graphic.symbol = this.getArrowCimSymbol(editSymbol.color,
                             editSymbol.width, editSymbol.boldWidth);
                     } else {

@@ -137,7 +137,7 @@ export default class SketchingEnhancedController {
             const graphic = event.graphics.length ? event.graphics[0] : null;
             if (!graphic) return;
 
-            if (graphic.attributes.type == "arrow") {
+            if (graphic.attributes?.type == "arrow") {
                 sketchingEnhancedModel.editSymbol = this.getEasyArrowSymbol(graphic.symbol);
             } else {
                 sketchingEnhancedModel.editSymbol = graphic.symbol;

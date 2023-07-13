@@ -28,6 +28,7 @@ export default {
             redo: "Repeat last sketch step",
             cancel: "Cancel current sketch",
             edit: "Select a sketch for editing",
+            duplicate: "Duplicate selected sketch",
             delete: "Delete currently selected sketch",
             deleteAll: {
                 buttonLabel: "Delete all sketches",

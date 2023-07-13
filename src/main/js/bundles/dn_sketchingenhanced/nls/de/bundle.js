@@ -27,6 +27,7 @@ export default {
         redo: "Den letzten Zeichenschritt wiederholen",
         cancel: "Die aktuelle Zeichnung abbrechen",
         edit: "Eine Zeichnung zum Editieren auswählen",
+        duplicate: "Die aktuell ausgewählte Zeichnung duplizieren",
         delete: "Die aktuell ausgewählte Zeichnung löschen",
         deleteAll: {
             buttonLabel: "Alle Zeichnungen löschen",

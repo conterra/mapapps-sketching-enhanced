@@ -117,6 +117,7 @@
                 },
                 "textSymbol": {
                     "type": "text",
+                    "angle": 0,
                     "color": {
                         "r": 50,
                         "g": 50,

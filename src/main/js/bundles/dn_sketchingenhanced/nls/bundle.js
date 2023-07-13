@@ -116,6 +116,7 @@ export default {
                 polygonSymbolOutlineWidth: "Outline-Width",
                 polygonSymbolOutlineColor: "Outline-Color",
                 textSymbolText: "Text",
+                textSymbolAngle: "Angle",
                 textSymbolColor: "Color",
                 textSymbolFontSize: "Text size",
                 textSymbolFontWeight: "Text weight",

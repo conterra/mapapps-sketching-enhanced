@@ -115,6 +115,7 @@ export default {
             polygonSymbolOutlineWidth: "Umriss-Breite",
             polygonSymbolOutlineColor: "Umrisslinie-Farbe",
             textSymbolText: "Text",
+            textSymbolAngle: "Winkel",
             textSymbolColor: "Schriftfarbe",
             textSymbolFontSize: "Schriftgröße",
             textSymbolFontWeight: "Schriftgewicht",

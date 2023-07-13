@@ -211,13 +211,13 @@
                     {{ i18n.textSymbolText }}
                 </div>
                 <div class="ct-flex-item">
-                    <v-text-field
+                    <v-textarea
                         v-model="textSymbolText"
                         :label="i18n.textSymbolText"
                         :placeholder="i18n.textSymbolPlaceholderText"
                         single-line
                         hide-details
-                        clearable
+                        rows="2"
                         class="pa-0"
                     />
                 </div>

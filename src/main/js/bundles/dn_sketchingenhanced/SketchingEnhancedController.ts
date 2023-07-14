@@ -152,7 +152,7 @@ export default class SketchingEnhancedController {
                     }
                     break;
                 case "polyline":
-                    if (graphic.attributes.type == "arrow") {
+                    if (graphic.attributes?.type == "arrow") {
                         sketchingEnhancedModel.activeUi = "arrow";
                     } else {
                         sketchingEnhancedModel.activeUi = "polyline";

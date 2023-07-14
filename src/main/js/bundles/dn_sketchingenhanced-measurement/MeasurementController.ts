@@ -305,7 +305,7 @@ export default class MeasurementController {
     private deleteMeasurementGraphics(uid: number): void {
         const sketchViewModel = this.sketchViewModel;
         const graphics = sketchViewModel.layer.graphics;
-        const graphicsToRemove = graphics.filter((g) => g.attributes.parentUid === uid);
+        const graphicsToRemove = graphics.filter((g) => g?.attributes?.parentUid === uid);
         graphics.removeMany(graphicsToRemove);
     }
 }

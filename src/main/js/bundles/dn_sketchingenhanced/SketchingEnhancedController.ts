@@ -35,7 +35,7 @@ export default class SketchingEnhancedController {
     private layerVisibilityObservers: any;
 
     constructor(sketchViewModel: __esri.SketchViewModel, sketchingEnhancedModel: typeof SketchingEnhancedModel,
-        mapWidgetModel: any) {
+        mapWidgetModel: MapWidgetModel) {
         this.sketchViewModel = sketchViewModel;
         this.sketchingEnhancedModel = sketchingEnhancedModel;
         this.mapWidgetModel = mapWidgetModel;

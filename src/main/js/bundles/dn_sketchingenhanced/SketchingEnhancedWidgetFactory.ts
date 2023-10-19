@@ -228,6 +228,8 @@ function createSketchViewModel(sketchingEnhancedModel: SketchViewModel,
         defaultUpdateOptions: {
             tool: sketchingEnhancedModel.initialGeometryEditMode,
             toggleToolOnClick: sketchingEnhancedModel.toggleGeometryEditModeOnClick,
+            enableRotation: true,
+            enableScaling: true,
             enableZ: false
         },
         snappingOptions: {

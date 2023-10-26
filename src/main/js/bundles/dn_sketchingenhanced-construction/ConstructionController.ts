@@ -20,7 +20,7 @@ import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel"
 import ConstructionModel from "./ConstructionModel";
 import ConstructionHistory from "./ConstructionHistory";
 import Circle from "esri/geometry/Circle";
-import { Polyline } from "esri/geometry";
+import { Polygon, Polyline } from "esri/geometry";
 import { pointFromDistance } from "esri/geometry/support/geodesicUtils";
 import type CoordinateTransformer from "coordinatetransformer/CoordinateTransformer";
 
@@ -108,6 +108,9 @@ export default class ConstructionController {
             radius: radius,
             radiusUnit: "meters"
         });
+        const json = graphic.geometry.toJSON();
+        const poly = Polygon.fromJSON(json);
+        graphic.geometry = poly;
     }
 
     private async createPolyline(graphic: __esri.Graphic, length: number): Promise<void> {

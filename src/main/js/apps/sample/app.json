@@ -47,6 +47,7 @@
                 "snappingEnabled": true,
                 "snappingSelfEnabled": true,
                 "snappingFeatureEnabled": true,
+                "snappingGroupLayerId": "snapping_layer",
                 "pointSymbol": {
                     "type": "simple-marker",
                     "style": "circle",
@@ -251,6 +252,31 @@
                 "map": {
                     "layers": [
                         {
+                            "id": "snapping_layer",
+                            "title": "Snapping Layer",
+                            "type": "GROUP",
+                            "listMode": "hide",
+                            "visible": false,
+                            "layers": [
+                                {
+                                    "id": "grenzen_1",
+                                    "title": "Kreise",
+                                    "type": "AGS_FEATURE",
+                                    "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/FeatureServer/1",
+                                    "maxScale": 250000,
+                                    "minScale": 1000000
+                                },
+                                {
+                                    "id": "grenzen_2",
+                                    "title": "Länder",
+                                    "type": "AGS_FEATURE",
+                                    "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/FeatureServer/2",
+                                    "maxScale": 1000000,
+                                    "minScale": 10000000
+                                }
+                            ]
+                        },
+                        {
                             "id": "fliessgewaesser",
                             "title": "Fließgewässer",
                             "type": "AGS_FEATURE",
@@ -265,6 +291,8 @@
                         {
                             "id": "grenzen",
                             "title": "Grenzen",
+                            "type": "GROUP",
+                            "visible": false,
                             "layers": [
                                 {
                                     "id": "grenzen_0",

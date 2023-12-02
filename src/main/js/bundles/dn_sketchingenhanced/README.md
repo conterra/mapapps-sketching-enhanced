@@ -31,6 +31,7 @@ To configure the bundle in app.json, use the configurable properties shown in th
         "snappingEnabled": true,
         "snappingSelfEnabled": true,
         "snappingFeatureEnabled": true,
+        "snappingGroupLayerId": "snapping_layer",
         "pointSymbol": {
             "type": "simple-marker",
             "style": "circle",
@@ -123,6 +124,7 @@ To configure the bundle in app.json, use the configurable properties shown in th
 | snappingEnabled               | Boolean | ```true``` &#124; ```false```                                                                                                                                                    | ```true```    | Global configuration to turn snapping on or off.                                                                                |
 | snappingSelfEnabled           | Boolean | ```true``` &#124; ```false```                                                                                                                                                    | ```true```    | Global configuration option to turn self snapping (within one feature while either drawing or reshaping) on or off.             |
 | snappingFeatureEnabled        | Boolean | ```true``` &#124; ```false```                                                                                                                                                    | ```true```    | Global configuration option to turn feature snapping on or off.                                                                 |
+| snappingGroupLayerId          | String  |                                                                                                                                                                                  | ```null```    | Define a group layer id to enable some snapping layers if the Sketching Enhanced tool gets started.                             |
 | pointSymbol                   | Object  |                                                                                                                                                                                  |               | A SimpleMarkerSymbol, PointSymbol3D, CIMSymbol, or WebStyleSymbol used for representing the point geometry that is being drawn. |
 | polylineSymbol                | Object  |                                                                                                                                                                                  |               | A SimpleLineSymbol, LineSymbol3D, or CIMSymbol used for representing the polyline geometry that is being drawn.                 |
 | polygonSymbol                 | Object  |                                                                                                                                                                                  |               | A SimpleFillSymbol, PolygonSymbol3D, or CIMSymbol used for representing the polygon geometry that is being drawn.               |
@@ -144,6 +146,54 @@ To disable snapping on layers you need to set _allowSnapping_ to false.
     }
 }
 ```
+
+### Add group layer that contains snappable layers. The group layer will be enabled if the sketching enhanced tool gets started.
+
+#### 1. Add group layer to map
+```json
+"map": {
+    "layers": [
+        {
+            "id": "snapping_layer",
+            "title": "Snapping Layer",
+            "type": "GROUP",
+            "listMode": "show",
+            "visible": false,
+            "layers": [
+                {
+                    "id": "grenzen_1",
+                    "title": "Kreise",
+                    "type": "AGS_FEATURE",
+                    "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/FeatureServer/1",
+                    "maxScale": 250000,
+                    "minScale": 1000000
+                },
+                {
+                    "id": "grenzen_2",
+                    "title": "Länder",
+                    "type": "AGS_FEATURE",
+                    "url": "https://services.conterra.de/arcgis/rest/services/common/grenzen/FeatureServer/2",
+                    "maxScale": 1000000,
+                    "minScale": 10000000
+                }
+            ]
+        }
+    ]
+}
+```
+
+#### 2. Configure snappingGroupLayerId
+
+```json
+"dn_sketchingenhanced": {
+    "Config": {
+        ...
+        "snappingGroupLayerId": "snapping_layer",
+        ...
+    }
+}
+```
+
 ### Enable measurement functionality
 
 To add measurement functionalities add the dn_sketchingenhanced-measurement bundle to your app.

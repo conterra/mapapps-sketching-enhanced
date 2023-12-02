@@ -336,6 +336,11 @@ export default class SketchingEnhancedController {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
         const layers = map.allLayers;
+        const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        if(sketchingEnhancedModel.snappingGroupLayerId) {
+            const snappingGroupLayer = layers.find(layer => layer.id === sketchingEnhancedModel.snappingGroupLayerId);
+            snappingGroupLayer.visible = true;
+        }
         this.changeSnappingFeatureSources(layers, new Collection());
     }
 
@@ -343,6 +348,11 @@ export default class SketchingEnhancedController {
         const mapWidgetModel = this.mapWidgetModel;
         const map = mapWidgetModel.map;
         const layers = map.allLayers;
+        const sketchingEnhancedModel = this.sketchingEnhancedModel;
+        if(sketchingEnhancedModel.snappingGroupLayerId) {
+            const snappingGroupLayer = layers.find(layer => layer.id === sketchingEnhancedModel.snappingGroupLayerId);
+            snappingGroupLayer.visible = false;
+        }
         this.changeSnappingFeatureSources(new Collection(), layers);
     }
 

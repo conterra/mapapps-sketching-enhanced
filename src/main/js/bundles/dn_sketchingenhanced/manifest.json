@@ -63,6 +63,7 @@
                 "snappingEnabled": true,
                 "snappingSelfEnabled": true,
                 "snappingFeatureEnabled": true,
+                "snappingGroupLayer": null,
                 "pointSymbol": {
                     "type": "simple-marker",
                     "style": "circle",

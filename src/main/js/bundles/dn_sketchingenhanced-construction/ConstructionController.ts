@@ -20,8 +20,8 @@ import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel"
 import ConstructionModel from "./ConstructionModel";
 import ConstructionHistory from "./ConstructionHistory";
 import Circle from "esri/geometry/Circle";
-import { Polygon, Polyline } from "esri/geometry";
-import { pointFromDistance } from "esri/geometry/support/geodesicUtils";
+import { Point, Polygon, Polyline } from "esri/geometry";
+import { pointFromDistance, geodesicDistance } from "esri/geometry/support/geodesicUtils";
 import type CoordinateTransformer from "coordinatetransformer/CoordinateTransformer";
 
 export default class ConstructionController {
@@ -113,6 +113,17 @@ export default class ConstructionController {
         graphic.geometry = poly;
     }
 
+    private pointFromPlanarDistance(point: __esri.Point, distance: number, angle:number){
+        angle = 360 - (angle - 90);
+        if (angle <0 ){
+            angle + 360;
+        }
+        const radians = angle * (Math.PI / 180);
+        const x = point.x + distance * Math.cos(radians);
+        const y = point.y + distance * Math.sin(radians);
+        return({x, y});
+    }
+
     private async createPolyline(graphic: __esri.Graphic, length: number): Promise<void> {
         if (!graphic) {
             return;
@@ -126,12 +137,26 @@ export default class ConstructionController {
         }
         const angle = this.getAngleBetweenTwoPoints(point1, point2);
 
-        // transform first point to 4326
-        const tPoint1 = await this._coordinateTransformer.transform(point1, "4326");
-        // calculate new point from distance and angle
-        const point = pointFromDistance(tPoint1, length, angle);
-        // transform new calculated endpoint back to map wkid
-        const tPoint = await this._coordinateTransformer.transform(point, geometry.spatialReference.wkid);
+        let geodesic = false;
+        if (geometry.spatialReference.wkid === 3857
+            || geometry.spatialReference.wkid === 4326
+            || geometry.spatialReference.latestWkid === 3857
+            || geometry.spatialReference.latestWkid === 4326) {
+            geodesic = true;
+        }
+
+        let tPoint= null;
+        if (geodesic){
+            // transform first point to 4326
+            const tPoint1 = await this._coordinateTransformer.transform(point1, "4326");
+            // calculate new point from distance and angle
+            const point = pointFromDistance(tPoint1, length, angle);
+            // transform new calculated endpoint back to map wkid
+            tPoint = await this._coordinateTransformer.transform(point, geometry.spatialReference.wkid);
+        }
+        else {
+            tPoint =  this.pointFromPlanarDistance(point1, length, angle);
+        }
 
         path.pop();
         path.push([tPoint.x, tPoint.y]);

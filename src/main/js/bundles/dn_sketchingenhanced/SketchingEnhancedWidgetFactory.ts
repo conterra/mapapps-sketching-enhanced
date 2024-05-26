@@ -16,7 +16,7 @@
 
 import type {InjectedReference} from "apprt-core/InjectedReference";
 import async from "apprt-core/async";
-import {Vue} from "apprt-vue/module";
+import Vue from "apprt-vue/Vue";
 import VueDijit from "apprt-vue/VueDijit";
 import Binding, {Bindable, WatchHandle} from "apprt-binding/Binding";
 import SketchViewModel from "esri/widgets/Sketch/SketchViewModel";

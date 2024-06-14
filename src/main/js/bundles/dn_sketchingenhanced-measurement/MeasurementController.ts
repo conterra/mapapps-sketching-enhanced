@@ -150,7 +150,8 @@ export default class MeasurementController {
             const areaText = mc.formatNumber(area, areaUnitObj.decimalPlaces);
             measurementModel.area = areaText;
             measurementModel.areaUnitAbbreviation = areaUnitObj.abbreviation;
-            const { length: circumference, unit: lengthUnit } = mc.getLengthAndUnit(polygon, measurementModel.lengthUnit);
+            const { length: circumference, unit: lengthUnit } =
+                mc.getLengthAndUnit(polygon, measurementModel.lengthUnit);
             const lengthUnitObj = this._measurementModel.lengthUnits.find((u) => u.name === lengthUnit);
             const circumferenceText = mc.formatNumber(circumference, lengthUnitObj.decimalPlaces);
             measurementModel.circumference = circumferenceText;
@@ -206,11 +207,11 @@ export default class MeasurementController {
                     }
                     if (measurementModel.angleMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
                         for (let i = 1; i < paths.length - 1; i++) {
-                            const centerPoint = polyline.getPoint(0, i);
-                            const nextPoint = polyline.getPoint(0, i + 1);
-                            const previousPoint = polyline.getPoint(0, i - 1);
+                            const centerP = polyline.getPoint(0, i);
+                            const nextP = polyline.getPoint(0, i + 1);
+                            const previousP = polyline.getPoint(0, i - 1);
                             const angleGraphic =
-                                graphicsFactory.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
+                                graphicsFactory.getAngleLabelBetweenPointsGraphic(centerP, nextP, previousP);
                             tempGraphics.push(angleGraphic);
                         }
                     }
@@ -243,18 +244,18 @@ export default class MeasurementController {
                     if (measurementModel.angleMeasurementForPolygonsEnabled
                         && activeTool !== "polygon_freehand" && activeTool !== "circle" && activeTool !== "rectangle") {
                         for (let i = 1; i < rings.length; i++) {
-                            const centerPoint = polygon.getPoint(0, i);
+                            const centerP = polygon.getPoint(0, i);
                             // switch next and previous point to calculate inner angles
-                            const nextPoint = polygon.getPoint(0, i - 1);
-                            let previousPoint;
+                            const nextP = polygon.getPoint(0, i - 1);
+                            let previousP;
                             // use first point to calculate last angle
                             if (i === rings.length - 1) {
-                                previousPoint = polygon.getPoint(0, 1);
+                                previousP = polygon.getPoint(0, 1);
                             } else {
-                                previousPoint = polygon.getPoint(0, i + 1);
+                                previousP = polygon.getPoint(0, i + 1);
                             }
                             const angleGraphic =
-                                graphicsFactory.getAngleLabelBetweenPointsGraphic(centerPoint, nextPoint, previousPoint);
+                                graphicsFactory.getAngleLabelBetweenPointsGraphic(centerP, nextP, previousP);
                             tempGraphics.push(angleGraphic);
                         }
                     }

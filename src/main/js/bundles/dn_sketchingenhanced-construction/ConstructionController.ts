@@ -20,8 +20,8 @@ import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel"
 import ConstructionModel from "./ConstructionModel";
 import ConstructionHistory from "./ConstructionHistory";
 import Circle from "esri/geometry/Circle";
-import { Point, Polygon, Polyline } from "esri/geometry";
-import { pointFromDistance, geodesicDistance } from "esri/geometry/support/geodesicUtils";
+import { Polygon, Polyline } from "esri/geometry";
+import { pointFromDistance } from "esri/geometry/support/geodesicUtils";
 import type CoordinateTransformer from "coordinatetransformer/CoordinateTransformer";
 
 export default class ConstructionController {

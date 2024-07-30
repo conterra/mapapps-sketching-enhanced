@@ -33,11 +33,6 @@
         ]
     },
     "bundles": {
-        "sdi_appstatestore": {
-            "AppStateStore": {
-                "stateManagementServiceUrl": "http://localhost:8080/savestate/resources/appstates"
-            }
-        },
         "dn_sketchingenhanced": {
             "Config": {
                 "initialActiveTool": "point",

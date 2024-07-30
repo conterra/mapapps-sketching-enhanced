@@ -182,7 +182,9 @@ export default class ConstructionController {
                 activeVertex.x = tPoint.x;
                 activeVertex.y = tPoint.y;
             }
-            visualElementGraphics.outline.visible = false;
+            if (visualElementGraphics.outline) {
+                visualElementGraphics.outline.visible = false;
+            }
         }
     }
 

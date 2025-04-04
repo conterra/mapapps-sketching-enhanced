@@ -115,8 +115,8 @@ export default class ConstructionController {
 
     private pointFromPlanarDistance(point: __esri.Point, distance: number, angle:number){
         angle = 360 - (angle - 90);
-        if (angle <0 ){
-            angle + 360;
+        if (angle < 0) {
+            angle = angle + 360;
         }
         const radians = angle * (Math.PI / 180);
         const x = point.x + distance * Math.cos(radians);

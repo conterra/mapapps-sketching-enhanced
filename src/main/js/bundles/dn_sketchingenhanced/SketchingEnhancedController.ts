@@ -472,7 +472,7 @@ export default class SketchingEnhancedController {
         sketchingEnhancedModel.canRedo = sketchViewModel.canRedo();
     }
     //https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols.html
-    private getArrowCimSymbol(color: Array<Object>, width: number, boldWidth: number): __esri.CIMSymbol {
+    private getArrowCimSymbol(color: Array<object>, width: number, boldWidth: number): __esri.CIMSymbol {
         return {
             "type": "cim",
             "data": {

@@ -115,8 +115,8 @@ export default class ConstructionController {
 
     private pointFromPlanarDistance(point: __esri.Point, distance: number, angle:number){
         angle = 360 - (angle - 90);
-        if (angle <0 ){
-            angle + 360;
+        if (angle < 0) {
+            angle = angle + 360;
         }
         const radians = angle * (Math.PI / 180);
         const x = point.x + distance * Math.cos(radians);
@@ -169,21 +169,10 @@ export default class ConstructionController {
         const sketchViewModel = this.sketchViewModel;
         const drawOperation = sketchViewModel._operationHandle?.activeComponent?.drawOperation;
         if (drawOperation) {
-            const stagedVertex = drawOperation.stagedVertex || drawOperation.stagedOrLastVertex;
-            if (stagedVertex) {
-                stagedVertex.x = tPoint.x;
-                stagedVertex.y = tPoint.y;
-            }
-        }
-        const visualElementGraphics = sketchViewModel._operationHandle?.activeComponent?._visualElementGraphics;
-        if (visualElementGraphics) {
-            const activeVertex = visualElementGraphics.activeVertex;
-            if (activeVertex) {
-                activeVertex.x = tPoint.x;
-                activeVertex.y = tPoint.y;
-            }
-            if (visualElementGraphics.outline) {
-                visualElementGraphics.outline.visible = false;
+            const cursorVertex = drawOperation.cursorVertex;
+            if (cursorVertex) {
+                cursorVertex.x = tPoint.x;
+                cursorVertex.y = tPoint.y;
             }
         }
     }

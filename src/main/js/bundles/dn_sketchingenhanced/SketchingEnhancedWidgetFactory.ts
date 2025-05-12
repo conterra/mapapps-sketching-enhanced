@@ -78,7 +78,7 @@ export default class SketchingEnhancedWidgetFactory {
             if (!viewBinding) {
                 viewBinding = this.viewBinding = this.createViewBinding(mapWidgetModel, sketchViewModel);
             }
-            viewBinding.enable();
+            viewBinding.enable().syncToRightNow();
 
             this.createVMWatchers();
             controller.addSnappingFeatureSources();

@@ -27,9 +27,9 @@ export default class SketchingEnhancedController {
     private readonly sketchViewModel: __esri.SketchViewModel;
     private readonly sketchingEnhancedModel: typeof SketchingEnhancedModel;
     private readonly mapWidgetModel: InjectedReference<MapWidgetModel>;
-    private viewWatcher: WatchHandle;
-    private layersWatcher: WatchHandle;
-    private scaleWatcher: WatchHandle;
+    private viewWatcher: WatchHandle | undefined;
+    private layersWatcher: WatchHandle | undefined;
+    private scaleWatcher: WatchHandle | undefined;
     private observers = createObservers();
     private editObservers = createObservers();
     private snappingSourceObservers = createObservers();
@@ -213,11 +213,12 @@ export default class SketchingEnhancedController {
     }
 
     removeWatchers(): void {
-        this.viewWatcher.remove();
+        this.viewWatcher?.remove();
+        this.viewWatcher = undefined;
         this.layerVisibilityObservers.destroy();
-        this.layersWatcher.remove();
+        this.layersWatcher?.remove();
         this.layersWatcher = undefined;
-        this.scaleWatcher.remove();
+        this.scaleWatcher?.remove();
         this.scaleWatcher = undefined;
     }
 

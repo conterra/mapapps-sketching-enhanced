@@ -27,6 +27,7 @@ export default class SketchingEnhancedController {
     private readonly sketchViewModel: __esri.SketchViewModel;
     private readonly sketchingEnhancedModel: typeof SketchingEnhancedModel;
     private readonly mapWidgetModel: InjectedReference<MapWidgetModel>;
+    private viewWatcher: WatchHandle;
     private layersWatcher: WatchHandle;
     private scaleWatcher: WatchHandle;
     private observers = createObservers();
@@ -203,6 +204,7 @@ export default class SketchingEnhancedController {
     }
 
     createWatchers(): void {
+        this.viewWatcher = this.createViewWatcher();
         this.layerVisibilityObservers = this.watchForLayerVisibility();
         this.layersWatcher = this.watchForChangedLayers();
         this.scaleWatcher = this.watchForChangedScale();
@@ -211,11 +213,23 @@ export default class SketchingEnhancedController {
     }
 
     removeWatchers(): void {
+        this.viewWatcher.remove();
         this.layerVisibilityObservers.destroy();
         this.layersWatcher.remove();
         this.layersWatcher = undefined;
         this.scaleWatcher.remove();
         this.scaleWatcher = undefined;
+    }
+
+    private createViewWatcher(): WatchHandle {
+        const sketchViewModel = this.sketchViewModel;
+        return sketchViewModel.watch("view", (event) => {
+            sketchViewModel.cancel();
+            if (event) {
+                const activeTool = this.sketchingEnhancedModel.activeTool;
+                this.activateTool(activeTool);
+            }
+        });
     }
 
     private watchForSketchingEnhancedModelEvents(): void {
@@ -337,7 +351,7 @@ export default class SketchingEnhancedController {
         const map = mapWidgetModel.map;
         const layers = map.allLayers;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        if(sketchingEnhancedModel.snappingGroupLayerId) {
+        if (sketchingEnhancedModel.snappingGroupLayerId) {
             const snappingGroupLayer = layers.find(layer => layer.id === sketchingEnhancedModel.snappingGroupLayerId);
             snappingGroupLayer.visible = true;
         }
@@ -349,7 +363,7 @@ export default class SketchingEnhancedController {
         const map = mapWidgetModel.map;
         const layers = map.allLayers;
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
-        if(sketchingEnhancedModel.snappingGroupLayerId) {
+        if (sketchingEnhancedModel.snappingGroupLayerId) {
             const snappingGroupLayer = layers.find(layer => layer.id === sketchingEnhancedModel.snappingGroupLayerId);
             snappingGroupLayer.visible = false;
         }

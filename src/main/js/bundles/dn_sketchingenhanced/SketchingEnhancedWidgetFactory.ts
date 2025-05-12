@@ -14,11 +14,11 @@
 /// limitations under the License.
 ///
 
-import type {InjectedReference} from "apprt-core/InjectedReference";
+import type { InjectedReference } from "apprt-core/InjectedReference";
 import async from "apprt-core/async";
 import Vue from "apprt-vue/Vue";
 import VueDijit from "apprt-vue/VueDijit";
-import Binding, {Bindable, WatchHandle} from "apprt-binding/Binding";
+import Binding, { Bindable, WatchHandle } from "apprt-binding/Binding";
 import SketchViewModel from "esri/widgets/Sketch/SketchViewModel";
 import GraphicsLayer from "esri/layers/GraphicsLayer";
 import SketchingEnhancedWidget from "./SketchingEnhancedWidget.vue";
@@ -39,6 +39,7 @@ export default class SketchingEnhancedWidgetFactory {
     private controller: SketchingEnhancedController;
     private sketchViewModel: SketchViewModel;
     private sketchViewModelBinding: Bindable;
+    private viewBinding: Bindable;
     private snappingBinding: Bindable;
     private snappingWatcher: WatchHandle;
 
@@ -50,7 +51,7 @@ export default class SketchingEnhancedWidgetFactory {
     }
 
     createInstance(): any {
-        const widget = VueDijit(this.vm, {class: "sketching-enhanced-widget"});
+        const widget = VueDijit(this.vm, { class: "sketching-enhanced-widget" });
         const sketchingEnhancedModel = this._sketchingEnhancedModel;
         const mapWidgetModel = this._mapWidgetModel;
         let sketchViewModelBinding = this.sketchViewModelBinding;
@@ -60,7 +61,7 @@ export default class SketchingEnhancedWidgetFactory {
             const graphicsLayer = findOrBuildGraphicsLayer(sketchingEnhancedModel, mapWidgetModel);
             // create SketchViewModel
             let sketchViewModel = this.sketchViewModel;
-            if(!sketchViewModel) {
+            if (!sketchViewModel) {
                 const view = await this.getView();
                 sketchViewModel = this.sketchViewModel =
                     createSketchViewModel(sketchingEnhancedModel, graphicsLayer, view);
@@ -69,21 +70,26 @@ export default class SketchingEnhancedWidgetFactory {
 
             // create SketchingEnhancedController
             let controller = this.controller;
-            if(!controller) {
+            if (!controller) {
                 controller = this.controller =
                     new SketchingEnhancedController(this.sketchViewModel, sketchingEnhancedModel, mapWidgetModel);
             }
+            let viewBinding = this.viewBinding;
+            if (!viewBinding) {
+                viewBinding = this.viewBinding = this.createViewBinding(mapWidgetModel, sketchViewModel);
+            }
+            viewBinding.enable();
 
             this.createVMWatchers();
             controller.addSnappingFeatureSources();
             controller.createWatchers();
 
-            if(this.snappingWatcher) {
+            if (this.snappingWatcher) {
                 this.snappingWatcher.remove();
             }
             this.snappingWatcher = controller.createSnappingFeatureSourcesWatcher();
             let snappingBinding = this.snappingBinding;
-            if(!snappingBinding) {
+            if (!snappingBinding) {
                 snappingBinding = this.snappingBinding = controller.createSnappingBinding();
             }
             snappingBinding.enable().syncToLeftNow();
@@ -98,6 +104,7 @@ export default class SketchingEnhancedWidgetFactory {
             this.vm.$off();
             async(() => {
                 this.snappingWatcher.remove();
+                this.viewBinding.disable();
                 this.snappingBinding.disable();
                 sketchViewModelBinding.disable();
             }, 500);
@@ -127,10 +134,10 @@ export default class SketchingEnhancedWidgetFactory {
         vm.polygonSymbol = sketchingEnhancedModel.polygonSymbol;
         vm.textSymbol = sketchingEnhancedModel.textSymbol;
         vm.arrowSymbol = sketchingEnhancedModel.arrowSymbol;
-        if(this._measurementWidget) {
+        if (this._measurementWidget) {
             vm.measurementWidget = () => this._measurementWidget;
         }
-        if(this._constructionWidget) {
+        if (this._constructionWidget) {
             vm.constructionWidget = () => this._constructionWidget;
         }
 
@@ -139,16 +146,21 @@ export default class SketchingEnhancedWidgetFactory {
 
     setMeasurementWidget(measurementWidget: any): void {
         this._measurementWidget = measurementWidget;
-        if(this.vm && !this.vm.measurementWidget) {
+        if (this.vm && !this.vm.measurementWidget) {
             this.vm.measurementWidget = () => measurementWidget;
         }
     }
 
     setConstructionWidget(constructionWidget: any): void {
         this._constructionWidget = constructionWidget;
-        if(this.vm && !this.vm.constructionWidget) {
+        if (this.vm && !this.vm.constructionWidget) {
             this.vm.constructionWidget = () => constructionWidget;
         }
+    }
+
+    private createViewBinding(mapWidgetModel: typeof MapWidgetModel, sketchViewModel: typeof SketchViewModel): Binding {
+        return Binding.for(mapWidgetModel, sketchViewModel)
+            .syncAllToRight("view");
     }
 
     private createSketchViewModelBinding(vm: Vue, sketchingEnhancedModel: typeof SketchingEnhancedModel): Binding {
@@ -203,7 +215,7 @@ export default class SketchingEnhancedWidgetFactory {
             if (mapWidgetModel.view) {
                 resolve(mapWidgetModel.view);
             } else {
-                const watcher = mapWidgetModel.watch("view", ({value: view}) => {
+                const watcher = mapWidgetModel.watch("view", ({ value: view }) => {
                     watcher.remove();
                     resolve(view);
                 });

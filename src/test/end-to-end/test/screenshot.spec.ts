@@ -24,7 +24,59 @@ test('Create Screenshot for GitHub Page', async ({ page }) => {
     await page.goto('http://localhost:9090/');
     const canvas = new MapCanvas(page);
     await canvas.loaded();
-    await canvas.clickOnMap({ x: 400, y: 400 });
+
+
+    await page.getByRole('button', { name: 'Polylines' }).click();
+    await page.locator('canvas').click({
+        position: {
+            x: 756,
+            y: 614
+        }
+    });
+    await page.locator('canvas').click({
+        position: {
+            x: 904,
+            y: 554
+        }
+    });
+    await page.locator('canvas').click({
+        position: {
+            x: 1060,
+            y: 425
+        }
+    });
+    await page.locator('canvas').dblclick({
+        position: {
+            x: 1088,
+            y: 314
+        }
+    });
+
+    await page.getByRole('button', { name: 'Polygons' }).click();
+    await page.locator('canvas').click({
+        position: {
+            x: 881,
+            y: 212
+        }
+    });
+    await page.locator('canvas').click({
+        position: {
+            x: 796,
+            y: 251
+        }
+    });
+    await page.locator('canvas').click({
+        position: {
+            x: 917,
+            y: 393
+        }
+    });
+    await page.locator('canvas').dblclick({
+        position: {
+            x: 1447,
+            y: 212
+        }
+    });
 
     await expectToMatchScreenshot(page, "screenshot.png", {
         timeout: 10000

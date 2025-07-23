@@ -13,7 +13,7 @@ This bundle adds an extended sketching functionality to the map.
 ![example workflow](https://github.com/conterra/mapapps-sketching-enhanced/actions/workflows/devnet-bundle-snapshot.yml/badge.svg)
 
 ## Sample App
-https://demos.conterra.de/mapapps/resources/apps/downloads_sketching_enhanced/index.html
+https://demos.conterra.de/mapapps/resources/apps/public_demo_sketchingenhanced/index.html
 
 ## Installation Guide
 

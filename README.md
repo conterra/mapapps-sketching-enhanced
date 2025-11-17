@@ -6,7 +6,7 @@ This bundle adds an extended sketching functionality to the map.
 
 **Requirement: map.apps 4.12.0**
 
-![Screenshot App](https://github.com/conterra/mapapps-sketching-enhanced/blob/main/screenshot.JPG)
+![Screenshot App](https://github.com/conterra/mapapps-sketching-enhanced/blob/main/screenshot.png)
 
 ## Build status
 

@@ -17,9 +17,9 @@
 import { assert } from "chai";
 import MeasurementModel from "../MeasurementModel";
 import MeasurementCalculator from "../MeasurementCalculator";
-import Point from "esri/geometry/Point";
-import Polyline from "esri/geometry/Polyline";
-import Polygon from "esri/geometry/Polygon";
+import Point from "@arcgis/core/geometry/Point";
+import Polyline from "@arcgis/core/geometry/Polyline";
+import Polygon from "@arcgis/core/geometry/Polygon";
 
 let measurementCalculator: MeasurementCalculator;
 

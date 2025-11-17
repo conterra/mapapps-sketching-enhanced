@@ -19,9 +19,9 @@ import type { InjectedReference } from "apprt-core/InjectedReference";
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
 import ConstructionModel from "./ConstructionModel";
 import ConstructionHistory from "./ConstructionHistory";
-import Circle from "esri/geometry/Circle";
-import { Polygon, Polyline } from "esri/geometry";
-import { pointFromDistance } from "esri/geometry/support/geodesicUtils";
+import Circle from "@arcgis/core/geometry/Circle";
+import { Polygon, Polyline } from "@arcgis/core/geometry";
+import { pointFromDistance } from "@arcgis/core/geometry/support/geodesicUtils";
 import type CoordinateTransformer from "coordinatetransformer/CoordinateTransformer";
 
 export default class ConstructionController {

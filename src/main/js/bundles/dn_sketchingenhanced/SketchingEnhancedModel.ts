@@ -15,7 +15,7 @@
 ///
 
 import { Mutable, properties } from "apprt-core/Mutable";
-import EsriSymbol from "esri/symbols/Symbol";
+import EsriSymbol from "@arcgis/core/symbols/Symbol";
 
 function defineProperties<Impl, P>(mutableDefinition: any, mutableProperties: P): Impl & Mutable<P> {
     properties(mutableDefinition, mutableProperties);

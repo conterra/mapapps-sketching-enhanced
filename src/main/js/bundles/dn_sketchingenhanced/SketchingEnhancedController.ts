@@ -18,7 +18,7 @@ import SketchingEnhancedModel from "./SketchingEnhancedModel";
 import Binding, { Bindable, WatchHandle } from "apprt-binding/Binding";
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import { createObservers } from "apprt-core/Observers";
-import Collection from "esri/core/Collection";
+import Collection from "@arcgis/core/core/Collection";
 import MapWidgetModel from "map-widget/MapWidgetModel";
 import async from "apprt-core/async";
 

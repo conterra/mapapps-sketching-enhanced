@@ -17,7 +17,7 @@
 import { WatchHandle } from "apprt-binding/Binding";
 import { createObservers } from "apprt-core/Observers";
 import type { InjectedReference } from "apprt-core/InjectedReference";
-import Collection from "esri/core/Collection";
+import Collection from "@arcgis/core/core/Collection";
 import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel";
 import MeasurementModel from "./MeasurementModel";
 import MeasurementCalculator from "./MeasurementCalculator";

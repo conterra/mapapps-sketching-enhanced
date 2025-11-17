@@ -15,7 +15,7 @@
 ///
 
 import type CoordinateTransformer from "coordinatetransformer/CoordinateTransformer";
-import * as geometryEngine from 'esri/geometry/geometryEngine';
+import * as geometryEngine from "@arcgis/core/geometry/geometryEngine";
 import * as intl from "@arcgis/core/intl";
 import MeasurementModel from "./MeasurementModel";
 

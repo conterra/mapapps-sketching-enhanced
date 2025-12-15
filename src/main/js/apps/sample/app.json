@@ -285,6 +285,31 @@
                 "map": {
                     "layers": [
                         {
+                            "id": "snapping_layer",
+                            "title": "Snapping Layer",
+                            "type": "GROUP",
+                            "listMode": "hide",
+                            "visible": false,
+                            "layers": [
+                                {
+                                    "id": "grenzen_1",
+                                    "title": "Kreise",
+                                    "type": "AGS_FEATURE",
+                                    "url": "https://services.conterra.de/server/rest/services/mapapps/grenzen/FeatureServer/1",
+                                    "maxScale": 250000,
+                                    "minScale": 1000000
+                                },
+                                {
+                                    "id": "grenzen_2",
+                                    "title": "Länder",
+                                    "type": "AGS_FEATURE",
+                                    "url": "https://services.conterra.de/server/rest/services/mapapps/grenzen/FeatureServer/2",
+                                    "maxScale": 1000000,
+                                    "minScale": 10000000
+                                }
+                            ]
+                        },
+                        {
                             "id": "koeln1",
                             "title": "${map.koeln1.title}",
                             "type": "GROUP",

@@ -354,7 +354,9 @@ export default class SketchingEnhancedController {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         if (sketchingEnhancedModel.snappingGroupLayerId) {
             const snappingGroupLayer = layers.find(layer => layer.id === sketchingEnhancedModel.snappingGroupLayerId);
-            snappingGroupLayer.visible = true;
+            if (snappingGroupLayer) {
+                snappingGroupLayer.visible = true;
+            }
         }
         this.changeSnappingFeatureSources(layers, new Collection());
     }
@@ -366,7 +368,9 @@ export default class SketchingEnhancedController {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         if (sketchingEnhancedModel.snappingGroupLayerId) {
             const snappingGroupLayer = layers.find(layer => layer.id === sketchingEnhancedModel.snappingGroupLayerId);
-            snappingGroupLayer.visible = false;
+            if (snappingGroupLayer) {
+                snappingGroupLayer.visible = true;
+            }
         }
         this.changeSnappingFeatureSources(new Collection(), layers);
     }

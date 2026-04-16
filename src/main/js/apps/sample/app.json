@@ -38,9 +38,7 @@
             "dn_imprintprivacy",
             "dn_sketchingenhanced",
             "dn_sketchingenhanced-measurement",
-            "dn_sketchingenhanced-construction",
-            "sdi_srschanger",
-            "console"
+            "dn_sketchingenhanced-construction"
         ],
         "i18n": [
             "bundle"
@@ -229,24 +227,6 @@
             "Config": {
                 "radius": 10000,
                 "length": 10000
-            }
-        },
-        "sdi_srschanger": {
-             "Config": {
-                 "srsList": [
-                    3857,
-                    4326
-                ]
-             }
-        },
-        "templates": {
-            "TemplateModel": {
-                "widgets": [
-                    {
-                        "widgetRole": "sdi_srschanger",
-                        "attachTo": "footer_right"
-                    }
-                ]
             }
         },
         "agssearch": {

@@ -645,6 +645,7 @@
                     {
                         "id": "mapview_tools",
                         "tools": [
+                            "sketchingEnhancedWidgetToggleTool",
                             "locateMeTool",
                             "zoomInTool",
                             "zoomOutTool",

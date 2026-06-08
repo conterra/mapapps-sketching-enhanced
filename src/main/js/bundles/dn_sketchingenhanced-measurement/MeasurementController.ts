@@ -105,13 +105,15 @@ export default class MeasurementController {
         }));
 
         sketchViewModelObservers.add(sketchViewModel.on("update", (event) => {
-            event.graphics.forEach((graphic) => {
-                const uid = graphic.attributes?.uid;
-                uid && this.deleteMeasurementGraphics(uid);
-            });
-            if (!this._sketchingEnhancedModel.deleteClicked) {
-                this.drawMeasurementGraphics(event);
-                this.getMeasurmentCalculations(event);
+            if (this._sketchingEnhancedModel?.activeUi){
+                event.graphics.forEach((graphic) => {
+                    const uid = graphic.attributes?.uid;
+                    uid && this.deleteMeasurementGraphics(uid);
+                });
+                if (!this._sketchingEnhancedModel.deleteClicked) {
+                    this.drawMeasurementGraphics(event);
+                    this.getMeasurmentCalculations(event);
+                }
             }
         }));
     }
@@ -185,7 +187,7 @@ export default class MeasurementController {
 
                 const textGraphic = await graphicsFactory.getPointCoordinatesGraphic(point);
                 tempGraphics.push(textGraphic);
-                this.addTempGraphics(tempGraphics);
+                await this.addTempGraphics(tempGraphics);
             }
             if (activeUi === "polyline") {
                 const polyline = graphic.geometry as __esri.Polyline;
@@ -216,7 +218,7 @@ export default class MeasurementController {
                         }
                     }
                 }
-                this.addTempGraphics(tempGraphics);
+                await this.addTempGraphics(tempGraphics);
             }
             if (activeUi === "polygon") {
                 const polygon = graphic.geometry as __esri.Polygon;
@@ -260,7 +262,7 @@ export default class MeasurementController {
                         }
                     }
                 }
-                this.addTempGraphics(tempGraphics);
+                await this.addTempGraphics(tempGraphics);
             }
 
             if (event.state === "complete") {
@@ -269,11 +271,11 @@ export default class MeasurementController {
                     graphic.setAttribute("uid", graphic.uid);
                 }
                 this.addTempGraphicsToLayer(graphic);
-                this.clearTempGraphics();
+                await this.clearTempGraphics();
             }
 
             if (event.state === "cancel") {
-                this.clearTempGraphics();
+                await this.clearTempGraphics();
             }
         }, 10);
     }
@@ -288,18 +290,16 @@ export default class MeasurementController {
         this.graphicsLayer.addMany(graphics.toArray());
     }
 
-    private addTempGraphics(graphics: Array<__esri.Graphic>): void {
+    private async addTempGraphics(graphics: Array<__esri.Graphic>): Promise<void> {
         graphics = graphics.filter((graphic) => graphic);
-        this.clearTempGraphics();
-        const view = this.sketchViewModel.view;
-        view.graphics.addMany(graphics);
+        await this.clearTempGraphics();
+        (await this.getView()).graphics.addMany(graphics);
         this.tempGraphics.addMany(graphics);
     }
 
-    private clearTempGraphics(): void {
-        const view = this.sketchViewModel.view;
+    private async clearTempGraphics(): Promise<void> {
         const graphics = this.tempGraphics;
-        view.graphics.removeMany(graphics);
+        (await this.getView()).graphics.removeMany(graphics);
         this.tempGraphics.removeAll();
     }
 
@@ -308,5 +308,19 @@ export default class MeasurementController {
         const graphics = sketchViewModel.layer.graphics;
         const graphicsToRemove = graphics.filter((g) => g?.attributes?.parentUid === uid);
         graphics.removeMany(graphicsToRemove);
+    }
+
+    private getView(): Promise<__esri.View> {
+        const sketchViewModel = this.sketchViewModel;
+        return new Promise((resolve) => {
+            if (sketchViewModel.view) {
+                resolve(sketchViewModel.view);
+            } else {
+                const watcher = sketchViewModel.watch("view", (view) => {
+                    watcher.remove();
+                    resolve(view);
+                });
+            }
+        });
     }
 }

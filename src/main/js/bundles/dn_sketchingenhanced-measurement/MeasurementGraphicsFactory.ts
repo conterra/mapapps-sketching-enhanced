@@ -63,11 +63,10 @@ export default class MeasurementController {
     getDistanceLabelBetweenPointsGraphic(point1: __esri.Point, point2: __esri.Point): __esri.Graphic {
         const measurementCalculator = this.measurementCalculator;
         const measurementModel = this.measurementModel;
-        const sketchViewModel = this.sketchViewModel;
         const angle = measurementCalculator.getAngleBetweenTwoPoints(point1, point2);
         const polyline = new Polyline({
             spatialReference: {
-                wkid: sketchViewModel.view.spatialReference.wkid
+                wkid: point1.spatialReference.wkid
             }
         });
         polyline.addPath([point1, point2]);
@@ -156,8 +155,7 @@ export default class MeasurementController {
             return;
         }
         const measurementModel = this.measurementModel;
-        const sketchViewModel = this.sketchViewModel;
-        const currentWKID = sketchViewModel.view.spatialReference.wkid;
+        const currentWKID = center.spatialReference.wkid;
 
         const pointGeometry = {
             type: "point",

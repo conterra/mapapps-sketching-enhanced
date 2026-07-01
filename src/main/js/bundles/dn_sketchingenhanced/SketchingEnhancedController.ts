@@ -389,10 +389,8 @@ export default class SketchingEnhancedController {
         const sketchingEnhancedModel = this.sketchingEnhancedModel;
         const sketchViewModel = this.sketchViewModel;
         const snappingOptions = sketchViewModel.snappingOptions;
-        sketchingEnhancedModel.snappingFeatureSources =
-            this.getSnappingFeatureSources(snappingOptions.featureSources);
 
-        return snappingOptions.featureSources.on("change", () => {
+        const updateFeatureSourceWatchers = () => {
             this.snappingSourceObservers.destroy();
             snappingOptions.featureSources.forEach((featureSource) => {
                 this.snappingSourceObservers.add(featureSource.watch("enabled", () => {
@@ -402,7 +400,13 @@ export default class SketchingEnhancedController {
             });
             sketchingEnhancedModel.snappingFeatureSources =
                 this.getSnappingFeatureSources(snappingOptions.featureSources);
-        });
+        };
+
+        // Register the "enabled" watchers for the currently existing feature sources.
+        updateFeatureSourceWatchers();
+
+        // Update watchers when features sources change.
+        return snappingOptions.featureSources.on("change", updateFeatureSourceWatchers);
     }
 
     private getSnappingFeatureSources(featureSources: __esri.Collection): any {

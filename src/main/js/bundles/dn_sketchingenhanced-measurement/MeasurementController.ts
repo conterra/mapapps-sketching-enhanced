@@ -196,7 +196,7 @@ export default class MeasurementController {
                     return;
                 }
                 const paths = polyline.paths[0];
-                if (measurementModel.lineMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
+                if (measurementModel.lineMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand" && paths.length < this._measurementModel!.maxSegmentsForLineAndAngleMeasurement) {
                     for (let i = 0; i < paths.length - 1; i++) {
                         const point1 = polyline.getPoint(0, i);
                         const point2 = polyline.getPoint(0, i + 1);
@@ -207,7 +207,7 @@ export default class MeasurementController {
                     if (measurementModel.totalLengthMeasurementForPolylinesEnabled) {
                         tempGraphics.push(graphicsFactory.getLengthGraphic(polyline));
                     }
-                    if (measurementModel.angleMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
+                    if (measurementModel.angleMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand" && paths.length < this._measurementModel!.maxSegmentsForLineAndAngleMeasurement) {
                         for (let i = 1; i < paths.length - 1; i++) {
                             const centerP = polyline.getPoint(0, i);
                             const nextP = polyline.getPoint(0, i + 1);
@@ -228,7 +228,7 @@ export default class MeasurementController {
                 }
                 const rings = polygon.rings[0];
                 if (measurementModel.lineMeasurementForPolygonsEnabled
-                    && activeTool !== "polygon_freehand" && activeTool !== "circle") {
+                    && activeTool !== "polygon_freehand" && activeTool !== "circle" && rings.length < this._measurementModel!.maxSegmentsForLineAndAngleMeasurement) {
                     for (let i = 0; i < rings.length - 1; i++) {
                         const point1 = polygon.getPoint(0, i);
                         const point2 = polygon.getPoint(0, i + 1);
@@ -244,7 +244,7 @@ export default class MeasurementController {
                         tempGraphics.push(graphicsFactory.getLengthGraphic(polygon));
                     }
                     if (measurementModel.angleMeasurementForPolygonsEnabled
-                        && activeTool !== "polygon_freehand" && activeTool !== "circle" && activeTool !== "rectangle") {
+                        && activeTool !== "polygon_freehand" && activeTool !== "circle" && activeTool !== "rectangle" && rings.length < this._measurementModel!.maxSegmentsForLineAndAngleMeasurement) {
                         for (let i = 1; i < rings.length; i++) {
                             const centerP = polygon.getPoint(0, i);
                             // switch next and previous point to calculate inner angles

@@ -38,6 +38,7 @@
                 "angleMeasurementForPolygonsEnabled": true,
                 "areaMeasurementForPolygonsEnabled": true,
                 "circumferenceMeasurementForPolygonsEnabled": true,
+                "maxSegmentsForLineAndAngleMeasurement": 50,
                 "pointCoordSpatialReferenceWkid": null,
                 "pointCoordPlaces": 3,
                 "pointCoordUnitSymbolX": "",

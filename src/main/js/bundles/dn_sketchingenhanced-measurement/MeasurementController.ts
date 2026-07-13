@@ -22,11 +22,10 @@ import SketchingEnhancedModel from "dn_sketchingenhanced/SketchingEnhancedModel"
 import MeasurementModel from "./MeasurementModel";
 import MeasurementCalculator from "./MeasurementCalculator";
 import MeasurementGraphicsFactory from "./MeasurementGraphicsFactory";
-import type CoordinateTransformer from "coordinatetransformer/CoordinateTransformer";
+import type { CoordinateTransformer } from "coordinatetransformer/api/CoordinateTransformer";
 
 export default class MeasurementController {
 
-    private readonly _i18n: InjectedReference<any>;
     private readonly _measurementModel: InjectedReference<typeof MeasurementModel>;
     private readonly _sketchingEnhancedModel: InjectedReference<typeof SketchingEnhancedModel>;
     private readonly _coordinateTransformer: InjectedReference<CoordinateTransformer>;
@@ -105,7 +104,7 @@ export default class MeasurementController {
         }));
 
         sketchViewModelObservers.add(sketchViewModel.on("update", (event) => {
-            if (this._sketchingEnhancedModel?.activeUi){
+            if (this._sketchingEnhancedModel?.activeUi) {
                 event.graphics.forEach((graphic) => {
                     const uid = graphic.attributes?.uid;
                     uid && this.deleteMeasurementGraphics(uid);
@@ -170,7 +169,7 @@ export default class MeasurementController {
     }
 
     private drawMeasurementGraphics(event: any): void {
-        const measurementModel = this._measurementModel;
+        const measurementModel = this._measurementModel!;
         const sketchingEnhancedModel = this._sketchingEnhancedModel;
         const activeUi = sketchingEnhancedModel.activeUi;
         const activeTool = sketchingEnhancedModel.activeTool;
@@ -195,8 +194,15 @@ export default class MeasurementController {
                 if (!polyline.paths?.length) {
                     return;
                 }
+
                 const paths = polyline.paths[0];
-                if (measurementModel.lineMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
+                const lineMeasurementEnabled = measurementModel.lineMeasurementForPolylinesEnabled;
+                const isFreehandTool = activeTool === "polyline_freehand";
+                const toolSupportsPerSegmentLabels = !isFreehandTool;
+                const hasManageableSegmentCount = paths.length < measurementModel.maxSegmentsForLineAndAngleMeasurement;
+                const showPerSegmentLabels = toolSupportsPerSegmentLabels && hasManageableSegmentCount;
+
+                if (lineMeasurementEnabled && showPerSegmentLabels) {
                     for (let i = 0; i < paths.length - 1; i++) {
                         const point1 = polyline.getPoint(0, i);
                         const point2 = polyline.getPoint(0, i + 1);
@@ -207,7 +213,7 @@ export default class MeasurementController {
                     if (measurementModel.totalLengthMeasurementForPolylinesEnabled) {
                         tempGraphics.push(graphicsFactory.getLengthGraphic(polyline));
                     }
-                    if (measurementModel.angleMeasurementForPolylinesEnabled && activeTool !== "polyline_freehand") {
+                    if (measurementModel.angleMeasurementForPolylinesEnabled && showPerSegmentLabels) {
                         for (let i = 1; i < paths.length - 1; i++) {
                             const centerP = polyline.getPoint(0, i);
                             const nextP = polyline.getPoint(0, i + 1);
@@ -227,8 +233,14 @@ export default class MeasurementController {
                     return;
                 }
                 const rings = polygon.rings[0];
-                if (measurementModel.lineMeasurementForPolygonsEnabled
-                    && activeTool !== "polygon_freehand" && activeTool !== "circle") {
+                const lineMeasurementEnabled = measurementModel.lineMeasurementForPolygonsEnabled;
+                const isFreehandTool = activeTool === "polygon_freehand";
+                const isCircleTool = activeTool === "circle";
+                const toolSupportsPerSegmentLabels = !isFreehandTool && !isCircleTool;
+                const hasManageableSegmentCount = rings.length < measurementModel.maxSegmentsForLineAndAngleMeasurement;
+                const showPerSegmentLabels = toolSupportsPerSegmentLabels && hasManageableSegmentCount;
+
+                if (lineMeasurementEnabled && showPerSegmentLabels) {
                     for (let i = 0; i < rings.length - 1; i++) {
                         const point1 = polygon.getPoint(0, i);
                         const point2 = polygon.getPoint(0, i + 1);
@@ -244,7 +256,7 @@ export default class MeasurementController {
                         tempGraphics.push(graphicsFactory.getLengthGraphic(polygon));
                     }
                     if (measurementModel.angleMeasurementForPolygonsEnabled
-                        && activeTool !== "polygon_freehand" && activeTool !== "circle" && activeTool !== "rectangle") {
+                        && showPerSegmentLabels && activeTool !== "rectangle") {
                         for (let i = 1; i < rings.length; i++) {
                             const centerP = polygon.getPoint(0, i);
                             // switch next and previous point to calculate inner angles
